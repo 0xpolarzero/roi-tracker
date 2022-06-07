@@ -1,0 +1,32 @@
+.nav {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.app-title {
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+.app-title .main {
+  font-weight: 500;
+  margin-right: 0.3rem;
+}
+
+button.connect-web3 {
+  background: rgba(130, 71, 190, 1);
+  border: none;
+  border-radius: 6px;
+  padding: 0.3rem 2rem;
+  font-family: var(--main-font);
+  font-size: 1rem;
+  font-weight: 400;
+  color: #fff;
+  cursor: pointer;
+}
+
+button.connect-web3:hover {
+  background: rgba(130, 71, 190, 0.7);
+}

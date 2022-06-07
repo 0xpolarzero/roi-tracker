@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:display=swap');
+
+:root {
+  --purple-main: rgb(160, 108, 213);
+  --purple-light: rgb(184, 147, 221);
+  --purple-dark: rgb(130, 71, 190);
+  --black-main: #141414;
+  --black-light: #252526;
+  --main-font: 'Exo 2', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--main-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.App {
+  background-image: url(/public/PolygonLuminary.svg);
+  background-size: cover;
+  background-attachment: fixed;
+  color: white;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: min-content 1fr;
+}
