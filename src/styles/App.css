@@ -20,6 +20,7 @@ body {
 }
 
 .App {
+  position: relative;
   background-image: url(/public/PolygonLuminary.svg);
   background-size: cover;
   background-attachment: fixed;
@@ -27,4 +28,36 @@ body {
   height: 100vh;
   display: grid;
   grid-template-rows: min-content 1fr;
+}
+
+.notif {
+  background: rgba(255, 255, 255, 0);
+  position: absolute;
+  color: #ffffff;
+  bottom: 1rem;
+  right: 1rem;
+  padding: 0.6rem 2rem;
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 0.5s, background 0.5s;
+}
+
+.notif.error,
+.notif.info,
+.notif.hint {
+  opacity: 1;
+}
+
+.notif.error {
+  background: rgba(166, 66, 83, 0.8);
+}
+
+.notif.info {
+  background: rgba(97, 201, 97, 0.8);
+}
+
+.notif.hint {
+  background: rgba(255, 186, 8, 0.8);
 }
