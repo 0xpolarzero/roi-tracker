@@ -1,4 +1,6 @@
 const TimestampConverter = () => {
+  // Timestamp in Unix epoch format -> number of seconds since 1970-01-01
+  // Here in milliseconds
   const now = () => {
     return new Date().getTime();
   };
@@ -12,7 +14,7 @@ const TimestampConverter = () => {
     return date.setHours(0, 0, 0, 0);
   };
 
-  const week = () => {
+  const lastWeek = () => {
     const date = new Date();
     return now() - 7 * 24 * 3600 * 1000;
   };
@@ -21,7 +23,11 @@ const TimestampConverter = () => {
     return new Date(date).getTime();
   };
 
-  return { now, lastHour, today, dateToTimestamp };
+  const timestampToDate = (timestamp) => {
+    return new Date(timestamp);
+  };
+
+  return { now, lastHour, today, lastWeek, dateToTimestamp, timestampToDate };
 };
 
 const isValidDate = (date) => {

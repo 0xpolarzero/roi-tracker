@@ -6,33 +6,20 @@ class PeriodConfig extends React.Component {
   }
 
   render() {
-    const { trackROI, changeDate } = this.props;
+    const { trackROI } = this.props;
     return (
       <div className='period-config'>
         <i className='addresses-icon fa-solid fa-hourglass'></i>
-        <form onSubmit={trackROI}>
-          <div className='title'>Time period</div>
-          <div className='period'>
-            <div className='period-custom'>
-              <span>From</span>
-              <input
-                onChange={changeDate}
-                type='datetime-local'
-                id='date-from'
-              />
-              <span>To</span>
-              <input onChange={changeDate} type='datetime-local' id='date-to' />
-            </div>
-          </div>
-          <button type='submit'>Track</button>
-        </form>
-        <span>or</span>
-        <div className='period-fixed'>
+        <div className='title'>Time period</div>
+        <div className='period'>
           <button className='period-hour' onClick={() => trackROI('lastHour')}>
             Last hour
           </button>
           <button className='period-day' onClick={() => trackROI('today')}>
             Today
+          </button>
+          <button className='period-week' onClick={() => trackROI('lastWeek')}>
+            Last 7 days
           </button>
         </div>
       </div>
