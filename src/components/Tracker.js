@@ -3,7 +3,7 @@ import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import { getTransactions, isValidAddress } from '../systems/transactions';
 import { displayNotif } from '../systems/utils';
 
-class Addresses extends React.Component {
+class AddressConfig extends React.Component {
   constructor() {
     super();
 
@@ -17,10 +17,6 @@ class Addresses extends React.Component {
     this.setState({
       address: e.target.value,
     });
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
   };
 
   addAddress = (e) => {
@@ -72,16 +68,15 @@ class Addresses extends React.Component {
   render() {
     return (
       <div className='addresses-config'>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor='addressInput'>Add address</label>
-          <input
-            value={this.state.address}
-            onChange={this.handleChange}
-            type='text'
-            id='add-address'
-          />
-          <button onClick={this.addAddress}>Add</button>
-        </form>
+        <i className='addresses-icon fa-solid fa-wallet'></i>
+        <input
+          value={this.state.address}
+          onChange={this.handleChange}
+          type='text'
+          id='add-address'
+          placeholder='Add an address'
+        />
+        <button onClick={this.addAddress}>Add</button>
         <div className='addresses-list'>
           <div className='title'>Wallet ({this.state.addresses.length})</div>
           <ul>
@@ -89,9 +84,11 @@ class Addresses extends React.Component {
               return (
                 <li key={address}>
                   {address}{' '}
-                  <span onClick={this.removeAddress} id={address}>
-                    Remove
-                  </span>
+                  <button
+                    onClick={this.removeAddress}
+                    id={address}
+                    className='fa-solid fa-trash-can'
+                  ></button>
                 </li>
               );
             })}
@@ -99,6 +96,51 @@ class Addresses extends React.Component {
         </div>
       </div>
     );
+  }
+}
+
+class PeriodConfig extends React.Component {
+  constructor() {
+    super();
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  render() {
+    return (
+      <div className='period-config'>
+        <i className='addresses-icon fa-solid fa-hourglass'></i>
+        <form onSubmit={this.handleSubmit}>
+          <div className='title'>Time period</div>
+          <div className='period'>
+            <div className='period-custom'>
+              <span>From</span>
+              <input type='datetime-local' id='date-from' />
+              <span>To</span>
+              <input type='datetime-local' id='date-to' />
+            </div>
+            <span>or</span>
+            <div className='period-fixed'>
+              <button className='period-hour'>Last hour</button>
+              <button className='period-day'>Today</button>
+            </div>
+          </div>
+          <button type='submit'>Track</button>
+        </form>
+      </div>
+    );
+  }
+}
+
+class Result extends React.Component {
+  constructor() {
+    super();
+  }
+
+  render() {
+    return <div className='tracker-result'></div>;
   }
 }
 
@@ -110,7 +152,9 @@ class Tracker extends React.Component {
   render() {
     return (
       <div className='tracker'>
-        <Addresses />
+        <AddressConfig />
+        <PeriodConfig />
+        <Result />
       </div>
     );
   }

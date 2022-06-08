@@ -15,7 +15,9 @@ class Header extends React.Component {
             <span className='main'>ROI</span>
             <span>Tracer</span>
           </div>
-          <button className='connect-web3'>Connect</button>
+          <button className='connect-web3'>
+            <i className='fa-brands fa-ethereum connect-eth'></i> Connect
+          </button>
         </div>
       </header>
     );

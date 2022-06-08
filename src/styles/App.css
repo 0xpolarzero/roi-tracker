@@ -19,6 +19,31 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+input {
+  font-family: var(--main-font);
+  border: 0;
+  border-radius: 3px;
+  padding: 0.3rem 0.5rem;
+}
+
+button {
+  background: rgba(255, 186, 8, 0.8);
+  border: none;
+  border-radius: 6px;
+  padding: 0.3rem 2rem;
+  font-family: var(--main-font);
+  font-size: 1rem;
+  font-weight: 400;
+  color: #fff;
+  cursor: pointer;
+
+  transition: background 0.5s;
+}
+
+button:hover {
+  background: rgba(255, 186, 8, 1);
+}
+
 .App {
   position: relative;
   background-image: url(/public/PolygonLuminary.svg);
