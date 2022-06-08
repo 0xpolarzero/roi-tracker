@@ -3,33 +3,64 @@
   border-radius: 6px;
   margin: 1rem 2rem;
   display: grid;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto 1fr;
 }
 
-.tracker > div {
+.tracker .config {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
+  gap: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.config-icon {
+  position: absolute;
+  top: 1rem;
+  right: 3rem;
+  font-size: 2rem;
+}
+
+.addresses-config {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.addresses-list,
+.period-config {
   position: relative;
   padding: 1rem;
 }
 
-.tracker > div:not(div:nth-child(3)) {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.addresses-list .title,
+.period-config .title {
+  font-size: 1.5rem;
+  padding: 0 0 0 2rem;
 }
 
-.addresses-icon {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 2rem;
+.addresses-list ul {
+  margin: 1rem 0 0 0;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .addresses-list > ul > li {
   all: unset;
+  display: grid;
+  grid-template-columns: 1fr 6rem;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  align-items: center;
 }
 
-.addresses-config form {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.addresses-list > ul > li:nth-last-of-type(1) {
+  padding-bottom: 0;
+}
+
+.addresses-list > ul > li:not(li:nth-last-of-type(1)) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .fa-trash-can {
@@ -39,6 +70,27 @@
 
 .fa-trash-can:hover {
   background: rgba(166, 66, 83, 0.5);
+}
+
+.period-config {
+  position: relative;
+}
+
+.period-select {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  margin: 1.5rem 0 0 0;
+  padding: 0 2rem;
+  gap: 1rem;
+}
+
+.result {
+  padding: 1rem 3rem;
+}
+
+.hint {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
 }
 
 .highlight {

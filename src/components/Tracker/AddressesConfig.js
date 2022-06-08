@@ -10,22 +10,14 @@ class AddressesConfig extends React.Component {
       this.props;
     return (
       <div className='addresses-config'>
-        <i className='addresses-icon fa-solid fa-wallet'></i>
-        <input
-          value={address}
-          onChange={changeAddress}
-          type='text'
-          id='add-address'
-          placeholder='Add an address'
-        />
-        <button onClick={addAddress}>Add</button>
         <div className='addresses-list'>
+          <i className='config-icon fa-solid fa-wallet'></i>
           <div className='title'>Wallet ({addresses.length})</div>
           <ul>
             {addresses.map((address) => {
               return (
                 <li key={address}>
-                  {address}
+                  <span>{address}</span>
                   <button
                     onClick={removeAddress}
                     id={address}
@@ -34,6 +26,16 @@ class AddressesConfig extends React.Component {
                 </li>
               );
             })}
+            <li>
+              <input
+                value={address}
+                onChange={changeAddress}
+                type='text'
+                id='add-address'
+                placeholder='Add an address'
+              />
+              <button onClick={addAddress}>Add</button>
+            </li>
           </ul>
         </div>
       </div>

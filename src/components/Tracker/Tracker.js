@@ -90,14 +90,16 @@ class Tracker extends React.Component {
   render() {
     return (
       <div className='tracker'>
-        <AddressesConfig
-          address={this.state.address}
-          addresses={this.state.addresses}
-          changeAddress={this.changeAddress}
-          addAddress={this.addAddress}
-          removeAddress={this.removeAddress}
-        />
-        <PeriodConfig trackROI={this.trackROI} changeDate={this.changeDate} />
+        <div className='config'>
+          <AddressesConfig
+            address={this.state.address}
+            addresses={this.state.addresses}
+            changeAddress={this.changeAddress}
+            addAddress={this.addAddress}
+            removeAddress={this.removeAddress}
+          />
+          <PeriodConfig trackROI={this.trackROI} changeDate={this.changeDate} />
+        </div>
         <Result
           period={this.state.period}
           transactions={this.state.transactions}

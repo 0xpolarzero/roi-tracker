@@ -9,17 +9,17 @@ class PeriodConfig extends React.Component {
     const { trackROI } = this.props;
     return (
       <div className='period-config'>
-        <i className='addresses-icon fa-solid fa-hourglass'></i>
+        <i className='config-icon fa-solid fa-hourglass'></i>
         <div className='title'>Time period</div>
-        <div className='period'>
+        <div className='period-select'>
           <button className='period-hour' onClick={() => trackROI('lastHour')}>
-            Last hour
+            <i className='fa-solid fa-truck-fast'></i> Last hour
           </button>
           <button className='period-day' onClick={() => trackROI('today')}>
-            Today
+            <i className='fa-solid fa-calendar-day'></i> Today
           </button>
           <button className='period-week' onClick={() => trackROI('lastWeek')}>
-            Last 7 days
+            <i className='fa-solid fa-road'></i> Last 7 days
           </button>
         </div>
       </div>
