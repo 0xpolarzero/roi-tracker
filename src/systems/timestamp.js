@@ -12,6 +12,11 @@ const TimestampConverter = () => {
     return date.setHours(0, 0, 0, 0);
   };
 
+  const week = () => {
+    const date = new Date();
+    return now() - 7 * 24 * 3600 * 1000;
+  };
+
   const dateToTimestamp = (date) => {
     return new Date(date).getTime();
   };
