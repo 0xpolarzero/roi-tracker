@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles/index.css';
 import Header from './components/Header';
-import Tracker from './components/Tracker';
+import Tracker from './components/Tracker/Tracker';
 
 class App extends React.Component {
   constructor() {
