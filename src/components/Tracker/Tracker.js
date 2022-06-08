@@ -1,7 +1,9 @@
 import React from 'react';
-import AddressesList from './AddressesList';
+import AddressesConfig from './AddressesConfig';
+import PeriodConfig from './PeriodConfig';
 import { displayNotif } from '../../systems/utils';
-import { isValidAddress } from '../../systems/transactions';
+import { getTransactions, isValidAddress } from '../../systems/transactions';
+import { TimestampConverter, isValidDate } from '../../systems/timestamp';
 
 class Tracker extends React.Component {
   constructor() {
@@ -10,13 +12,13 @@ class Tracker extends React.Component {
     this.state = {
       address: '',
       addresses: [],
-      period: [],
+      period: { from: '', to: '' },
     };
   }
 
   // MANAGING ADDRESSES
 
-  handleChange = (e) => {
+  changeAddress = (e) => {
     this.setState({
       address: e.target.value,
     });
@@ -46,64 +48,89 @@ class Tracker extends React.Component {
     });
   };
 
+  changeDate = (e) => {
+    if (e.target.id === 'date-from') {
+      this.setState({
+        period: {
+          from: e.target.value,
+          to: this.state.period.to,
+        },
+      });
+    } else {
+      this.setState({
+        period: {
+          from: this.state.period.from,
+          to: e.target.value,
+        },
+      });
+    }
+  };
+
+  trackROI = async (e) => {
+    let transactions;
+
+    // Check at least one address
+    if (this.state.addresses.length === 0) {
+      displayNotif('error', 'No address selected', 2000);
+      return;
+    }
+    if (e === 'lastHour') {
+      // Get the period from last hour to current time
+      const lastHour = TimestampConverter().lastHour();
+      const now = TimestampConverter().now();
+      transactions = await getTransactions(lastHour, now);
+    } else if (e === 'today') {
+      // Get the period from midnight to current time
+      const midnight = TimestampConverter().today();
+      const now = TimestampConverter().now();
+      transactions = await getTransactions(midnight, now);
+    } else {
+      e.preventDefault();
+      // Otherwise the time period is custom
+      // Check the validity of the time period
+      if (
+        !isValidDate(this.state.period.from) ||
+        !isValidDate(this.state.period.to)
+      ) {
+        displayNotif('error', 'Please make sure to fill the two dates', 2000);
+        return;
+      }
+      // Then proceed to the timestamp of those dates
+      const start = TimestampConverter().dateToTimestamp(
+        this.state.period.from,
+      );
+      const end = TimestampConverter().dateToTimestamp(this.state.period.to);
+      transactions = await getTransactions(start, end);
+    }
+
+    // console.log(transactions);
+  };
+
   componentDidMount() {
-    this.setState(
-      {
-        // Prevent user from adding duplicate addresses
-        addresses: [
-          '0x0000000000000000000000000000000000000000',
-          '0x66C53B84CBC4ECC6A89F53171FEA0013c8C48f12',
-        ],
-        address: '',
-      },
-      this.displayAddresses,
-    );
+    this.setState({
+      // Prevent user from adding duplicate addresses
+      addresses: [
+        '0x0000000000000000000000000000000000000000',
+        '0x66C53B84CBC4ECC6A89F53171FEA0013c8C48f12',
+      ],
+      address: '',
+    });
   }
 
   render() {
     return (
       <div className='tracker'>
-        <div className='addresses-config'>
-          <i className='addresses-icon fa-solid fa-wallet'></i>
-          <input
-            value={this.state.address}
-            onChange={this.handleChange}
-            type='text'
-            id='add-address'
-            placeholder='Add an address'
-          />
-          <button onClick={this.addAddress}>Add</button>
-          <AddressesList
-            addresses={this.state.addresses}
-            removeAddress={this.removeAddress}
-          />
-        </div>
-        <div className='period-config'>
-          <i className='addresses-icon fa-solid fa-hourglass'></i>
-          <form onSubmit={this.trackROI}>
-            <div className='title'>Time period</div>
-            <div className='period'>
-              <div className='period-custom'>
-                <span>From</span>
-                <input type='datetime-local' id='date-from' />
-                <span>To</span>
-                <input type='datetime-local' id='date-to' />
-              </div>
-              <span>or</span>
-              <div className='period-fixed'>
-                <button className='period-hour'>Last hour</button>
-                <button className='period-day'>Today</button>
-              </div>
-            </div>
-            <button type='submit'>Track</button>
-          </form>
-        </div>
+        <AddressesConfig
+          address={this.state.address}
+          addresses={this.state.addresses}
+          changeAddress={this.changeAddress}
+          addAddress={this.addAddress}
+          removeAddress={this.removeAddress}
+        />
+        <PeriodConfig trackROI={this.trackROI} changeDate={this.changeDate} />
       </div>
     );
   }
 }
 
 export default Tracker;
-
-// Main tracker with Track button
-// On click get adresses and period from other components
