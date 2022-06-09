@@ -14,12 +14,13 @@ function displayNotif(category, message, time) {
 
 async function fetchData(url) {
   const value = await fetch(url, { mode: 'cors' }).catch((err) => {
-    displayNotif('error', err);
+    displayNotif('error', err, 2000);
   });
   if (!value.ok) {
     displayNotif(
       'error',
       'There seems to be an error connecting to the API. Please try again later.',
+      2000,
     );
   }
   const data = await value.json();
@@ -27,4 +28,20 @@ async function fetchData(url) {
   return data;
 }
 
-export { displayNotif, fetchData };
+async function fetchText(url) {
+  const value = await fetch(url).catch((err) => {
+    displayNotif('error', err, 2000);
+  });
+  if (!value.ok) {
+    displayNotif(
+      'error',
+      'There seems to be an error connecting to the API. Please try again later.',
+      2000,
+    );
+  }
+  const data = await value.text();
+
+  return data;
+}
+
+export { displayNotif, fetchData, fetchText };

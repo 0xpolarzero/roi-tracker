@@ -1,10 +1,9 @@
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
-import { fetchData } from './utils';
+import { fetchData, fetchText } from './utils';
 
 const web3 = createAlchemyWeb3(
   `https://eth-mainnet.alchemyapi.io/v2/${process.env.REACT_APP_ALCHEMY_API_KEY}`,
 );
-
 const etherscanAPI = process.env.REACT_APP_ETHERSCAN_API_KEY;
 
 async function getTransactions(from, addresses) {
@@ -24,6 +23,14 @@ async function getTransactions(from, addresses) {
   }
 
   return transactions;
+}
+
+async function idendifySignature(signature) {
+  const sign = await fetchText(
+    `https://raw.githubusercontent.com/polar0/4bytes/master/signatures/${signature}`,
+  );
+
+  return sign;
 }
 
 const isValidAddress = (address) => {
