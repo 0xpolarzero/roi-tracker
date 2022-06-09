@@ -80,8 +80,9 @@ class Tracker extends React.Component {
     this.setState({
       // Prevent user from adding duplicate addresses
       addresses: [
-        '0xcbFFa910Ee7546AF659B82E4E7ed54cF8524Aab6',
-        '0x66C53B84CBC4ECC6A89F53171FEA0013c8C48f12',
+        '0xA86309988947559b6E72Ef716C5058F479386C0F',
+        '0xcF46B22A6d32c8fc9DfeDfacD609c9c7150d1Fc5',
+        '0x4A157C6e8396F781A8F95628C935702889f87A14',
       ],
       address: '',
     });
