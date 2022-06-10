@@ -1,8 +1,9 @@
 .nav {
   background: rgba(0, 0, 0, 0.5);
   padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 3rem;
 }
 
 .app-title {
@@ -21,4 +22,22 @@
 
 .connect-eth {
   margin-right: 0.5rem;
+}
+
+.eth-price {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.eth-price-value {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: rgb(255, 186, 8);
+}
+
+.eth-price-last-update {
+  font-size: 0.8rem;
+  font-weight: 300;
+  opacity: 0.8;
 }

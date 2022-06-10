@@ -1,4 +1,5 @@
 import React from 'react';
+import EthPrice from './EthPrice';
 
 class Header extends React.Component {
   constructor() {
@@ -19,6 +20,7 @@ class Header extends React.Component {
             <span className='alt-char'>eekly</span>{' '}
             <span className='main-char'>ROI</span>
           </div>
+          <EthPrice />
           <button className='connect-web3'>
             <i className='fa-brands fa-ethereum connect-eth'></i> Connect
           </button>

@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles/index.css';
-import Header from './components/Header';
+import Header from './components/Header/Header';
 import Tracker from './components/Tracker/Tracker';
 import { displayNotif } from './systems/utils';
 
