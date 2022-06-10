@@ -12,11 +12,9 @@ async function getTransactions(from, addresses) {
   // Get the transactions from the wallets within time range
   const rawTransactions = await getTransactionsFromWallets(from, addresses);
   // ! Sort the gathered transactions (delete duplicates & TODO Sort them)
-  const sortedTransactions = filterTransactions(rawTransactions);
+  // const sortedTransactions = filterTransactions(rawTransactions);
   // Only keep the necessary fields
-  const customTransactionsList = await selectTransactionsData(
-    sortedTransactions,
-  );
+  const customTransactionsList = await selectTransactionsData(rawTransactions);
   console.log(customTransactionsList);
 }
 
@@ -70,12 +68,11 @@ function filterTransactions(transactions) {
 }
 
 async function selectTransactionsData(transactions) {
-  console.log(transactions);
-
   // Only keep the necessary fields
   const customTransactionsList = await transactions.map(async (transaction) => {
     // Get the gas price of this transaction
     const data = await web3.eth.getTransactionReceipt(transaction.hash);
+    const gasFee = data.effectiveGasPrice * data.gasUsed;
 
     // TODO Handle different objects based on transaction.category
     return {
@@ -84,11 +81,14 @@ async function selectTransactionsData(transactions) {
       to: transaction.to,
       value: transaction.value,
       asset: transaction.asset,
-      gasFee: data.effectiveGasPrice * data.gasUsed,
+      gasFee: gasFee,
     };
   });
 
-  return customTransactionsList;
+  // Only return when promise is resolved
+  return Promise.all(customTransactionsList).catch((err) => {
+    console.log(err);
+  });
 }
 
 // async function identifySignature(signature) {
