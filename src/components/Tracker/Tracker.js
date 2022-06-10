@@ -16,6 +16,7 @@ class Tracker extends React.Component {
       addresses: [],
       transactions: {},
       period: { from: '', to: '' },
+      loading: false,
     };
   }
 
@@ -70,6 +71,11 @@ class Tracker extends React.Component {
       startDate = TimestampConverter().lastWeek();
     }
 
+    // Update Result component to show loading
+    this.setState({
+      loading: true,
+    });
+
     const transactions = await getTransactions(
       startDate,
       this.state.addresses,
@@ -80,6 +86,11 @@ class Tracker extends React.Component {
     this.setState({
       period: { from: startDate, to: 'now' },
       transactions: transactions,
+    });
+
+    // Tell Result component it's done loading
+    this.setState({
+      loading: false,
     });
   };
 
@@ -111,6 +122,7 @@ class Tracker extends React.Component {
         <Result
           period={this.state.period}
           transactions={this.state.transactions}
+          loading={this.state.loading}
         />
       </div>
     );

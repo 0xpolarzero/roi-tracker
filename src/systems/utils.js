@@ -3,6 +3,10 @@ let timer;
 function displayNotif(category, message, time) {
   clearInterval(timer);
   const div = document.querySelector('.notif');
+  if (!div) {
+    console.log('No notification module found');
+    return;
+  }
   div.classList.add(category);
   div.textContent = message;
 

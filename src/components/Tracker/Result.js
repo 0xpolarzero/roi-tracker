@@ -47,22 +47,30 @@ class Result extends React.Component {
   };
 
   render() {
-    const { period, transactions } = this.props;
+    const { period, transactions, loading } = this.props;
 
-    return (
-      <div className='result'>
-        <div className='hint'>
-          Showing data for{' '}
-          <span className='highlight'>
-            {this.getTransactionsCount(transactions)}
-          </span>{' '}
-          transactions{this.getPeriod(period.from)}
+    if (loading) {
+      return (
+        <div className='result'>
+          <div className='loading'>Loading...</div>
         </div>
-        <div className='transactions'>
-          {this.listTransactions(transactions)}
+      );
+    } else {
+      return (
+        <div className='result'>
+          <div className='hint'>
+            Showing data for{' '}
+            <span className='highlight'>
+              {this.getTransactionsCount(transactions)}
+            </span>{' '}
+            transactions{this.getPeriod(period.from)}
+          </div>
+          <div className='transactions'>
+            {this.listTransactions(transactions)}
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 
