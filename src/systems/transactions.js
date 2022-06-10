@@ -1,89 +1,105 @@
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
-import { fetchData, fetchText } from './utils';
+import EthDater from 'ethereum-block-by-date';
 import { identifyAction } from './abi-identifier';
 
 const web3 = createAlchemyWeb3(
   `https://eth-mainnet.alchemyapi.io/v2/${process.env.REACT_APP_ALCHEMY_API_KEY}`,
 );
+const dater = new EthDater(web3);
 const etherscanAPI = process.env.REACT_APP_ETHERSCAN_API_KEY;
 
 async function getTransactions(from, addresses) {
   // Get the transactions from the wallets within time range
   const rawTransactions = await getTransactionsFromWallets(from, addresses);
-  // Sort the gathered transactions (most recent first & delete duplicates)
-  const sortedTransactions = sortTransactions(rawTransactions);
+  // ! Sort the gathered transactions (delete duplicates & TODO Sort them)
+  const sortedTransactions = filterTransactions(rawTransactions);
   // Only keep the necessary fields
   const customTransactionsList = await selectTransactionsData(
     sortedTransactions,
   );
-
   console.log(customTransactionsList);
 }
 
 async function getTransactionsFromWallets(from, addresses) {
-  let transactions = [];
+  let allTransactions = [];
+
+  // Get the closest block corresponding to the 'from' date
+  const startBlock = await dater.getDate(from);
+
   for (const address of addresses) {
-    const totalTransactions = await fetchData(
-      `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=1000&sort=asc&apikey=${etherscanAPI}`,
-    );
-    const totalTransactionsArray = totalTransactions.result;
-    // Only keep transactions that are within the period
-    const filteredTransactions = totalTransactionsArray.filter(
-      (transaction) => {
-        const isValid = new Date(transaction.timeStamp * 1000) > from;
-        return isValid;
-      },
-    );
-    // Push each transactions to the main array (without specifying the address)
-    for (const transaction of filteredTransactions) {
-      transactions.push(transaction);
-    }
+    // Get the transactions from the wallet
+    const transactionsFromAddress = await web3.alchemy.getAssetTransfers({
+      fromBlock: startBlock.block,
+      fromAddress: address,
+    });
+    const transactionsFromAddressResult = transactionsFromAddress.transfers;
+    // Get the transactions to the wallet
+    const transactionsToAddress = await web3.alchemy.getAssetTransfers({
+      fromBlock: startBlock.block,
+      toAddress: address,
+    });
+    const transactionsToAddressResult = transactionsToAddress.transfers;
+
+    // Wait a bit to not overload the API limit
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Merge all the transactions
+    allTransactions = [
+      ...transactionsFromAddressResult,
+      ...transactionsToAddressResult,
+    ];
   }
 
-  return transactions;
+  // return filteredTransactions;
+  return allTransactions;
 }
 
-function sortTransactions(transactions) {
-  // Sort the transactions by timestamp (get the most recent first)
-  transactions.sort((a, b) => {
-    return b.timeStamp - a.timeStamp;
-  });
-  // Delete the duplicate transactions if they have the same hash
-  const uniqueTransactions = transactions.filter((transaction, index) => {
-    const isUnique =
-      transactions.findIndex((t) => t.hash === transaction.hash) === index;
-    return isUnique;
+function filterTransactions(transactions) {
+  // Delete the duplicate transactions (if transfer is made between added wallets)
+  const filteredTransactions = transactions.filter((transaction, index) => {
+    const isDuplicate = transactions.some(
+      (transaction2, index2) =>
+        index !== index2 && transaction === transaction2,
+    );
+    return !isDuplicate;
   });
 
-  return uniqueTransactions;
+  // ! Need to get the timestamp of transactions to sort them
+
+  return filteredTransactions;
 }
 
 async function selectTransactionsData(transactions) {
+  console.log(transactions);
+
   // Only keep the necessary fields
-  const customTransactionsList = await transactions.map((transaction) => {
+  const customTransactionsList = await transactions.map(async (transaction) => {
+    // Get the gas price of this transaction
+    const data = await web3.eth.getTransactionReceipt(transaction.hash);
+
+    // TODO Handle different objects based on transaction.category
     return {
       hash: transaction.hash,
-      timestamp: transaction.timeStamp,
       from: transaction.from,
       to: transaction.to,
       value: transaction.value,
-      gasFee: transaction.gasPrice * transaction.gasUsed,
-      action: identifyAction(transaction),
+      asset: transaction.asset,
+      gasFee: data.effectiveGasPrice * data.gasUsed,
     };
   });
 
   return customTransactionsList;
 }
 
-async function identifySignature(signature) {
-  // Get the signature from the transaction
-  const signatureData = signature.substring(0, 10);
-  const action = await fetchText(
-    `https://raw.githubusercontent.com/polar0/4bytes/master/signatures/${signatureData}`,
-  );
+// async function identifySignature(signature) {
+//   // Get the signature from the transaction
+//   const signatureData = signature.substring(0, 10);
+//   const action = await fetchText(
+//     `https://raw.githubusercontent.com/polar0/4bytes/master/signatures/${signatureData}`,
+//   );
 
-  return action;
-}
+//   return action;
+// }
 
 const isValidAddress = (address) => {
   const isValid = web3.utils.isAddress(address);

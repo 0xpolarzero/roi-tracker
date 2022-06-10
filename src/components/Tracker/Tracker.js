@@ -69,7 +69,14 @@ class Tracker extends React.Component {
       // Get the period from last week to current time
       startDate = TimestampConverter().lastWeek();
     }
-    const transactions = await getTransactions(startDate, this.state.addresses);
+
+    const transactions = await getTransactions(
+      startDate,
+      this.state.addresses,
+    ).catch((err) => {
+      displayNotif('error', err.message, 2000);
+    });
+
     this.setState({
       period: { from: startDate, to: 'now' },
       transactions: transactions,
