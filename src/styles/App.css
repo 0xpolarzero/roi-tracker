@@ -45,9 +45,10 @@ button:hover {
 
 .App {
   position: relative;
-  background-image: url(/public/PolygonLuminary.svg);
-  background-size: cover;
-  background-attachment: fixed;
+  /* background-image: url(/public/PolygonLuminary.svg); */
+  /* background-size: cover; */
+  /* background-attachment: fixed; */
+  background: #000000;
   color: white;
   min-height: 100vh;
   display: grid;
