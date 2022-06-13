@@ -29,3 +29,11 @@ tr:nth-child(odd) {
 .unweight {
   font-weight: normal;
 }
+
+.value-up {
+  color: rgb(87, 192, 87);
+}
+
+.value-down {
+  color: rgb(199, 75, 95);
+}

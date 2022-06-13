@@ -23,7 +23,7 @@ class Result extends React.Component {
   };
 
   render() {
-    const { period, balance, loading } = this.props;
+    const { period, balance, loading, ethPriceValue } = this.props;
 
     if (loading) {
       return (
@@ -35,7 +35,11 @@ class Result extends React.Component {
       return (
         <div className='result'>
           <div className='hint'>{this.getPeriod(period)}</div>
-          <EvolutionTable balance={balance} date={period} />
+          <EvolutionTable
+            balance={balance}
+            date={period}
+            ethPriceValue={ethPriceValue}
+          />
         </div>
       );
     }

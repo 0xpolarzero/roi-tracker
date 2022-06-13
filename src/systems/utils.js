@@ -51,4 +51,12 @@ async function fetchText(url) {
   return data;
 }
 
-export { displayNotif, fetchData, fetchText };
+const expandDecimals = (number, show) => {
+  if (show) {
+    return Number(parseFloat(number).toFixed(6));
+  } else {
+    return Number(parseFloat(number).toFixed(3));
+  }
+};
+
+export { displayNotif, fetchData, fetchText, expandDecimals };

@@ -1,19 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { TimestampConverter } from '../../systems/timestamp';
+import { expandDecimals } from '../../systems/utils';
 
-const EvolutionTable = ({ balance, date }) => {
+const EvolutionTable = ({ balance, date, ethPriceValue }) => {
   // Set the state for showing or not the decimals (on hover)
   const [showDecimals, setShowDecimals] = useState(false);
+  let balanceInCurrency = {};
 
   useEffect(() => {
     setShowDecimals(false);
   }, [balance]);
 
-  const balanceToShow = (balance) => {
-    if (showDecimals) {
-      return balance;
+  const showBalance = (balance, currency) => {
+    if (currency === 'eth') {
+      return expandDecimals(balance, showDecimals);
+    } else {
+      return `${parseFloat(balance * ethPriceValue).toFixed(2)}`;
     }
-    return parseFloat(balance).toFixed(4);
+  };
+
+  const showDifference = (balance, currency) => {
+    let difference;
+    if (currency === 'eth') {
+      difference = expandDecimals(balance.new - balance.old, showDecimals);
+    } else {
+      difference = `${parseFloat(
+        (balance.new - balance.old) * ethPriceValue,
+      ).toFixed(2)}`;
+    }
+    if (difference >= 0) {
+      return <span className='value-up'>+{difference}</span>;
+    } else {
+      return <span className='value-down'>{difference}</span>;
+    }
   };
 
   if (date.from === '') {
@@ -51,30 +70,35 @@ const EvolutionTable = ({ balance, date }) => {
             <th scope='row'>Eth</th>
             <td>
               <span
-                className='highlight'
                 onMouseEnter={() => setShowDecimals(true)}
                 onMouseLeave={() => setShowDecimals(false)}
               >
-                {balanceToShow(balance.old)}
+                {showBalance(balance.old, 'eth')}
               </span>
             </td>
             <td>
               <span
-                className='highlight'
                 onMouseEnter={() => setShowDecimals(true)}
                 onMouseLeave={() => setShowDecimals(false)}
               >
-                {balanceToShow(balance.new)}
+                {showBalance(balance.new, 'eth')}
               </span>
             </td>
-            <td>roi eth</td>
+            <td>
+              <span
+                onMouseEnter={() => setShowDecimals(true)}
+                onMouseLeave={() => setShowDecimals(false)}
+              >
+                {showDifference(balance, 'eth')}
+              </span>
+            </td>
             <td>evolution eth</td>
           </tr>
           <tr>
             <th scope='row'>$</th>
-            <td>balance old $</td>
-            <td>balance new $</td>
-            <td>roi $</td>
+            <td>{showBalance(balance.old, 'tangible')}</td>
+            <td>{showBalance(balance.new, 'tangible')}</td>
+            <td>{showDifference(balance, 'tangible')}</td>
             <td>evolution $</td>
           </tr>
         </tbody>

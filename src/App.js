@@ -28,7 +28,7 @@ class App extends React.Component {
     this.getEthPrice();
     this.ethPriceInterval = setInterval(() => {
       this.getEthPrice();
-    }, 10000);
+    }, 30000);
   }
 
   componentWillUnmount() {

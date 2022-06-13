@@ -119,6 +119,7 @@ class Tracker extends React.Component {
           period={this.state.period}
           balance={this.state.balance}
           loading={this.state.loading}
+          ethPriceValue={this.props.ethPriceValue}
         />
       </div>
     );
