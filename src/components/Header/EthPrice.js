@@ -3,31 +3,16 @@ import { fetchData } from '../../systems/utils';
 
 let resetLastUpdated;
 
-const EthPrice = () => {
-  const [price, setPrice] = useState(0);
-
-  const updatePrice = async () => {
-    const data = await fetchData(
-      'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd',
-    );
-    setPrice(data.ethereum.usd);
-    resetLastUpdated();
-  };
-
+const EthPrice = ({ ethPriceValue }) => {
   useEffect(() => {
-    updatePrice();
-    const priceTick = setInterval(() => {
-      updatePrice();
-    }, 10000);
-
-    return () => clearInterval(priceTick);
+    resetLastUpdated();
   });
 
   return (
     <div className='eth-price'>
       {/* <span>1 </span> */}
       <i className='eth-price-label fa-brands fa-ethereum'></i>
-      <span className='eth-price-value'>${price}</span>
+      <span className='eth-price-value'>${ethPriceValue}</span>
       <EthPriceUpdate />
     </div>
   );

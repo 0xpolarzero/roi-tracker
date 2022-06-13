@@ -20,7 +20,7 @@ class Header extends React.Component {
             <span className='alt-char'>eekly</span>{' '}
             <span className='main-char'>ROI</span>
           </div>
-          <EthPrice />
+          <EthPrice ethPriceValue={this.props.ethPriceValue} />
           <button className='connect-web3'>
             <i className='fa-brands fa-ethereum connect-eth'></i> Connect
           </button>
