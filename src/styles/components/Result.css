@@ -1,0 +1,31 @@
+table {
+  border-collapse: collapse;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+/* letter-spacing: 1px; */
+
+td,
+th {
+  border: 1px solid rgba(255, 255, 255, 0);
+  padding: 1rem 2rem;
+}
+
+th[scope='col'] {
+  background-color: rgba(255, 186, 8, 0.1);
+}
+
+td {
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+tr:nth-child(odd) {
+  background-color: rgba(245, 245, 245, 0.1);
+}
+
+.unweight {
+  font-weight: normal;
+}

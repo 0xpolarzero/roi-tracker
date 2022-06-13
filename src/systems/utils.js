@@ -7,6 +7,9 @@ function displayNotif(category, message, time) {
     console.log('No notification module found');
     return;
   }
+
+  // Set the class again if a notif is already being shown
+  div.setAttribute('class', 'notif');
   div.classList.add(category);
   div.textContent = message;
 

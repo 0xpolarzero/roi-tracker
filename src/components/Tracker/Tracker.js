@@ -4,7 +4,7 @@ import PeriodConfig from './PeriodConfig';
 import Result from './Result';
 
 import { displayNotif } from '../../systems/utils';
-import { getTransactions, isValidAddress } from '../../systems/transactions';
+import { getBalanceDiff, isValidAddress } from '../../systems/transactions';
 import { TimestampConverter } from '../../systems/timestamp';
 
 class Tracker extends React.Component {
@@ -14,7 +14,7 @@ class Tracker extends React.Component {
     this.state = {
       address: '',
       addresses: [],
-      transactions: {},
+      balance: {},
       period: { from: '', to: '' },
       loading: false,
     };
@@ -76,16 +76,16 @@ class Tracker extends React.Component {
       loading: true,
     });
 
-    const transactions = await getTransactions(
-      startDate,
-      this.state.addresses,
-    ).catch((err) => {
-      displayNotif('error', err.message, 2000);
-    });
+    const balance = await getBalanceDiff(startDate, this.state.addresses).catch(
+      (err) => {
+        console.log(err);
+        displayNotif('error', err.message, 2000);
+      },
+    );
 
     this.setState({
-      period: { from: startDate, to: 'now' },
-      transactions: transactions,
+      period: { from: startDate, to: TimestampConverter().now() },
+      balance: balance,
     });
 
     // Tell Result component it's done loading
@@ -97,11 +97,7 @@ class Tracker extends React.Component {
   componentDidMount() {
     this.setState({
       // Prevent user from adding duplicate addresses
-      addresses: [
-        '0xA86309988947559b6E72Ef716C5058F479386C0F',
-        '0xcF46B22A6d32c8fc9DfeDfacD609c9c7150d1Fc5',
-        '0x4A157C6e8396F781A8F95628C935702889f87A14',
-      ],
+      addresses: ['0x02c2adbdB7c0C1037B5278626A78B6c71787dFe8'],
       address: '',
     });
   }
@@ -121,7 +117,7 @@ class Tracker extends React.Component {
         </div>
         <Result
           period={this.state.period}
-          transactions={this.state.transactions}
+          balance={this.state.balance}
           loading={this.state.loading}
         />
       </div>
