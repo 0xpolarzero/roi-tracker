@@ -16,8 +16,7 @@ class Result extends React.Component {
     }
     return (
       <span>
-        Showing evolution from <span className='highlight'>{start}</span> to
-        now.
+        Showing data starting <span className='highlight'>{start}</span>.
       </span>
     );
   };

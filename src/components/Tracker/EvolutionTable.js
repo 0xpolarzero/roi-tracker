@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TimestampConverter } from '../../systems/timestamp';
-import { expandDecimals } from '../../systems/utils';
+import { expandDecimals } from '../../utils/utils';
 
 const EvolutionTable = ({ balance, date, ethPriceValue }) => {
   // Set the state for showing or not the decimals (on hover)
@@ -63,6 +63,7 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
                 )
               </span>
             </th>
+            <th scope='col'>Cash in/out</th>
             <th scope='col'>ROI</th>
             <th scope='col'>Evolution</th>
           </tr>
@@ -84,6 +85,7 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
                 {showBalance(balance.new, 'eth')}
               </span>
             </td>
+            <td>in out cash</td>
             <td>
               <span
                 onMouseEnter={() => setShowDecimals(true)}
@@ -98,6 +100,7 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
             <th scope='row'>$</th>
             <td>{showBalance(balance.old, 'tangible')}</td>
             <td>{showBalance(balance.new, 'tangible')}</td>
+            <td>in out cash</td>
             <td>{showDifference(balance, 'tangible')}</td>
             <td>evolution $</td>
           </tr>

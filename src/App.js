@@ -2,8 +2,8 @@ import React from 'react';
 import './styles/index.css';
 import Header from './components/Header/Header';
 import Tracker from './components/Tracker/Tracker';
-import { displayNotif } from './systems/utils';
-import { fetchData } from './systems/utils';
+import { displayNotif } from './utils/utils';
+import { fetchData } from './utils/utils';
 
 class App extends React.Component {
   constructor() {

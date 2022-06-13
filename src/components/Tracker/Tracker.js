@@ -1,9 +1,10 @@
 import React from 'react';
 import AddressesConfig from './AddressesConfig';
 import PeriodConfig from './PeriodConfig';
+import TransfersConfig from './TransfersConfig';
 import Result from './Result';
 
-import { displayNotif } from '../../systems/utils';
+import { displayNotif } from '../../utils/utils';
 import { getBalanceDiff, isValidAddress } from '../../systems/transactions';
 import { TimestampConverter } from '../../systems/timestamp';
 
@@ -17,6 +18,7 @@ class Tracker extends React.Component {
       balance: {},
       period: { from: '', to: '' },
       loading: false,
+      isTransfersIgnored: true,
     };
   }
 
@@ -52,8 +54,15 @@ class Tracker extends React.Component {
     });
   };
 
+  ignoreTransfers = (e) => {
+    this.setState({
+      isTransfersIgnored: !this.state.isTransfersIgnored,
+    });
+  };
+
   trackROI = async (e) => {
     let startDate;
+    console.log(this.state.isTransfersIgnored);
 
     // Check at least one address
     if (this.state.addresses.length === 0) {
@@ -113,7 +122,16 @@ class Tracker extends React.Component {
             addAddress={this.addAddress}
             removeAddress={this.removeAddress}
           />
-          <PeriodConfig trackROI={this.trackROI} changeDate={this.changeDate} />
+          <div className='wrap-configs'>
+            <PeriodConfig
+              trackROI={this.trackROI}
+              changeDate={this.changeDate}
+            />
+            <TransfersConfig
+              ignoreTransfers={this.ignoreTransfers}
+              isTransfersIgnored={this.state.isTransfersIgnored}
+            />
+          </div>
         </div>
         <Result
           period={this.state.period}

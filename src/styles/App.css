@@ -86,3 +86,18 @@ button:hover {
 .notif.hint {
   background: rgba(255, 186, 8, 0.8);
 }
+
+#popup {
+  position: absolute;
+  top: 0;
+  left: 2rem;
+  font-family: var(--main-font);
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: #fff;
+  background: rgba(255, 255, 255, 0);
+  border: 1px solid rgba(255, 186, 8, 0.6);
+  border-radius: 1rem;
+  width: 200px;
+  padding: 0.5rem;
+}

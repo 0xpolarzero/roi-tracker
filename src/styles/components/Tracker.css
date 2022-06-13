@@ -29,13 +29,15 @@
 }
 
 .addresses-list,
-.period-config {
+.period-config,
+.transfers-config {
   position: relative;
   padding: 1rem;
 }
 
 .addresses-list .title,
-.period-config .title {
+.period-config .title,
+.transfers-config .title {
   font-size: 1.5rem;
   padding: 0 0 0 2rem;
 }
@@ -83,6 +85,27 @@
   margin: 1.5rem 0 0 0;
   padding: 0 2rem;
   gap: 1rem;
+}
+
+.transfers-config .title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.transfers-config .wrapper {
+  padding: 2rem;
+}
+
+.transfers-config .title i {
+  position: relative;
+  color: rgba(255, 186, 8, 1);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.transfers-config .title i:hover {
+  color: rgba(255, 186, 8, 0.8);
 }
 
 .result {

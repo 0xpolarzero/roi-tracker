@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchData } from '../../systems/utils';
+import { fetchData } from '../../utils/utils';
 
 let resetLastUpdated;
 
@@ -10,7 +10,6 @@ const EthPrice = ({ ethPriceValue }) => {
 
   return (
     <div className='eth-price'>
-      {/* <span>1 </span> */}
       <i className='eth-price-label fa-brands fa-ethereum'></i>
       <span className='eth-price-value'>${ethPriceValue}</span>
       <EthPriceUpdate />
