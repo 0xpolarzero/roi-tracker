@@ -41,8 +41,9 @@ const getTransactions = async (address, block) => {
     fromAddress: address,
     fromBlock: block,
   });
-};
 
+  // Get the addresses of all major cryptocurrency exchanges
+};
 const isValidAddress = (address) => {
   const isValid = web3.utils.isAddress(address);
   return isValid;

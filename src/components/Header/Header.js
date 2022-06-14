@@ -13,12 +13,9 @@ class Header extends React.Component {
       <header className='header'>
         <div className='nav'>
           <div className='app-title'>
-            <span className='main-char'>d</span>
-            <span className='alt-char'>aily</span>{' '}
-            <span className='main-char'>/</span>{' '}
-            <span className='main-char'>w</span>
-            <span className='alt-char'>eekly</span>{' '}
-            <span className='main-char'>ROI</span>
+            <span className='main-char'>track</span>
+            <span className='alt-char'>my</span>
+            <span className='main-char'>wallet</span>
           </div>
           <EthPrice ethPriceValue={this.props.ethPriceValue} />
           <button className='connect-web3'>
