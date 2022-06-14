@@ -17,9 +17,9 @@ _It is more like a remainder for myself, of the different features I had to impl
   - Get all the transactions performed with the addresses during the time period
   - Scrape [Etherscan page of centralized exchanges](https://etherscan.io/accounts/label/exchange) to get their addresses
   - If any of the transactions was sent by one of these exchange addresses, balance its value in the ROI calculation
-  - **_TODO_** FIND A WAY TO IDENTIFY AN EXCHANGE ADDRESS USED FOR DEPOSIT
+    `**_TODO_** FIND A WAY TO IDENTIFY AN EXCHANGE ADDRESS USED FOR DEPOSIT`
 - Get the global deposit/withdraw value
 - Get the % of evolution during the period
 - Show all values in USD as well - using the value fetched from Coingecko, also displayed in the header
-  **_TODO_** LET THE USER CHOOSE THEIR CURRENCY
-  **_TODO_** LET THE USER CONNECT THEIR WALLET (or regular login) AND SAVE WALLETS CONFIGURATIONS
+  `**_TODO_** LET THE USER CHOOSE THEIR CURRENCY`
+  `**_TODO_** LET THE USER CONNECT THEIR WALLET (or regular login) AND SAVE WALLETS CONFIGURATIONS`
