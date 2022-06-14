@@ -22,6 +22,7 @@ async function getBalances(block, addresses) {
   let balance = [];
 
   for (const address of addresses) {
+    console.log(getTransactions(address, block));
     const balanceFromAddress = await web3.eth
       .getBalance(address.toString(), block)
       .catch((err) => {
@@ -33,6 +34,14 @@ async function getBalances(block, addresses) {
 
   return balance;
 }
+
+const getTransactions = async (address, block) => {
+  // Get a list of transactions made by this address during this period
+  const transactions = await web3.alchemy.getAssetTransfers({
+    fromAddress: address,
+    fromBlock: block,
+  });
+};
 
 const isValidAddress = (address) => {
   const isValid = web3.utils.isAddress(address);
