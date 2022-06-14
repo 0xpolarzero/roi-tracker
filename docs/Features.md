@@ -21,5 +21,7 @@ _It is more like a remainder for myself, of the different features I had to impl
 - Get the global deposit/withdraw value
 - Get the % of evolution during the period
 - Show all values in USD as well - using the value fetched from Coingecko, also displayed in the header
+  ::: warning
   `**_TODO_** LET THE USER CHOOSE THEIR CURRENCY`
   `**_TODO_** LET THE USER CONNECT THEIR WALLET (or regular login) AND SAVE WALLETS CONFIGURATIONS`
+  :::
