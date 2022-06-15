@@ -1,5 +1,16 @@
 import { fetchData } from '../utils/utils';
 
+const getTransactions = async (provider, address, block) => {
+  // Get a list of transactions made by this address during this period
+  const transactions = await provider.alchemy.getAssetTransfers({
+    fromAddress: address,
+    fromBlock: block,
+  });
+
+  // Get the addresses of all major cryptocurrency exchanges
+  const exchanges = await getExchangeAddresses();
+};
+
 const getExchangeAddresses = async () => {
   const url =
     'https://etherscan.io/accounts/label/exchange?subcatid=undefined&size=400&start=0&col=1&order=asc';

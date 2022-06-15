@@ -1,6 +1,7 @@
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import EthDater from 'ethereum-block-by-date';
 import { getExchangeAddresses } from './exchanges';
+import { getTokenBalance } from './tokens-abi';
 import { TimestampConverter } from './timestamp';
 
 const web3 = createAlchemyWeb3(
@@ -43,16 +44,6 @@ async function getBalances(block, addresses) {
   return balancesCombined;
 }
 
-const getTransactions = async (address, block) => {
-  // Get a list of transactions made by this address during this period
-  const transactions = await web3.alchemy.getAssetTransfers({
-    fromAddress: address,
-    fromBlock: block,
-  });
-
-  // Get the addresses of all major cryptocurrency exchanges
-  const exchanges = await getExchangeAddresses();
-};
 const isValidAddress = (address) => {
   const isValid = web3.utils.isAddress(address);
   return isValid;

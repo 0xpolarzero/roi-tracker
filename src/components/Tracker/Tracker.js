@@ -5,7 +5,7 @@ import TransfersConfig from './TransfersConfig';
 import Result from './Result';
 
 import { displayNotif } from '../../utils/utils';
-import { getBalanceDiff, isValidAddress } from '../../systems/transactions';
+import { getBalanceDiff, isValidAddress } from '../../systems/balance';
 import { TimestampConverter } from '../../systems/timestamp';
 
 class Tracker extends React.Component {
