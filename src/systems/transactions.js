@@ -22,7 +22,7 @@ async function getBalanceDiff(from, addresses) {
 }
 
 async function getBalances(block, addresses) {
-  let balance = [];
+  let balancesCombined = 0;
 
   for (const address of addresses) {
     const balanceFromAddress = await web3.eth
@@ -31,10 +31,10 @@ async function getBalances(block, addresses) {
         console.log(err);
       });
     const formatted = web3.utils.fromWei(balanceFromAddress, 'ether');
-    balance.push(formatted);
+    balancesCombined += Number(formatted);
   }
 
-  return balance;
+  return balancesCombined;
 }
 
 const getTransactions = async (address, block) => {
