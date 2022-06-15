@@ -23,3 +23,8 @@ _It is more like a remainder for myself, of the different features I had to impl
 - Show all values in USD as well - using the value fetched from Coingecko, also displayed in the header
   - **_TODO_** `LET THE USER CHOOSE THEIR CURRENCY`
 - **_TODO_** `LET THE USER CONNECT THEIR WALLET (or regular login) AND SAVE WALLETS CONFIGURATIONS`
+
+## Features
+
+- The user can choose a predefined time period (last hour, day, or last week) or a custom
+- The balance would be tracked from their ETH, WETH and USDC tokens
