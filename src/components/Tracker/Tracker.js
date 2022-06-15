@@ -62,7 +62,6 @@ class Tracker extends React.Component {
 
   trackROI = async (e) => {
     let startDate;
-    console.log(this.state.isTransfersIgnored);
 
     // Check at least one address
     if (this.state.addresses.length === 0) {

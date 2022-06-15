@@ -5,7 +5,6 @@ import { expandDecimals } from '../../utils/utils';
 const EvolutionTable = ({ balance, date, ethPriceValue }) => {
   // Set the state for showing or not the decimals (on hover)
   const [showDecimals, setShowDecimals] = useState(false);
-  let balanceInCurrency = {};
 
   useEffect(() => {
     setShowDecimals(false);

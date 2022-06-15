@@ -40,9 +40,9 @@
     ]
   },
   "devDependencies": {
-    "@ethersproject/abi": "^5.6.3",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
+    "cheerio": "^1.0.0-rc.11",
     "crypto-browserify": "^3.12.0",
     "ethereum-block-by-date": "^1.4.5",
     "https-browserify": "^1.0.0",
