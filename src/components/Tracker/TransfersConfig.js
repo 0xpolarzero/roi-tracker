@@ -35,15 +35,7 @@ class TransfersConfig extends React.Component {
     const { ignoreTransfers, isTransfersIgnored } = this.props;
     return (
       <div className='transfers-config'>
-        <div className='title'>
-          Ignore deposits?{' '}
-          <i
-            className='fa-solid fa-circle-info'
-            onMouseEnter={this.showInfo}
-            onMouseLeave={this.hideInfo}
-          ></i>
-        </div>
-
+        <div className='title'>Ignore deposits? </div>
         <div className='wrapper'>
           <div className='onoff'>
             <input
@@ -53,6 +45,11 @@ class TransfersConfig extends React.Component {
               id='transfers-onoff-input'
             />
             <label htmlFor='transfers-onoff-input'></label>
+            <i
+              className='fa-solid fa-circle-info'
+              onMouseEnter={this.showInfo}
+              onMouseLeave={this.hideInfo}
+            ></i>
           </div>
         </div>
       </div>

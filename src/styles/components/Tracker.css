@@ -36,8 +36,7 @@
 }
 
 .addresses-list .title,
-.period-config .title,
-.transfers-config .title {
+.period-config .title {
   font-size: 1.5rem;
   padding: 0 0 0 2rem;
 }
@@ -98,7 +97,14 @@
   align-items: center;
 }
 
+.transfers-config {
+  display: flex;
+  align-items: center;
+}
+
 .transfers-config .title {
+  font-size: 1.5rem;
+  padding: 0 0 0 2rem;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -108,8 +114,10 @@
   padding: 2rem;
 }
 
-.transfers-config .title i {
-  position: relative;
+.transfers-config i {
+  position: absolute;
+  right: -3rem;
+  top: 0;
   color: rgba(255, 186, 8, 1);
   font-size: 1rem;
   cursor: pointer;
