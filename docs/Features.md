@@ -23,6 +23,7 @@ _It is more like a remainder for myself, of the different features I had to impl
 - Show all values in USD as well - using the value fetched from Coingecko, also displayed in the header
   - **_TODO_** `LET THE USER CHOOSE THEIR CURRENCY`
 - **_TODO_** `LET THE USER CONNECT THEIR WALLET (or regular login) AND SAVE WALLETS CONFIGURATIONS`
+- **_TODO_** `LET THE USER CHOOSE TOKENS TO ADD TO THE CALCULATION`
 
 ## Features
 

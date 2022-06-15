@@ -1,52 +1,56 @@
-import { createAlchemyWeb3 } from '@alch/alchemy-web3';
-import EthDater from 'ethereum-block-by-date';
 import { getExchangeAddresses } from './exchanges';
-import { getTokenBalance } from './tokens-abi';
 import { TimestampConverter } from './timestamp';
 
-const web3 = createAlchemyWeb3(
-  `https://eth-mainnet.alchemyapi.io/v2/${process.env.REACT_APP_ALCHEMY_API_KEY}`,
-);
-const dater = new EthDater(web3);
+// const tokenSource = 'https://tokens.coingecko.com/uniswap/all.json';
+// https://solveforum.com/forums/threads/solved-get-token-balance-of-address-at-particular-block-number-with-alchemy.609041/
 
-async function getBalanceDiff(from, to, addresses) {
-  // Get the closest block corresponding to the 'from' date
-  const startBlock = await dater.getDate(from);
-  // Get the addresses balance at the start of the period
-  const startBalance = await getBalances(startBlock.block, addresses);
-
-  let endBalance;
-  // Get the closest block corresponding to the 'to' date
-
-  if (to === TimestampConverter().now()) {
-    endBalance = await getBalances('latest', addresses);
-  } else {
-    const endBlock = await dater.getDate(to);
-    endBalance = await getBalances(endBlock.block, addresses);
-  }
-
-  return { start: startBalance, end: endBalance };
-}
-
-async function getBalances(block, addresses) {
+async function getEthBalance(provider, block, addresses) {
   let balancesCombined = 0;
 
   for (const address of addresses) {
-    const balanceFromAddress = await web3.eth
+    const balanceFromAddress = await provider.eth
       .getBalance(address.toString(), block)
       .catch((err) => {
         console.log(err);
       });
-    const formatted = web3.utils.fromWei(balanceFromAddress, 'ether');
+    const formatted = provider.utils.fromWei(balanceFromAddress, 'ether');
     balancesCombined += Number(formatted);
   }
 
   return balancesCombined;
 }
 
-const isValidAddress = (address) => {
-  const isValid = web3.utils.isAddress(address);
+async function getTokenBalance(provider, block, walletAddresses, tokenAddress) {
+  let balancesCombined = 0;
+
+  const contract = new provider.eth.Contract(minABI, tokenAddress);
+
+  for (const address of walletAddresses) {
+    const tokenBalanceFromAddress = await contract.methods
+      .balanceOf(address)
+      .call(null, block);
+    // Format balance in ether
+    const formatted = provider.utils.fromWei(tokenBalanceFromAddress, 'ether');
+    balancesCombined += Number(formatted);
+  }
+
+  return balancesCombined;
+}
+
+const minABI = [
+  // balanceOf
+  {
+    constant: true,
+    inputs: [{ name: '_owner', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: 'balance', type: 'uint256' }],
+    type: 'function',
+  },
+];
+
+const isValidAddress = (provider, address) => {
+  const isValid = provider.utils.isAddress(address);
   return isValid;
 };
 
-export { getBalanceDiff, isValidAddress };
+export { getEthBalance, getTokenBalance, isValidAddress };

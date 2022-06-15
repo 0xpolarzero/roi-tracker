@@ -1,8 +1,18 @@
 table {
   border-collapse: collapse;
   border: 1px solid rgba(255, 255, 255, 0.5);
+  width: 100%;
 }
 /* letter-spacing: 1px; */
+
+.show-decimals {
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.show-decimals:hover {
+  color: rgba(255, 186, 8, 0.8);
+}
 
 td,
 th {
@@ -12,6 +22,10 @@ th {
 
 th[scope='col'] {
   background-color: rgba(255, 186, 8, 0.1);
+}
+
+th[scope='row'] {
+  white-space: nowrap;
 }
 
 td {
@@ -24,6 +38,9 @@ tr:nth-child(even) {
 
 tr:nth-child(odd) {
   background-color: rgba(245, 245, 245, 0.1);
+}
+
+tr:nth-last-child(1) {
 }
 
 .unweight {

@@ -5,22 +5,29 @@ import { expandDecimals } from '../../utils/utils';
 const EvolutionTable = ({ balance, date, ethPriceValue }) => {
   // Set the state for showing or not the decimals (on hover)
   const [showDecimals, setShowDecimals] = useState(false);
+  // Set the state of total balance
+  const [totalBalance, setTotalBalance] = useState(0);
 
   useEffect(() => {
     setShowDecimals(false);
+
+    // Calculate the total balance
+    const totalStart = sumBalances(balance, 'start');
+    const totalEnd = sumBalances(balance, 'end');
+    setTotalBalance({ start: totalStart, end: totalEnd });
   }, [balance]);
 
   const showBalance = (balance, currency) => {
-    if (currency === 'eth') {
+    if (currency === 'eth' || currency === 'weth') {
       return expandDecimals(balance, showDecimals);
     } else {
-      return `${parseFloat(balance * ethPriceValue).toFixed(2)}`;
+      return parseFloat(balance * ethPriceValue).toFixed(2);
     }
   };
 
   const showDifference = (balance, currency) => {
     let difference;
-    if (currency === 'eth') {
+    if (currency === 'eth' || currency === 'weth') {
       difference = expandDecimals(balance.end - balance.start, showDecimals);
     } else {
       difference = `${parseFloat(
@@ -34,6 +41,16 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
     }
   };
 
+  const sumBalances = (balances, time) => {
+    let total = 0;
+    for (const currency in balances) {
+      if (balances.hasOwnProperty(currency)) {
+        total += balances[currency][time];
+      }
+    }
+    return total;
+  };
+
   if (date.from === '') {
     // return;
   }
@@ -43,7 +60,13 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
       <table>
         <tbody>
           <tr>
-            <th scope='col'></th>
+            <th scope='col'>
+              <i
+                className='show-decimals fa-solid fa-eye'
+                onMouseEnter={() => setShowDecimals(true)}
+                onMouseLeave={() => setShowDecimals(false)}
+              ></i>
+            </th>
             <th scope='col'>
               Start balance{' '}
               <span className='unweight'>
@@ -67,40 +90,41 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
             <th scope='col'>Evolution</th>
           </tr>
           <tr>
-            <th scope='row'>Eth</th>
+            <th scope='row'>ETH</th>
             <td>
-              <span
-                onMouseEnter={() => setShowDecimals(true)}
-                onMouseLeave={() => setShowDecimals(false)}
-              >
-                {showBalance(balance.start, 'eth')}
-              </span>
+              <span>{showBalance(balance.eth.start, 'eth')}</span>
             </td>
             <td>
-              <span
-                onMouseEnter={() => setShowDecimals(true)}
-                onMouseLeave={() => setShowDecimals(false)}
-              >
-                {showBalance(balance.end, 'eth')}
-              </span>
+              <span>{showBalance(balance.eth.end, 'eth')}</span>
             </td>
             <td>in out cash</td>
             <td>
-              <span
-                onMouseEnter={() => setShowDecimals(true)}
-                onMouseLeave={() => setShowDecimals(false)}
-              >
-                {showDifference(balance, 'eth')}
-              </span>
+              <span>{showDifference(balance.eth, 'eth')}</span>
             </td>
             <td>evolution eth</td>
           </tr>
           <tr>
-            <th scope='row'>$</th>
-            <td>{showBalance(balance.start, 'tangible')}</td>
-            <td>{showBalance(balance.end, 'tangible')}</td>
+            <th scope='row'>WETH</th>
+            <td>
+              <span>{showBalance(balance.weth.start, 'weth')}</span>
+            </td>
+            <td>
+              <span>{showBalance(balance.weth.end, 'weth')}</span>
+            </td>
             <td>in out cash</td>
-            <td>{showDifference(balance, 'tangible')}</td>
+            <td>
+              <span>{showDifference(balance.weth, 'weth')}</span>
+            </td>
+            <td>evolution eth</td>
+          </tr>
+          <tr>
+            <th scope='row'>
+              <span className='highlight'>Total ($)</span>
+            </th>
+            <td>{showBalance(totalBalance.start, 'currency')}</td>
+            <td>{showBalance(totalBalance.end, 'currency')}</td>
+            <td>in out cash</td>
+            <td>{showDifference(totalBalance)}</td>
             <td>evolution $</td>
           </tr>
         </tbody>

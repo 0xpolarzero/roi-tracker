@@ -1,12 +1,24 @@
 import React from 'react';
+import { createAlchemyWeb3 } from '@alch/alchemy-web3';
+import EthDater from 'ethereum-block-by-date';
+
 import AddressesConfig from './AddressesConfig';
 import PeriodConfig from './PeriodConfig';
 import TransfersConfig from './TransfersConfig';
 import Result from './Result';
 
 import { displayNotif } from '../../utils/utils';
-import { getBalanceDiff, isValidAddress } from '../../systems/balance';
+import {
+  getEthBalance,
+  getTokenBalance,
+  isValidAddress,
+} from '../../systems/balance';
 import { TimestampConverter } from '../../systems/timestamp';
+
+const web3 = createAlchemyWeb3(
+  `https://eth-mainnet.alchemyapi.io/v2/${process.env.REACT_APP_ALCHEMY_API_KEY}`,
+);
+const dater = new EthDater(web3);
 
 class Tracker extends React.Component {
   constructor() {
@@ -15,9 +27,19 @@ class Tracker extends React.Component {
     this.state = {
       address: '',
       addresses: [],
-      balance: {},
+      balance: {
+        eth: {
+          start: 0,
+          end: 0,
+        },
+        weth: {
+          start: 0,
+          end: 0,
+        },
+      },
       period: { from: '', to: '' },
       loading: false,
+      loadingProgress: 0,
       isTransfersIgnored: true,
     };
   }
@@ -32,7 +54,7 @@ class Tracker extends React.Component {
 
   addAddress = (e) => {
     // Check if address is valid with Web3.js
-    if (!isValidAddress(this.state.address)) {
+    if (!isValidAddress(web3, this.state.address)) {
       displayNotif('error', 'Invalid address', 2000);
       return;
     }
@@ -60,7 +82,7 @@ class Tracker extends React.Component {
     });
   };
 
-  trackROI = async (input, from, to) => {
+  getPeriod = (input, from, to) => {
     let startDate;
     let endDate;
 
@@ -119,23 +141,79 @@ class Tracker extends React.Component {
       endDate = TimestampConverter().now();
     }
 
-    // Update Result component to show loading
+    return { startDate, endDate };
+  };
+
+  updateProgress = (progress) => {
+    this.setState({
+      loadingProgress: progress,
+    });
+  };
+
+  trackROI = async (input, from, to) => {
+    let balanceETH = {};
+    let balanceWETH = {};
+
+    const { startDate, endDate } = this.getPeriod(input, from, to);
+
+    // Update Result component to show loading and initiate progress bar
     this.setState({
       loading: true,
+      loadingProgress: 0,
     });
 
-    const balance = await getBalanceDiff(
-      startDate,
-      endDate,
+    // Get the closest block corresponding to the dates
+    const startBlock = await dater.getDate(startDate);
+    const endBlock =
+      to === TimestampConverter().now()
+        ? { block: 'latest' }
+        : await dater.getDate(endDate);
+
+    // ! LOADING PROGRESSED
+
+    // Get the balance in ETH at both start and end date
+    balanceETH.start = await getEthBalance(
+      web3,
+      startBlock.block,
       this.state.addresses,
     ).catch((err) => {
       console.log(err);
       displayNotif('error', err.message, 2000);
     });
 
+    // ! LOADING PROGRESSED
+
+    balanceETH.end = await getEthBalance(
+      web3,
+      endBlock.block,
+      this.state.addresses,
+    ).catch((err) => {
+      console.log(err);
+      displayNotif('error', err.message, 2000);
+    });
+
+    // ! LOADING PROGRESSED
+
+    // Get the balance in WETH at both start and end date
+    balanceWETH.start = await getTokenBalance(
+      web3,
+      startBlock.block,
+      this.state.addresses,
+      '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+    );
+
+    // ! LOADING PROGRESSED
+
+    balanceWETH.end = await getTokenBalance(
+      web3,
+      endBlock.block,
+      this.state.addresses,
+      '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+    );
+
     this.setState({
       period: { from: startDate, to: endDate },
-      balance: balance,
+      balance: { eth: balanceETH, weth: balanceWETH },
     });
 
     // Tell Result component it's done loading
@@ -178,6 +256,7 @@ class Tracker extends React.Component {
           period={this.state.period}
           balance={this.state.balance}
           loading={this.state.loading}
+          loadingProgress={this.state.loadingProgress}
           ethPriceValue={this.props.ethPriceValue}
         />
       </div>

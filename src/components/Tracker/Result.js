@@ -7,7 +7,7 @@ class Result extends React.Component {
     super();
   }
 
-  getPeriod = (time) => {
+  displayPeriod = (time) => {
     const start = TimestampConverter()
       .timestampToDate(time.from)
       .toLocaleString();
@@ -26,6 +26,7 @@ class Result extends React.Component {
 
   render() {
     const { period, balance, loading, ethPriceValue } = this.props;
+    console.log(balance);
 
     if (loading) {
       return (
@@ -36,7 +37,7 @@ class Result extends React.Component {
     } else {
       return (
         <div className='result'>
-          <div className='hint'>{this.getPeriod(period)}</div>
+          <div className='hint'>{this.displayPeriod(period)}</div>
           <EvolutionTable
             balance={balance}
             date={period}
