@@ -11,12 +11,15 @@ class Result extends React.Component {
     const start = TimestampConverter()
       .timestampToDate(time.from)
       .toLocaleString();
-    if (start === 'Invalid Date') {
+    const end = TimestampConverter().timestampToDate(time.to).toLocaleString();
+
+    if (start === 'Invalid Date' || end === 'Invalid Date') {
       return 'No period selected.';
     }
     return (
       <span>
-        Showing data starting <span className='highlight'>{start}</span>.
+        Showing data from <span className='highlight'>{start}</span> to{' '}
+        <span className='highlight'>{end}</span>.
       </span>
     );
   };

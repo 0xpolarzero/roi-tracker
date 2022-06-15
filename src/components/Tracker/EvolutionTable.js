@@ -21,10 +21,10 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
   const showDifference = (balance, currency) => {
     let difference;
     if (currency === 'eth') {
-      difference = expandDecimals(balance.new - balance.old, showDecimals);
+      difference = expandDecimals(balance.end - balance.start, showDecimals);
     } else {
       difference = `${parseFloat(
-        (balance.new - balance.old) * ethPriceValue,
+        (balance.end - balance.start) * ethPriceValue,
       ).toFixed(2)}`;
     }
     if (difference >= 0) {
@@ -45,7 +45,7 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
           <tr>
             <th scope='col'></th>
             <th scope='col'>
-              Old balance{' '}
+              Start balance{' '}
               <span className='unweight'>
                 (
                 {TimestampConverter()
@@ -55,14 +55,14 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
               </span>
             </th>
             <th scope='col'>
-              Current balance{' '}
+              End balance{' '}
               <span className='unweight'>
                 (
                 {TimestampConverter().timestampToDate(date.to).toLocaleString()}
                 )
               </span>
             </th>
-            <th scope='col'>Cash in/out</th>
+            <th scope='col'>Deposit / Withdraw</th>
             <th scope='col'>ROI</th>
             <th scope='col'>Evolution</th>
           </tr>
@@ -73,7 +73,7 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
                 onMouseEnter={() => setShowDecimals(true)}
                 onMouseLeave={() => setShowDecimals(false)}
               >
-                {showBalance(balance.old, 'eth')}
+                {showBalance(balance.start, 'eth')}
               </span>
             </td>
             <td>
@@ -81,7 +81,7 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
                 onMouseEnter={() => setShowDecimals(true)}
                 onMouseLeave={() => setShowDecimals(false)}
               >
-                {showBalance(balance.new, 'eth')}
+                {showBalance(balance.end, 'eth')}
               </span>
             </td>
             <td>in out cash</td>
@@ -97,8 +97,8 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
           </tr>
           <tr>
             <th scope='row'>$</th>
-            <td>{showBalance(balance.old, 'tangible')}</td>
-            <td>{showBalance(balance.new, 'tangible')}</td>
+            <td>{showBalance(balance.start, 'tangible')}</td>
+            <td>{showBalance(balance.end, 'tangible')}</td>
             <td>in out cash</td>
             <td>{showDifference(balance, 'tangible')}</td>
             <td>evolution $</td>

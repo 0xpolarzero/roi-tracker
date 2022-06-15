@@ -1,24 +1,30 @@
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import EthDater from 'ethereum-block-by-date';
 import { getExchangeAddresses } from './exchanges';
+import { TimestampConverter } from './timestamp';
 
 const web3 = createAlchemyWeb3(
   `https://eth-mainnet.alchemyapi.io/v2/${process.env.REACT_APP_ALCHEMY_API_KEY}`,
 );
 const dater = new EthDater(web3);
 
-async function getBalanceDiff(from, addresses) {
-  // getExchangeAddresses();
-
+async function getBalanceDiff(from, to, addresses) {
   // Get the closest block corresponding to the 'from' date
   const startBlock = await dater.getDate(from);
-
   // Get the addresses balance at the start of the period
   const startBalance = await getBalances(startBlock.block, addresses);
-  // Get the addresses balance now
-  const currentBalance = await getBalances('latest', addresses);
 
-  return { old: startBalance, new: currentBalance };
+  let endBalance;
+  // Get the closest block corresponding to the 'to' date
+
+  if (to === TimestampConverter().now()) {
+    endBalance = await getBalances('latest', addresses);
+  } else {
+    const endBlock = await dater.getDate(to);
+    endBalance = await getBalances(endBlock.block, addresses);
+  }
+
+  return { start: startBalance, end: endBalance };
 }
 
 async function getBalances(block, addresses) {

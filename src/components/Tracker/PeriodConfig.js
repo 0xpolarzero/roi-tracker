@@ -3,7 +3,18 @@ import React from 'react';
 class PeriodConfig extends React.Component {
   constructor() {
     super();
+
+    this.state = {
+      dateFrom: '',
+      dateTo: '',
+    };
   }
+
+  handleDateChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
 
   render() {
     const { trackROI, includeTransfers } = this.props;
@@ -20,6 +31,37 @@ class PeriodConfig extends React.Component {
           </button>
           <button className='period-week' onClick={() => trackROI('lastWeek')}>
             <i className='fa-solid fa-road'></i> Last 7 days
+          </button>
+        </div>
+        <div className='period-custom'>
+          <div className='sub-title'>Custom time period →</div>
+          <div className='period-custom-from'>
+            <input
+              type='datetime-local'
+              name='dateFrom'
+              id='date-from'
+              value={this.state.dateFrom}
+              onChange={this.handleDateChange}
+              max={this.state.dateTo}
+            />
+          </div>
+          <div className='period-custom-to'>
+            <input
+              type='datetime-local'
+              name='dateTo'
+              id='date-to'
+              value={this.state.dateTo}
+              onChange={this.handleDateChange}
+              min={this.state.dateFrom}
+            />
+          </div>
+          <button
+            className='period-custom-btn'
+            onClick={() =>
+              trackROI('custom', this.state.dateFrom, this.state.dateTo)
+            }
+          >
+            Track
           </button>
         </div>
       </div>

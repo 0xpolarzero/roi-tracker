@@ -77,14 +77,25 @@
 
 .period-config {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .period-select {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  margin: 1.5rem 0 0 0;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   padding: 0 2rem;
   gap: 1rem;
+  align-items: center;
+}
+
+.period-custom {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  padding: 0 2rem;
+  gap: 1rem;
+  align-items: center;
 }
 
 .transfers-config .title {

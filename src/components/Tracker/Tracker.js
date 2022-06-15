@@ -60,23 +60,63 @@ class Tracker extends React.Component {
     });
   };
 
-  trackROI = async (e) => {
+  trackROI = async (input, from, to) => {
     let startDate;
+    let endDate;
 
     // Check at least one address
     if (this.state.addresses.length === 0) {
       displayNotif('error', 'No address selected', 2000);
       return;
     }
-    if (e === 'lastHour') {
-      // Get the period from last hour to current time
-      startDate = TimestampConverter().lastHour();
-    } else if (e === 'today') {
-      // Get the period from midnight to current time
-      startDate = TimestampConverter().today();
-    } else if (e === 'lastWeek') {
-      // Get the period from last week to current time
-      startDate = TimestampConverter().lastWeek();
+
+    if (input === 'custom') {
+      // Check if the user filled both date fields
+      if (from === '' || to === '') {
+        displayNotif('error', 'Please fill both date fields', 2000);
+        return;
+      }
+      // Check if the user has selected a valid date
+      if (!from || !to) {
+        displayNotif('error', 'Invalid date', 2000);
+        return;
+      }
+      // Check if the user choose a valid period
+      if (from > to) {
+        displayNotif(
+          'error',
+          'Invalid period. Please select a start date that occurs before the end date.',
+          2000,
+        );
+        return;
+      }
+      // Don't let the user select an end date in the future
+      if (
+        TimestampConverter().dateToTimestamp(to) > TimestampConverter().now() ||
+        TimestampConverter().dateToTimestamp(from) > TimestampConverter().now()
+      ) {
+        displayNotif(
+          'error',
+          'Invalid date. I can\t yet predict the future...',
+          2000,
+        );
+        return;
+      }
+
+      startDate = from;
+      endDate = to;
+    } else {
+      if (input === 'lastHour') {
+        // Get the period from last hour to current time
+        startDate = TimestampConverter().lastHour();
+      } else if (input === 'today') {
+        // Get the period from midnight to current time
+        startDate = TimestampConverter().today();
+      } else if (input === 'lastWeek') {
+        // Get the period from last week to current time
+        startDate = TimestampConverter().lastWeek();
+      }
+      endDate = TimestampConverter().now();
     }
 
     // Update Result component to show loading
@@ -84,15 +124,17 @@ class Tracker extends React.Component {
       loading: true,
     });
 
-    const balance = await getBalanceDiff(startDate, this.state.addresses).catch(
-      (err) => {
-        console.log(err);
-        displayNotif('error', err.message, 2000);
-      },
-    );
+    const balance = await getBalanceDiff(
+      startDate,
+      endDate,
+      this.state.addresses,
+    ).catch((err) => {
+      console.log(err);
+      displayNotif('error', err.message, 2000);
+    });
 
     this.setState({
-      period: { from: startDate, to: TimestampConverter().now() },
+      period: { from: startDate, to: endDate },
       balance: balance,
     });
 
