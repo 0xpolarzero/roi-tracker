@@ -13,6 +13,7 @@ import {
   getTokenBalance,
   isValidAddress,
 } from '../../systems/balance';
+import { getDeposits } from '../../systems/exchanges';
 import { TimestampConverter } from '../../systems/timestamp';
 
 const web3 = createAlchemyWeb3(
@@ -148,6 +149,7 @@ class Tracker extends React.Component {
     this.setState({
       loadingProgress: progress,
     });
+    console.log('Loading...', progress);
   };
 
   trackROI = async (input, from, to) => {
@@ -169,7 +171,7 @@ class Tracker extends React.Component {
         ? { block: 'latest' }
         : await dater.getDate(endDate);
 
-    // ! LOADING PROGRESSED
+    this.updateProgress(10);
 
     // Get the balance in ETH at both start and end date
     balanceETH.start = await getEthBalance(
@@ -181,7 +183,7 @@ class Tracker extends React.Component {
       displayNotif('error', err.message, 2000);
     });
 
-    // ! LOADING PROGRESSED
+    this.updateProgress(20);
 
     balanceETH.end = await getEthBalance(
       web3,
@@ -192,7 +194,7 @@ class Tracker extends React.Component {
       displayNotif('error', err.message, 2000);
     });
 
-    // ! LOADING PROGRESSED
+    this.updateProgress(30);
 
     // Get the balance in WETH at both start and end date
     balanceWETH.start = await getTokenBalance(
@@ -202,7 +204,7 @@ class Tracker extends React.Component {
       '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
     );
 
-    // ! LOADING PROGRESSED
+    this.updateProgress(40);
 
     balanceWETH.end = await getTokenBalance(
       web3,
@@ -215,6 +217,18 @@ class Tracker extends React.Component {
       period: { from: startDate, to: endDate },
       balance: { eth: balanceETH, weth: balanceWETH },
     });
+
+    this.updateProgress(50);
+
+    // Get the amount deposited from exchange plateforms during this period
+    const deposits = this.state.isTransfersIgnored
+      ? await getDeposits(web3, this.state.addresses, {
+          start: startBlock.block,
+          end: endBlock.block,
+        })
+      : 0;
+
+    console.log(deposits);
 
     // Tell Result component it's done loading
     this.setState({

@@ -26,7 +26,6 @@ class Result extends React.Component {
 
   render() {
     const { period, balance, loading, ethPriceValue } = this.props;
-    console.log(balance);
 
     if (loading) {
       return (

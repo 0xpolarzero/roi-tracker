@@ -25,8 +25,19 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
     }
   };
 
+  const sumBalances = (balances, time) => {
+    let total = 0;
+    for (const currency in balances) {
+      if (balances.hasOwnProperty(currency)) {
+        total += balances[currency][time];
+      }
+    }
+    return total;
+  };
+
   const showDifference = (balance, currency) => {
     let difference;
+
     if (currency === 'eth' || currency === 'weth') {
       difference = expandDecimals(balance.end - balance.start, showDecimals);
     } else {
@@ -41,19 +52,25 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
     }
   };
 
-  const sumBalances = (balances, time) => {
-    let total = 0;
-    for (const currency in balances) {
-      if (balances.hasOwnProperty(currency)) {
-        total += balances[currency][time];
-      }
-    }
-    return total;
-  };
+  const showEvolution = (balance, currency) => {
+    let percentage;
 
-  if (date.from === '') {
-    // return;
-  }
+    // Prevent from dividing by 0
+    if (balance.end === 0) return '💀';
+
+    if (currency === 'eth' || currency === 'weth') {
+      percentage = expandDecimals(balance.end / balance.start);
+    } else {
+      percentage = parseFloat(balance.end / balance.start);
+    }
+    if (percentage >= 0) {
+      return <span className='value-up'>×{Number(percentage.toFixed(2))}</span>;
+    } else {
+      return (
+        <span className='value-down'>×{Number(percentage.toFixed(2))}</span>
+      );
+    }
+  };
 
   return (
     <div className='evolution-table'>
@@ -101,7 +118,7 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
             <td>
               <span>{showDifference(balance.eth, 'eth')}</span>
             </td>
-            <td>evolution eth</td>
+            <td>{showEvolution(balance.eth, 'eth')}</td>
           </tr>
           <tr>
             <th scope='row'>WETH</th>
@@ -115,7 +132,7 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
             <td>
               <span>{showDifference(balance.weth, 'weth')}</span>
             </td>
-            <td>evolution eth</td>
+            <td>{showEvolution(balance.weth, 'weth')}</td>
           </tr>
           <tr>
             <th scope='row'>
@@ -125,7 +142,7 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
             <td>{showBalance(totalBalance.end, 'currency')}</td>
             <td>in out cash</td>
             <td>{showDifference(totalBalance)}</td>
-            <td>evolution $</td>
+            <td>{showEvolution(totalBalance, 'currency')}</td>
           </tr>
         </tbody>
       </table>
