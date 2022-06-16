@@ -29,3 +29,8 @@ _It is more like a remainder for myself, of the different features I had to impl
 
 - The user can choose a predefined time period (last hour, day, or last week) or a custom
 - The balance would be tracked from their ETH, WETH and USDC tokens
+
+- Module de connection web3
+- state : isLogged et isPremium
+- Presets (save et load) qui enregistrent state dans un slot ou setState à partir du slot : nécessite connexion
+- tokens aussi qui nécessitent islogged
