@@ -1,9 +1,6 @@
 table {
-  border-collapse: collapse;
-  border: 1px solid rgba(255, 255, 255, 0.5);
   width: 100%;
 }
-/* letter-spacing: 1px; */
 
 .show-decimals {
   font-size: 0.8rem;
@@ -38,9 +35,6 @@ tr:nth-child(even) {
 
 tr:nth-child(odd) {
   background-color: rgba(245, 245, 245, 0.1);
-}
-
-tr:nth-last-child(1) {
 }
 
 .unweight {

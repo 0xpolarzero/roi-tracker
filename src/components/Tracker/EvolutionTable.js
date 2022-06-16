@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TimestampConverter } from '../../systems/timestamp';
 import { expandDecimals } from '../../utils/utils';
 
-const EvolutionTable = ({ balance, deposits, date, ethPriceValue }) => {
+const EvolutionTable = ({ balance, date, ethPriceValue }) => {
   // Set the state for showing or not the decimals (on hover)
   const [showDecimals, setShowDecimals] = useState(false);
   // Set the state of total balance
@@ -31,39 +31,6 @@ const EvolutionTable = ({ balance, deposits, date, ethPriceValue }) => {
       if (balances.hasOwnProperty(currency)) {
         total += balances[currency][time];
       }
-    }
-    return total;
-  };
-
-  const showDeposits = (asset) => {
-    if (deposits.length === 0 || deposits === 0) {
-      return 'No deposits';
-    }
-
-    // Find each deposit corresponding to this asset
-    const depositsOfAsset = deposits.filter((deposit) => {
-      return deposit.asset === asset;
-    });
-    if (depositsOfAsset.length === 0) {
-      return 'No deposits';
-    }
-
-    const totalDeposit = expandDecimals(
-      sumDeposits(depositsOfAsset),
-      showDecimals,
-    );
-
-    if (totalDeposit >= 0) {
-      return <span className='value-up'>+{totalDeposit}</span>;
-    } else {
-      return <span className='value-down'>{totalDeposit}</span>;
-    }
-  };
-
-  const sumDeposits = (deposits) => {
-    let total = 0;
-    for (const deposit of deposits) {
-      total += deposit.value;
     }
     return total;
   };
@@ -133,7 +100,6 @@ const EvolutionTable = ({ balance, deposits, date, ethPriceValue }) => {
                 )
               </span>
             </th>
-            <th scope='col'>Deposit / Withdraw</th>
             <th scope='col'>ROI</th>
             <th scope='col'>Evolution</th>
           </tr>
@@ -145,7 +111,6 @@ const EvolutionTable = ({ balance, deposits, date, ethPriceValue }) => {
             <td>
               <span>{showBalance(balance.eth.end, 'eth')}</span>
             </td>
-            <td>{showDeposits('ETH')}</td>
             <td>
               <span>{showDifference(balance.eth, 'eth')}</span>
             </td>
@@ -159,7 +124,6 @@ const EvolutionTable = ({ balance, deposits, date, ethPriceValue }) => {
             <td>
               <span>{showBalance(balance.weth.end, 'weth')}</span>
             </td>
-            <td>in out cash</td>
             <td>
               <span>{showDifference(balance.weth, 'weth')}</span>
             </td>
@@ -171,7 +135,6 @@ const EvolutionTable = ({ balance, deposits, date, ethPriceValue }) => {
             </th>
             <td>{showBalance(totalBalance.start, 'currency')}</td>
             <td>{showBalance(totalBalance.end, 'currency')}</td>
-            <td>in out cash</td>
             <td>{showDifference(totalBalance)}</td>
             <td>{showEvolution(totalBalance, 'currency')}</td>
           </tr>
