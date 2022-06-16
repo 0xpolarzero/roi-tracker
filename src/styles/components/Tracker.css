@@ -1,3 +1,5 @@
+/* GLOBAL CONTAINERS */
+
 .tracker {
   background: rgba(255, 255, 255, 0);
   border-radius: 6px;
@@ -21,6 +23,8 @@
   font-size: 2rem;
 }
 
+/* ADDRESSES CONFIG */
+
 .addresses-config {
   display: flex;
   flex-direction: column;
@@ -30,7 +34,8 @@
 
 .addresses-list,
 .period-config,
-.transfers-config {
+.transfers-config,
+.token-config {
   position: relative;
   padding: 1rem;
 }
@@ -74,6 +79,35 @@
   background: rgba(166, 66, 83, 0.5);
 }
 
+/* TOKENS CONFIG */
+
+.token-config {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0 1rem;
+  padding: 1rem 2rem;
+}
+
+.token-config .header {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.token-config .title {
+  font-size: 1.5rem;
+}
+
+.token-list {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* PERIOD CONFIG */
+
 .period-config {
   position: relative;
   display: flex;
@@ -96,6 +130,8 @@
   gap: 1rem;
   align-items: center;
 }
+
+/* DEPOSITS CONFIG */
 
 .transfers-config {
   display: flex;
@@ -127,12 +163,7 @@
   color: rgba(255, 186, 8, 0.8);
 }
 
-.result {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem 3rem;
-}
+/* HIGHLIGHT ELEMENTS */
 
 .hint {
   font-size: 1.3rem;

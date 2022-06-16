@@ -37,6 +37,11 @@ async function getTokenBalance(provider, block, walletAddresses, tokenAddress) {
   return balancesCombined;
 }
 
+async function getTokenAddress(provider, tokenName) {
+  const tokenAddress = await provider.eth.getToken(tokenName);
+  return tokenAddress;
+}
+
 const minABI = [
   // balanceOf
   {
@@ -53,4 +58,4 @@ const isValidAddress = (provider, address) => {
   return isValid;
 };
 
-export { getEthBalance, getTokenBalance, isValidAddress };
+export { getEthBalance, getTokenBalance, getTokenAddress, isValidAddress };

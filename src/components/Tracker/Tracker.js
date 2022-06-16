@@ -5,12 +5,14 @@ import EthDater from 'ethereum-block-by-date';
 import AddressesConfig from './AddressesConfig';
 import PeriodConfig from './PeriodConfig';
 import TransfersConfig from './TransfersConfig';
+import TokensConfig from './TokensConfig';
 import Result from './Result';
 
 import { displayNotif } from '../../utils/utils';
 import {
   getEthBalance,
   getTokenBalance,
+  getTokenAddress,
   isValidAddress,
 } from '../../systems/balance';
 import { getDeposits } from '../../systems/exchanges/exchanges';
@@ -28,6 +30,8 @@ class Tracker extends React.Component {
     this.state = {
       address: '',
       addresses: [],
+      tokensInWallet: [],
+      tokensToTrack: [],
       balance: {
         eth: {
           start: 0,
@@ -76,6 +80,18 @@ class Tracker extends React.Component {
         (address) => e.target.id !== address,
       ),
     });
+  };
+
+  updateTokens = (token, status) => {
+    if (status) {
+      this.setState({
+        tokens: [...this.state.tokens, token],
+      });
+    } else {
+      this.setState({
+        tokens: this.state.tokens.filter((t) => t.address !== token.address),
+      });
+    }
   };
 
   ignoreTransfers = (e) => {
@@ -219,6 +235,12 @@ class Tracker extends React.Component {
       balance: { eth: balanceETH, weth: balanceWETH },
     });
 
+    this.updateProgress(50);
+
+    // Get the balance for other tokens
+    const testToken = getTokenAddress(web3, 'WETH');
+    console.log(testToken);
+
     // Get the amount deposited from exchange plateforms during this period
     const deposits = this.state.isTransfersIgnored
       ? await getDeposits(web3, this.state.addresses, {
@@ -248,13 +270,16 @@ class Tracker extends React.Component {
     return (
       <div className='tracker'>
         <div className='config'>
-          <AddressesConfig
-            address={this.state.address}
-            addresses={this.state.addresses}
-            changeAddress={this.changeAddress}
-            addAddress={this.addAddress}
-            removeAddress={this.removeAddress}
-          />
+          <div className='wrap-configs'>
+            <AddressesConfig
+              address={this.state.address}
+              addresses={this.state.addresses}
+              changeAddress={this.changeAddress}
+              addAddress={this.addAddress}
+              removeAddress={this.removeAddress}
+            />
+            <TokensConfig updateTokens={this.updateTokens} />
+          </div>
           <div className='wrap-configs'>
             <PeriodConfig
               trackROI={this.trackROI}
