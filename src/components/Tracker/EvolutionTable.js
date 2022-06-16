@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TimestampConverter } from '../../systems/timestamp';
 import { expandDecimals } from '../../utils/utils';
 
-const EvolutionTable = ({ balance, date, ethPriceValue }) => {
+const EvolutionTable = ({ balance, deposits, date, ethPriceValue }) => {
   // Set the state for showing or not the decimals (on hover)
   const [showDecimals, setShowDecimals] = useState(false);
   // Set the state of total balance
@@ -35,6 +35,39 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
     return total;
   };
 
+  const showDeposits = (asset) => {
+    if (deposits.length === 0 || deposits === 0) {
+      return 'No deposits';
+    }
+
+    // Find each deposit corresponding to this asset
+    const depositsOfAsset = deposits.filter((deposit) => {
+      return deposit.asset === asset;
+    });
+    if (depositsOfAsset.length === 0) {
+      return 'No deposits';
+    }
+
+    const totalDeposit = expandDecimals(
+      sumDeposits(depositsOfAsset),
+      showDecimals,
+    );
+
+    if (totalDeposit >= 0) {
+      return <span className='value-up'>+{totalDeposit}</span>;
+    } else {
+      return <span className='value-down'>{totalDeposit}</span>;
+    }
+  };
+
+  const sumDeposits = (deposits) => {
+    let total = 0;
+    for (const deposit of deposits) {
+      total += deposit.value;
+    }
+    return total;
+  };
+
   const showDifference = (balance, currency) => {
     let difference;
 
@@ -53,22 +86,20 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
   };
 
   const showEvolution = (balance, currency) => {
-    let percentage;
+    let factor;
 
     // Prevent from dividing by 0
     if (balance.end === 0) return '💀';
 
     if (currency === 'eth' || currency === 'weth') {
-      percentage = expandDecimals(balance.end / balance.start);
+      factor = expandDecimals(balance.end / balance.start);
     } else {
-      percentage = parseFloat(balance.end / balance.start);
+      factor = parseFloat(balance.end / balance.start);
     }
-    if (percentage >= 0) {
-      return <span className='value-up'>×{Number(percentage.toFixed(2))}</span>;
+    if (factor >= 1) {
+      return <span className='value-up'>×{Number(factor.toFixed(2))}</span>;
     } else {
-      return (
-        <span className='value-down'>×{Number(percentage.toFixed(2))}</span>
-      );
+      return <span className='value-down'>×{Number(factor.toFixed(2))}</span>;
     }
   };
 
@@ -114,7 +145,7 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
             <td>
               <span>{showBalance(balance.eth.end, 'eth')}</span>
             </td>
-            <td>in out cash</td>
+            <td>{showDeposits('ETH')}</td>
             <td>
               <span>{showDifference(balance.eth, 'eth')}</span>
             </td>

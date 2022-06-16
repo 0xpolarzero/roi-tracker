@@ -1,4 +1,4 @@
-import { getExchangeAddresses } from './exchanges';
+import { getExchangeAddresses } from './exchanges/exchanges';
 import { TimestampConverter } from './timestamp';
 
 // const tokenSource = 'https://tokens.coingecko.com/uniswap/all.json';

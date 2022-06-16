@@ -25,12 +25,19 @@ class Result extends React.Component {
   };
 
   render() {
-    const { period, balance, loading, ethPriceValue } = this.props;
+    const {
+      period,
+      balance,
+      deposits,
+      loading,
+      loadingProgress,
+      ethPriceValue,
+    } = this.props;
 
     if (loading) {
       return (
         <div className='result'>
-          <div className='loading'>Loading...</div>
+          <div className='loading'>Loading... {loadingProgress}</div>
         </div>
       );
     } else {
@@ -39,6 +46,7 @@ class Result extends React.Component {
           <div className='hint'>{this.displayPeriod(period)}</div>
           <EvolutionTable
             balance={balance}
+            deposits={deposits}
             date={period}
             ethPriceValue={ethPriceValue}
           />

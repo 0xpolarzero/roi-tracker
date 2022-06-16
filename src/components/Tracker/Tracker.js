@@ -13,7 +13,7 @@ import {
   getTokenBalance,
   isValidAddress,
 } from '../../systems/balance';
-import { getDeposits } from '../../systems/exchanges';
+import { getDeposits } from '../../systems/exchanges/exchanges';
 import { TimestampConverter } from '../../systems/timestamp';
 
 const web3 = createAlchemyWeb3(
@@ -38,6 +38,7 @@ class Tracker extends React.Component {
           end: 0,
         },
       },
+      deposits: [],
       period: { from: '', to: '' },
       loading: false,
       loadingProgress: 0,
@@ -218,8 +219,6 @@ class Tracker extends React.Component {
       balance: { eth: balanceETH, weth: balanceWETH },
     });
 
-    this.updateProgress(50);
-
     // Get the amount deposited from exchange plateforms during this period
     const deposits = this.state.isTransfersIgnored
       ? await getDeposits(web3, this.state.addresses, {
@@ -228,10 +227,11 @@ class Tracker extends React.Component {
         })
       : 0;
 
-    console.log(deposits);
+    this.updateProgress(100);
 
-    // Tell Result component it's done loading
+    // Update deposits & tell Result component it's done loading
     this.setState({
+      deposits: deposits,
       loading: false,
     });
   };
@@ -269,6 +269,7 @@ class Tracker extends React.Component {
         <Result
           period={this.state.period}
           balance={this.state.balance}
+          deposits={this.state.deposits}
           loading={this.state.loading}
           loadingProgress={this.state.loadingProgress}
           ethPriceValue={this.props.ethPriceValue}
