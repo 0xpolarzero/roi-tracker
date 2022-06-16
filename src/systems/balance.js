@@ -39,11 +39,10 @@ async function getTokenBalance(provider, block, walletAddresses, tokenAddress) {
 
 async function getTokenAddress(provider, tokenName) {
   // Get a list of tokens from CoinGecko
-  const tokenSource = 'https://api.coingecko.com/api/v3/coins/list';
-  const tokenData = await fetch(tokenSource);
-  const tokenList = await tokenData.json();
-
-  console.log(tokenList);
+  // const tokenSource = 'https://api.coingecko.com/api/v3/coins/list';
+  // const tokenData = await fetch(tokenSource);
+  // const tokenList = await tokenData.json();
+  // console.log(tokenList);
 }
 
 const minABI = [
