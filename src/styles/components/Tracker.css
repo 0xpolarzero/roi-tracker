@@ -128,12 +128,14 @@
 }
 
 .result {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   padding: 1rem 3rem;
 }
 
 .hint {
   font-size: 1.3rem;
-  margin-bottom: 1rem;
 }
 
 .highlight {

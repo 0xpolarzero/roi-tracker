@@ -40,11 +40,7 @@ class Result extends React.Component {
 
     const totalDeposit = this.sumDeposits(depositsOfAsset);
 
-    if (totalDeposit >= 0) {
-      return <span className='value-up'>+{totalDeposit}</span>;
-    } else {
-      return <span className='value-down'>{totalDeposit}</span>;
-    }
+    return totalDeposit;
   };
 
   sumDeposits = (deposits) => {

@@ -58,3 +58,19 @@ tr:nth-child(odd) {
 .weth {
   color: rgb(163, 7, 116);
 }
+
+.show-deposits-global {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.show-deposits {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.show-deposits .deposit::before {
+  content: '- ';
+}
