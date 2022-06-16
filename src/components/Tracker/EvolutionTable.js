@@ -38,8 +38,14 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
   const showDifference = (balance, currency) => {
     let difference;
 
-    if (currency === 'eth' || currency === 'weth') {
-      difference = expandDecimals(balance.end - balance.start, showDecimals);
+    if (currency === 'eth') {
+      console.log(balance);
+      difference = expandDecimals(
+        balance.eth.end +
+          balance.weth.end -
+          (balance.eth.start + balance.weth.start),
+        showDecimals,
+      );
     } else {
       difference = `${parseFloat(
         (balance.end - balance.start) * ethPriceValue,
@@ -58,8 +64,11 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
     // Prevent from dividing by 0
     if (balance.end === 0) return '💀';
 
-    if (currency === 'eth' || currency === 'weth') {
-      factor = expandDecimals(balance.end / balance.start);
+    if (currency === 'eth') {
+      factor = expandDecimals(
+        (balance.eth.end + balance.weth.end) /
+          (balance.eth.start + balance.weth.start),
+      );
     } else {
       factor = parseFloat(balance.end / balance.start);
     }
@@ -106,28 +115,49 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
           <tr>
             <th scope='row'>ETH</th>
             <td>
-              <span>{showBalance(balance.eth.start, 'eth')}</span>
+              <div className='eth-balance'>
+                <div>
+                  {showBalance(balance.eth.start + balance.weth.start, 'eth')}{' '}
+                </div>
+                <div className='minify'>
+                  (<i className='fa-brands fa-ethereum'></i>{' '}
+                  {showBalance(balance.eth.start, 'eth')} +{' '}
+                  <i className='fa-brands fa-ethereum weth'></i>{' '}
+                  {showBalance(balance.weth.start, 'eth')})
+                </div>
+              </div>
             </td>
             <td>
-              <span>{showBalance(balance.eth.end, 'eth')}</span>
+              <div className='eth-balance'>
+                <div>
+                  {showBalance(balance.eth.end + balance.weth.end, 'eth')}
+                </div>
+                <div className='minify'>
+                  {' '}
+                  (<i className='fa-brands fa-ethereum'></i>{' '}
+                  {showBalance(balance.eth.end, 'eth')} +{' '}
+                  <i className='fa-brands fa-ethereum weth'></i>{' '}
+                  {showBalance(balance.weth.end, 'eth')})
+                </div>
+              </div>
             </td>
             <td>
-              <span>{showDifference(balance.eth, 'eth')}</span>
+              <span>{showDifference(balance, 'eth')}</span>
             </td>
-            <td>{showEvolution(balance.eth, 'eth')}</td>
+            <td>{showEvolution(balance, 'eth')}</td>
           </tr>
           <tr>
-            <th scope='row'>WETH</th>
+            <th scope='row'>other</th>
             <td>
-              <span>{showBalance(balance.weth.start, 'weth')}</span>
+              <span>start</span>
             </td>
             <td>
-              <span>{showBalance(balance.weth.end, 'weth')}</span>
+              <span>end</span>
             </td>
             <td>
-              <span>{showDifference(balance.weth, 'weth')}</span>
+              <span>roi</span>
             </td>
-            <td>{showEvolution(balance.weth, 'weth')}</td>
+            <td>evolution</td>
           </tr>
           <tr>
             <th scope='row'>

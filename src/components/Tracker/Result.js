@@ -25,6 +25,36 @@ class Result extends React.Component {
     );
   };
 
+  setDeposits = (asset) => {
+    if (this.props.deposits.length === 0 || this.props.deposits === 0) {
+      return 0;
+    }
+
+    // Find each deposit corresponding to this asset
+    const depositsOfAsset = this.props.deposits.filter((deposit) => {
+      return deposit.asset === asset;
+    });
+    if (depositsOfAsset.length === 0) {
+      return 0;
+    }
+
+    const totalDeposit = this.sumDeposits(depositsOfAsset);
+
+    if (totalDeposit >= 0) {
+      return <span className='value-up'>+{totalDeposit}</span>;
+    } else {
+      return <span className='value-down'>{totalDeposit}</span>;
+    }
+  };
+
+  sumDeposits = (deposits) => {
+    let total = 0;
+    for (const deposit of deposits) {
+      total += deposit.value;
+    }
+    return total;
+  };
+
   render() {
     const {
       period,
@@ -47,10 +77,14 @@ class Result extends React.Component {
           <div className='hint'>{this.displayPeriod(period)}</div>
           <EvolutionTable
             balance={balance}
+            totalDepositValue={this.setDeposits(deposits)}
             date={period}
             ethPriceValue={ethPriceValue}
           />
-          <ExchangesData deposits={deposits} />
+          <ExchangesData
+            deposits={deposits}
+            totalDepositValue={this.setDeposits('ETH')}
+          />
         </div>
       );
     }

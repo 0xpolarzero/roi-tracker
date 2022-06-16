@@ -37,6 +37,12 @@ tr:nth-child(odd) {
   background-color: rgba(245, 245, 245, 0.1);
 }
 
+.eth-balance {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .unweight {
   font-weight: normal;
 }
@@ -47,4 +53,8 @@ tr:nth-child(odd) {
 
 .value-down {
   color: rgb(199, 75, 95);
+}
+
+.weth {
+  color: rgb(163, 7, 116);
 }

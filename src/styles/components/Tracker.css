@@ -139,3 +139,7 @@
 .highlight {
   color: rgb(255, 186, 8);
 }
+
+.minify {
+  font-size: 0.9rem;
+}
