@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 const ExchangesData = ({ deposits, totalDepositValue }) => {
   const displayDeposits = () => {
-    console.log(deposits);
     if (deposits.length === 0) {
       return <div className='deposits'>No deposits</div>;
     }

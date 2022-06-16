@@ -39,7 +39,6 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
     let difference;
 
     if (currency === 'eth') {
-      console.log(balance);
       difference = expandDecimals(
         balance.eth.end +
           balance.weth.end -
