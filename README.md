@@ -17,11 +17,13 @@ Demo not available yet, it's still fuzzy and nonfunctional :)
 | ✔️     | Add wETH to the calculation and show the sum + each one)                                     |
 | 𐄂      | Wallet connection (wagmi)                                                                    |
 | 𐄂      | Save/load configurations & load address on wallet connection                                 |
+| 𐄂      | Save configurations to Firebase, associated with address                                     |
 | 𐄂      | Get a token info, value & contract based on a comprehensive list of tokens                   |
 | 𐄂      | Get tokens owned by wallet & add it to the configuration, so the user can add them + save it |
 | 𐄂      | Get NFTs owned by the addresses (ERC721 & ERC1155)                                           |
 | 𐄂      | Track NFTs difference across wallets between start & end date                                |
 | 𐄂      | Get NFTs floor price difference to calculate the ROI                                         |
+| 𐄂      | Move Database to Express, MongoDB - refactor with NodeJS                                     |
 | 𐄂      | Refactor App for a better display                                                            |
 | 𐄂      | Change font - more nerdish                                                                   |
 | 𐄂      | Create a homepage (Short context, features) - get the app to app.xxx.xyz                     |
