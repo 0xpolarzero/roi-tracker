@@ -2,6 +2,7 @@ import React from 'react';
 import './styles/index.css';
 import Header from './components/Header/Header';
 import Tracker from './components/Tracker/Tracker';
+import WalletConnect from './components/WalletConnect';
 import { displayNotif } from './utils/utils';
 import { fetchData } from './utils/utils';
 
@@ -10,9 +11,29 @@ class App extends React.Component {
     super();
 
     this.state = {
+      isPopupOpen: false,
+      isLogged: false,
+      addressFromWallet: '',
+      tokensFromWallet: [],
       ethPriceValue: 0,
     };
   }
+
+  openWalletConnect = () => {
+    this.setState({
+      isPopupOpen: true,
+    });
+  };
+
+  closeWalletConnect = () => {
+    this.setState({
+      isPopupOpen: false,
+    });
+  };
+
+  getWalletInfos = async () => {
+    //
+  };
 
   getEthPrice = async () => {
     const data = await fetchData(
@@ -45,12 +66,31 @@ class App extends React.Component {
     );
   }
 
+  // Gérer la connextion dans Header
+  // Dès qu'elle est faite lancer connectWallet() avec l'address et les tokens dans le state + isLogged
+  // Envoyer ça dans Tracker
+  // Ajouter ces éléments dans la prise en compte (par exemple if (isLogged) { addAddress(addressFromWallet) } })
+
   render() {
     return (
       <div className='App'>
-        <Header ethPriceValue={this.state.ethPriceValue} />
+        <Header
+          openWalletConnect={this.openWalletConnect}
+          submitWalletConnect={this.submitWalletConnect}
+          isLogged={this.state.isLogged}
+          addressFromWallet={this.state.addressFromWallet}
+          ethPriceValue={this.state.ethPriceValue}
+        />
         <Tracker ethPriceValue={this.state.ethPriceValue} />
         <div className='notif'></div>
+        <div className='popup'>
+          {this.state.isPopupOpen && (
+            <WalletConnect
+              getWalletInfos={this.getWalletInfos}
+              closeWalletConnect={this.closeWalletConnect}
+            />
+          )}
+        </div>
       </div>
     );
   }

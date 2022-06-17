@@ -30,7 +30,6 @@ class Tracker extends React.Component {
     this.state = {
       address: '',
       addresses: [],
-      tokensInWallet: [],
       tokensToTrack: [],
       balance: {
         eth: {

@@ -3,5 +3,6 @@
 @import './components/Header.css';
 @import './components/Tracker.css';
 @import './components/Result.css';
+@import './components/WalletConnect.css';
 
 @import './utils/onoff-button.css';

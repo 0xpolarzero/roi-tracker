@@ -40,6 +40,7 @@
     ]
   },
   "devDependencies": {
+    "@metamask/detect-provider": "^1.2.0",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
     "cheerio": "^1.0.0-rc.11",
