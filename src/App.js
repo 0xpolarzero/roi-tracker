@@ -1,35 +1,35 @@
 import React from 'react';
+
+import EthDater from 'ethereum-block-by-date';
+import { createAlchemyWeb3 } from '@alch/alchemy-web3';
+import { WagmiConfig, createClient } from 'wagmi';
+
 import './styles/index.css';
 import Header from './components/Header/Header';
 import Tracker from './components/Tracker/Tracker';
-import WalletConnect from './components/WalletConnect';
+import Profile from './components/Header/Profile';
+
+import { setupClient } from './systems/wagmi-client-setup';
 import { displayNotif } from './utils/utils';
 import { fetchData } from './utils/utils';
+
+const web3 = createAlchemyWeb3(
+  `https://eth-mainnet.alchemyapi.io/v2/${process.env.REACT_APP_ALCHEMY_API_KEY}`,
+);
+
+const dater = new EthDater(web3);
 
 class App extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      isPopupOpen: false,
       isLogged: false,
       addressFromWallet: '',
       tokensFromWallet: [],
       ethPriceValue: 0,
     };
   }
-
-  openWalletConnect = () => {
-    this.setState({
-      isPopupOpen: true,
-    });
-  };
-
-  closeWalletConnect = () => {
-    this.setState({
-      isPopupOpen: false,
-    });
-  };
 
   getWalletInfos = async () => {
     //
@@ -73,25 +73,23 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className='App'>
-        <Header
-          openWalletConnect={this.openWalletConnect}
-          submitWalletConnect={this.submitWalletConnect}
-          isLogged={this.state.isLogged}
-          addressFromWallet={this.state.addressFromWallet}
-          ethPriceValue={this.state.ethPriceValue}
-        />
-        <Tracker ethPriceValue={this.state.ethPriceValue} />
-        <div className='notif'></div>
-        <div className='popup'>
-          {this.state.isPopupOpen && (
-            <WalletConnect
-              getWalletInfos={this.getWalletInfos}
-              closeWalletConnect={this.closeWalletConnect}
-            />
-          )}
+      <WagmiConfig client={setupClient()}>
+        <div className='App'>
+          <Header
+            openWalletConnect={this.openWalletConnect}
+            submitWalletConnect={this.submitWalletConnect}
+            isLogged={this.state.isLogged}
+            addressFromWallet={this.state.addressFromWallet}
+            ethPriceValue={this.state.ethPriceValue}
+          />
+          <Tracker
+            web3={web3}
+            dater={dater}
+            ethPriceValue={this.state.ethPriceValue}
+          />
+          <div className='notif'></div>
         </div>
-      </div>
+      </WagmiConfig>
     );
   }
 }

@@ -1,4 +1,6 @@
 import React from 'react';
+
+import Profile from './Profile';
 import EthPrice from './EthPrice';
 
 class Header extends React.Component {
@@ -31,12 +33,7 @@ class Header extends React.Component {
             <span className='main-char'>wallet</span>
           </div>
           <EthPrice ethPriceValue={this.props.ethPriceValue} />
-          <button
-            className='connect-web3'
-            onClick={this.props.openWalletConnect}
-          >
-            <i className='fa-brands fa-ethereum connect-eth'></i> Connect
-          </button>
+          <Profile />
         </div>
       </header>
     );

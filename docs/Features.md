@@ -34,3 +34,17 @@ _It is more like a remainder for myself, of the different features I had to impl
 - state : isLogged et isPremium
 - Presets (save et load) qui enregistrent state dans un slot ou setState à partir du slot : nécessite connexion
 - tokens aussi qui nécessitent islogged
+
+<div className='context'>
+            <p>
+              This will let you sign an authorization{' '}
+              <span className='highlight'>to read your wallet</span>, so we can
+              see your address & NFTs.
+            </p>
+            <p>
+              This will allow you to{' '}
+              <span className='highlight'>save different configurations</span>{' '}
+              (addresses, tracked tokens) &{' '}
+              <span className='highlight'>import tokens</span> directly from
+              your wallet
+            </p>

@@ -40,10 +40,8 @@
     ]
   },
   "devDependencies": {
-    "@metamask/detect-provider": "^1.2.0",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
-    "cheerio": "^1.0.0-rc.11",
     "crypto-browserify": "^3.12.0",
     "ethereum-block-by-date": "^1.4.5",
     "fs": "^0.0.1-security",
@@ -53,7 +51,8 @@
     "react-app-rewired": "^2.2.1",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
-    "url": "^0.11.0"
+    "url": "^0.11.0",
+    "wagmi": "^0.4.12"
   },
   "browser": {
     "fs": false,
