@@ -1,4 +1,4 @@
-/* .popup-wrapper {
+.popup-wrapper {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -11,26 +11,36 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 2;
+  z-index: 3;
 }
 
 .wallet-connect-popup {
   position: absolute;
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  z-index: 4;
 }
 
 .wallet-connect-popup .content {
   position: relative;
   font-size: 1.1rem;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.9);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
   padding: 2rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 6px;
   max-width: 600px;
+}
+
+.wallet-connect-popup .content button {
+  padding: 1rem 2rem;
 }
 
 .wallet-connect-popup .title {
@@ -56,4 +66,4 @@
 .close-popup-btn:hover {
   background-color: rgba(166, 66, 83, 0);
   color: rgba(166, 66, 83, 1);
-} */
+}

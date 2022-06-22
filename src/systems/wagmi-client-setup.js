@@ -13,7 +13,7 @@ import { InjectedConnector } from 'wagmi/connectors/injected';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 
-const alchemyId = process.env.ALCHEMY_ID;
+const alchemyId = process.env.REACT_APP_ALCHEMY_API_KEY;
 
 const setupClient = () => {
   // Configure chains & providers with the Alchemy provider.

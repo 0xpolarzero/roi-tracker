@@ -4,6 +4,7 @@
   display: grid;
   grid-template-columns: 1fr auto auto;
   gap: 3rem;
+  align-items: center;
 }
 
 .app-title {
