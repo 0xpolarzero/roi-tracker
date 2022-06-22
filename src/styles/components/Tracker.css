@@ -6,21 +6,24 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   margin: 1rem 2rem;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-columns: 30% auto 1fr;
 }
 
 .tracker .config {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .config-icon {
   position: absolute;
   top: 1rem;
-  right: 3rem;
+  right: 2rem;
   font-size: 2rem;
+}
+
+.card {
+  background: #242424;
 }
 
 /* ADDRESSES CONFIG */
@@ -37,18 +40,17 @@
 .transfers-config,
 .token-config {
   position: relative;
-  padding: 1rem;
+  padding: 1rem 2rem;
 }
 
 .addresses-list .title,
 .period-config .title {
   font-size: 1.5rem;
-  padding: 0 0 0 2rem;
 }
 
 .addresses-list ul {
   margin: 1rem 0 0 0;
-  padding: 0 2rem;
+  padding: 0;
   display: flex;
   flex-direction: column;
 }
@@ -56,7 +58,7 @@
 .addresses-list > ul > li {
   all: unset;
   display: grid;
-  grid-template-columns: 1fr 6rem;
+  grid-template-columns: 1fr auto;
   gap: 1rem;
   padding: 0.5rem 0;
   align-items: center;
@@ -70,13 +72,39 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.fa-trash-can {
-  background: rgba(166, 66, 83, 0.8);
-  padding: 0.5rem;
+.addresses-list > ul > li > span {
+  overflow: scroll;
 }
 
-.fa-trash-can:hover {
-  background: rgba(166, 66, 83, 1);
+.address-delete,
+.address-add {
+  background: transparent;
+  font-weight: 900;
+  font-size: 1.3rem;
+  border: 0;
+  box-shadow: none;
+  border-radius: 50%;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+}
+
+.address-add {
+  color: rgba(87, 192, 87, 0.8);
+}
+
+.address-delete {
+  color: rgba(166, 66, 83, 0.8);
+}
+
+.address-add:hover {
+  color: rgba(87, 192, 87, 1);
+  background: transparent;
+}
+
+.address-delete:hover {
+  color: rgba(166, 66, 83, 1);
+  background: transparent;
 }
 
 /* TOKENS CONFIG */
@@ -85,13 +113,11 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin: 0 1rem;
-  padding: 1rem 2rem;
 }
 
 .token-config .header {
   display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  grid-template-columns: 1fr auto auto;
   align-items: center;
   gap: 1rem;
 }

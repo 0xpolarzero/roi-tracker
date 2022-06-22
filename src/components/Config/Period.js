@@ -19,7 +19,7 @@ class PeriodConfig extends React.Component {
   render() {
     const { trackROI, includeTransfers } = this.props;
     return (
-      <div className='period-config'>
+      <div className='card period-config'>
         <i className='config-icon fa-solid fa-hourglass'></i>
         <div className='title'>Time period</div>
         <div className='period-select'>

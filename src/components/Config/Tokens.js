@@ -11,24 +11,24 @@ class TokensConfig extends React.Component {
 
   render() {
     return (
-      <div className='token-config'>
+      <div className='card token-config'>
         <div className='header'>
           <div className='title'>Tokens</div>
-          <input
-            type='text'
-            name='add-token-manual'
-            id='add-token-manual'
-            placeholder='Add a token from address'
-          />
-          <button className='add-token-manual-btn'>Add</button>
-          <button className='add-token-from-wallet-btn'>
-            Import from wallet ↓
-          </button>
+          <button className='select-tokens-all-btn'>All</button>
+          <button className='select-tokens-min-btn'>Minimum</button>
         </div>
+        <input
+          type='text'
+          name='add-token-manual'
+          id='add-token-manual'
+          placeholder='Search a token in your wallet'
+        />
         <div className='wrapper'>
           <div className='token-list'>
-            <div className='token-item'>token</div>
-            <div className='token-item'>token</div>
+            <div className='token-item'>
+              'Connect wallet to see your tokens'
+            </div>
+            <div className='token-item'>+ scoll if more than n</div>
             <div className='token-item'>token</div>
             <div className='token-item'>token</div>
             <div className='token-item'>token</div>

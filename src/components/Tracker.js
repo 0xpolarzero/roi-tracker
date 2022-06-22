@@ -1,20 +1,20 @@
 import React from 'react';
 
-import AddressesConfig from './AddressesConfig';
-import PeriodConfig from './PeriodConfig';
-import TransfersConfig from './TransfersConfig';
-import TokensConfig from './TokensConfig';
-import Result from './Result';
+import AddressesConfig from './Config/Addresses';
+import PeriodConfig from './Config/Period';
+import TransfersConfig from './Config/Transfers';
+import TokensConfig from './Config/Tokens';
+import Result from './Data/Result';
 
-import { displayNotif } from '../../utils/utils';
+import { displayNotif } from '../utils/utils';
 import {
   getEthBalance,
   getTokenBalance,
   getTokenAddress,
   isValidAddress,
-} from '../../systems/balance';
-import { getDeposits } from '../../systems/exchanges/exchanges';
-import { TimestampConverter } from '../../systems/timestamp';
+} from '../systems/balance';
+import { getDeposits } from '../systems/exchanges/exchanges';
+import { TimestampConverter } from '../systems/timestamp';
 
 class Tracker extends React.Component {
   constructor() {
@@ -270,19 +270,23 @@ class Tracker extends React.Component {
               addAddress={this.addAddress}
               removeAddress={this.removeAddress}
             />
+            <div className='separator-hor'></div>
             <TokensConfig updateTokens={this.updateTokens} />
           </div>
+          <div className='separator-hor'></div>
           <div className='wrap-configs'>
             <PeriodConfig
               trackROI={this.trackROI}
               changeDate={this.changeDate}
             />
+            {/* <div className='separator'></div>
             <TransfersConfig
               ignoreTransfers={this.ignoreTransfers}
               isTransfersIgnored={this.state.isTransfersIgnored}
-            />
+            /> */}
           </div>
         </div>
+        <div className='separator-ver'></div>
         <Result
           period={this.state.period}
           balance={this.state.balance}

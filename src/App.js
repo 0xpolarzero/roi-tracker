@@ -6,7 +6,7 @@ import { WagmiConfig, createClient } from 'wagmi';
 
 import './styles/index.css';
 import Header from './components/Header/Header';
-import Tracker from './components/Tracker/Tracker';
+import Tracker from './components/Tracker';
 import Profile from './components/Header/Profile';
 
 import { setupClient } from './systems/wagmi-client-setup';

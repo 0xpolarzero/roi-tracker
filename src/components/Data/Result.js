@@ -1,6 +1,6 @@
 import React from 'react';
 import EvolutionTable from './EvolutionTable';
-import ExchangesData from './ExchangesData';
+import ExchangesData from './Exchanges';
 import { TimestampConverter } from '../../systems/timestamp';
 
 class Result extends React.Component {
@@ -77,10 +77,10 @@ class Result extends React.Component {
             date={period}
             ethPriceValue={ethPriceValue}
           />
-          <ExchangesData
+          {/* <ExchangesData
             deposits={deposits}
             totalDepositValue={this.setDeposits('ETH')}
-          />
+          /> */}
         </div>
       );
     }

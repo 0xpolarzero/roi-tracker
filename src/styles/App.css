@@ -19,36 +19,46 @@ body {
 }
 
 input {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
   font-family: var(--main-font);
   border: 0;
   border-radius: 3px;
   padding: 0.3rem 0.5rem;
 }
 
+input:active {
+  outline: none;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 button {
-  background: rgba(255, 186, 8, 0.8);
-  border: none;
-  border-radius: 6px;
-  padding: 0.3rem 2rem;
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
   font-family: var(--main-font);
   font-size: 1rem;
   font-weight: 400;
-  color: #fff;
+  padding: 0.3rem 2rem;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  outline: none;
+  border: 0;
   cursor: pointer;
 
-  transition: background 0.5s;
+  transition: all 0.2s linear;
 }
 
 button:hover {
-  background: rgba(255, 186, 8, 1);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
 }
 
 .App {
   position: relative;
-  /* background-image: url(/public/PolygonLuminary.svg); */
-  /* background-size: cover; */
-  /* background-attachment: fixed; */
-  background: #000000;
+  background: #141414;
   color: white;
   min-height: 100vh;
   display: grid;
@@ -100,4 +110,12 @@ button:hover {
   border-radius: 1rem;
   width: 200px;
   padding: 0.5rem;
+}
+
+.separator-hor {
+  border-bottom: 1px solid red;
+}
+
+.separator-ver {
+  border-right: 1px solid red;
 }

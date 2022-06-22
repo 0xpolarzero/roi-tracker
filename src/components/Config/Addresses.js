@@ -9,7 +9,7 @@ class AddressesConfig extends React.Component {
     const { address, addresses, changeAddress, addAddress, removeAddress } =
       this.props;
     return (
-      <div className='addresses-config'>
+      <div className='card addresses-config'>
         <div className='addresses-list'>
           <i className='config-icon fa-solid fa-wallet'></i>
           <div className='title'>Wallet ({addresses.length})</div>
@@ -21,7 +21,7 @@ class AddressesConfig extends React.Component {
                   <button
                     onClick={removeAddress}
                     id={address}
-                    className='fa-solid fa-trash-can'
+                    className='address-delete fa-solid fa-circle-minus'
                   ></button>
                 </li>
               );
@@ -34,7 +34,10 @@ class AddressesConfig extends React.Component {
                 id='add-address'
                 placeholder='Add an address'
               />
-              <button onClick={addAddress}>Add</button>
+              <button
+                onClick={addAddress}
+                className='address-add fa-solid fa-circle-plus'
+              ></button>
             </li>
           </ul>
         </div>
