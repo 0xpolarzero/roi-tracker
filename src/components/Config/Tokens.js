@@ -11,11 +11,15 @@ class TokensConfig extends React.Component {
 
   render() {
     return (
-      <div className='card token-config'>
+      <div className='card token-config config-item'>
         <div className='header'>
-          <div className='title'>Tokens</div>
-          <button className='select-tokens-all-btn'>All</button>
-          <button className='select-tokens-min-btn'>Minimum</button>
+          <div className='title'>
+            <i className='config-icon fa-solid fa-coins'></i>Tokens
+          </div>
+          <div className='buttons'>
+            <button className='select-tokens-all-btn'>All</button>
+            <button className='select-tokens-min-btn'>Minimum</button>
+          </div>
         </div>
         <input
           type='text'

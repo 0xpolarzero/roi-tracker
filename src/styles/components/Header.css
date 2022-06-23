@@ -1,24 +1,24 @@
-.nav {
-  background: #000000;
-  padding: 1rem 2rem;
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 3rem;
-  align-items: center;
-}
+/* TITLE */
 
 .app-title {
   font-size: 2rem;
-  font-weight: 300;
 }
 
 .app-title .main-char {
   font-weight: 500;
-  color: rgb(255, 186, 8);
 }
 
 .app-title .alt-char {
-  font-weight: 300;
+  font-weight: 200;
+  font-size: 1.8rem;
+}
+
+.nav {
+  padding: 1rem 2rem;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 3rem;
 }
 
 .connect-eth {
@@ -41,4 +41,14 @@
   font-size: 0.8rem;
   font-weight: 300;
   opacity: 0.8;
+}
+
+@media (max-width: 720px) {
+  .nav {
+    grid-template-columns: 1fr auto;
+  }
+
+  .app-title {
+    grid-column: span 2;
+  }
 }

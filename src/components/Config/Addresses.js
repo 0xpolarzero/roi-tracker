@@ -9,10 +9,14 @@ class AddressesConfig extends React.Component {
     const { address, addresses, changeAddress, addAddress, removeAddress } =
       this.props;
     return (
-      <div className='card addresses-config'>
+      <div className='card addresses-config config-item'>
+        <div className='header'>
+          <div className='title'>
+            <i className='config-icon fa-solid fa-wallet'></i>
+            Wallet ({addresses.length})
+          </div>
+        </div>
         <div className='addresses-list'>
-          <i className='config-icon fa-solid fa-wallet'></i>
-          <div className='title'>Wallet ({addresses.length})</div>
           <ul>
             {addresses.map((address) => {
               return (

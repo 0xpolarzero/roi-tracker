@@ -80,6 +80,11 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
 
   return (
     <div className='evolution-table'>
+      <div className='header'>
+        <div className='title'>
+          <i className='config-icon fa-solid fa-chart-line'></i>Evolution
+        </div>
+      </div>
       <table>
         <tbody>
           <tr>
@@ -116,7 +121,7 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
             <td>
               <div className='eth-balance'>
                 <div>
-                  {showBalance(balance.eth.start + balance.weth.start, 'eth')}{' '}
+                  {showBalance(balance.eth.start + balance.weth.start, 'eth')}
                 </div>
                 <div className='minify'>
                   (<i className='fa-brands fa-ethereum'></i>{' '}
@@ -141,7 +146,7 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
               </div>
             </td>
             <td>
-              <span>{showDifference(balance, 'eth')}</span>
+              <span className='eth-diff'>{showDifference(balance, 'eth')}</span>
             </td>
             <td>{showEvolution(balance, 'eth')}</td>
           </tr>

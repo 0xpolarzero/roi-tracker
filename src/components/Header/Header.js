@@ -28,9 +28,8 @@ class Header extends React.Component {
       <header className='header'>
         <div className='nav'>
           <div className='app-title'>
-            <span className='main-char'>track</span>
-            <span className='alt-char'>my</span>
-            <span className='main-char'>wallet</span>
+            <span className='alt-char'>0x</span>
+            <span className='main-char'>Tracer</span>
           </div>
           <EthPrice ethPriceValue={this.props.ethPriceValue} />
           <Profile />

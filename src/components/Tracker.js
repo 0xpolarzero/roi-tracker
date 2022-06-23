@@ -4,7 +4,9 @@ import AddressesConfig from './Config/Addresses';
 import PeriodConfig from './Config/Period';
 import TransfersConfig from './Config/Transfers';
 import TokensConfig from './Config/Tokens';
-import Result from './Data/Result';
+import PresetsConfig from './Config/Presets';
+import Header from '../components/Header/Header';
+import { ResultHeader, ResultData } from './Data/Result';
 
 import { displayNotif } from '../utils/utils';
 import {
@@ -261,33 +263,30 @@ class Tracker extends React.Component {
   render() {
     return (
       <div className='tracker'>
-        <div className='config'>
-          <div className='wrap-configs'>
-            <AddressesConfig
-              address={this.state.address}
-              addresses={this.state.addresses}
-              changeAddress={this.changeAddress}
-              addAddress={this.addAddress}
-              removeAddress={this.removeAddress}
-            />
-            <div className='separator-hor'></div>
-            <TokensConfig updateTokens={this.updateTokens} />
-          </div>
-          <div className='separator-hor'></div>
-          <div className='wrap-configs'>
-            <PeriodConfig
-              trackROI={this.trackROI}
-              changeDate={this.changeDate}
-            />
-            {/* <div className='separator'></div>
+        <Header ethPriceValue={this.props.ethPriceValue} />
+        <PresetsConfig />
+
+        {/* <div className='config-wrapper'> */}
+        <AddressesConfig
+          address={this.state.address}
+          addresses={this.state.addresses}
+          changeAddress={this.changeAddress}
+          addAddress={this.addAddress}
+          removeAddress={this.removeAddress}
+        />
+
+        <TokensConfig updateTokens={this.updateTokens} />
+
+        <PeriodConfig trackROI={this.trackROI} changeDate={this.changeDate} />
+        {/* <div className='separator'></div>
             <TransfersConfig
               ignoreTransfers={this.ignoreTransfers}
               isTransfersIgnored={this.state.isTransfersIgnored}
             /> */}
-          </div>
-        </div>
+        {/* </div> */}
         <div className='separator-ver'></div>
-        <Result
+        <ResultHeader period={this.state.period} />
+        <ResultData
           period={this.state.period}
           balance={this.state.balance}
           deposits={this.state.deposits}

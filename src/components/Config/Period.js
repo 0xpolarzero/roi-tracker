@@ -19,9 +19,12 @@ class PeriodConfig extends React.Component {
   render() {
     const { trackROI, includeTransfers } = this.props;
     return (
-      <div className='card period-config'>
-        <i className='config-icon fa-solid fa-hourglass'></i>
-        <div className='title'>Time period</div>
+      <div className='card period-config config-item'>
+        <div className='header'>
+          <div className='title'>
+            <i className='config-icon fa-solid fa-hourglass'></i>Time period
+          </div>
+        </div>
         <div className='period-select'>
           <button className='period-hour' onClick={() => trackROI('lastHour')}>
             <i className='fa-solid fa-truck-fast'></i> Last hour
@@ -34,26 +37,28 @@ class PeriodConfig extends React.Component {
           </button>
         </div>
         <div className='period-custom'>
-          <div className='sub-title'>Custom time period →</div>
-          <div className='period-custom-from'>
-            <input
-              type='datetime-local'
-              name='dateFrom'
-              id='date-from'
-              value={this.state.dateFrom}
-              onChange={this.handleDateChange}
-              max={this.state.dateTo}
-            />
-          </div>
-          <div className='period-custom-to'>
-            <input
-              type='datetime-local'
-              name='dateTo'
-              id='date-to'
-              value={this.state.dateTo}
-              onChange={this.handleDateChange}
-              min={this.state.dateFrom}
-            />
+          <div className='sub-title'>Custom time period ↓</div>
+          <div className='period-custom-picker'>
+            <div className='period-custom-from'>
+              <input
+                type='datetime-local'
+                name='dateFrom'
+                id='date-from'
+                value={this.state.dateFrom}
+                onChange={this.handleDateChange}
+                max={this.state.dateTo}
+              />
+            </div>
+            <div className='period-custom-to'>
+              <input
+                type='datetime-local'
+                name='dateTo'
+                id='date-to'
+                value={this.state.dateTo}
+                onChange={this.handleDateChange}
+                min={this.state.dateFrom}
+              />
+            </div>
           </div>
           <button
             className='period-custom-btn'

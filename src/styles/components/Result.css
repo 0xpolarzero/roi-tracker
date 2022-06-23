@@ -1,8 +1,27 @@
-.result {
+.result-content,
+.result-header {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 1rem 3rem;
+}
+
+.result-content {
+  grid-area: result-content;
+  overflow: scroll;
+}
+
+.result-header {
+  grid-area: result-header;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.evolution-table .header .title {
+  font-size: clamp(1.3rem, 2vw, 1.5rem);
+  margin-bottom: 1rem;
 }
 
 table {
@@ -50,6 +69,20 @@ tr:nth-child(odd) {
   gap: 0.5rem;
 }
 
+.eth-balance > div:nth-child(1)::after {
+  content: ' Ξ';
+}
+
+.eth-diff > .value-down::after {
+  content: ' Ξ';
+  color: rgb(199, 75, 95);
+}
+
+.eth-diff > .value-up::after {
+  content: ' Ξ';
+  color: rgb(87, 192, 87);
+}
+
 .unweight {
   font-weight: normal;
 }
@@ -80,4 +113,28 @@ tr:nth-child(odd) {
 
 .show-deposits .deposit::before {
   content: '- ';
+}
+
+/* INSTRUCTIONS */
+
+.result-content .header {
+  font-size: clamp(1.3rem, 2vw, 1.5rem);
+}
+
+.result-content .message {
+  font-size: 1.2rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.message > .separator-hor {
+  grid-column: span 2;
+  margin: 0.5rem 0;
+}
+
+.config-icon-min {
+  font-size: 1rem;
+  margin-right: 0.5rem;
 }

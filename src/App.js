@@ -5,9 +5,7 @@ import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import { WagmiConfig, createClient } from 'wagmi';
 
 import './styles/index.css';
-import Header from './components/Header/Header';
 import Tracker from './components/Tracker';
-import Profile from './components/Header/Profile';
 
 import { setupClient } from './systems/wagmi-client-setup';
 import { displayNotif } from './utils/utils';
@@ -24,7 +22,6 @@ class App extends React.Component {
     super();
 
     this.state = {
-      isLogged: false,
       addressFromWallet: '',
       tokensFromWallet: [],
       ethPriceValue: 0,
@@ -75,19 +72,13 @@ class App extends React.Component {
     return (
       <WagmiConfig client={setupClient()}>
         <div className='App'>
-          <Header
-            openWalletConnect={this.openWalletConnect}
-            submitWalletConnect={this.submitWalletConnect}
-            isLogged={this.state.isLogged}
-            addressFromWallet={this.state.addressFromWallet}
-            ethPriceValue={this.state.ethPriceValue}
-          />
           <Tracker
             web3={web3}
             dater={dater}
             ethPriceValue={this.state.ethPriceValue}
           />
           <div className='notif'></div>
+          <div className='bg-blur'></div>
         </div>
       </WagmiConfig>
     );
