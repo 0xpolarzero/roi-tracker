@@ -6,7 +6,7 @@ let resetLastUpdated;
 const EthPrice = ({ ethPriceValue }) => {
   useEffect(() => {
     resetLastUpdated();
-  });
+  }, [ethPriceValue]);
 
   return (
     <div className='eth-price'>
