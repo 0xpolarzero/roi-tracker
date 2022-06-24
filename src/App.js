@@ -3,12 +3,10 @@ import { useEffect, useState } from 'react';
 
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import EthDater from 'ethereum-block-by-date';
-import { WagmiConfig } from 'wagmi';
 
 import Tracker from './components/Tracker';
 import Connect from './components/Connect';
 
-import { setupClient } from './systems/wagmi-client-setup';
 import { displayNotif, fetchData } from './systems/utils';
 
 import './styles/index.css';
@@ -56,11 +54,9 @@ const App = () => {
 
   return (
     <div className='App'>
-      <WagmiConfig client={setupClient()}>
-        <Tracker web3={web3} dater={dater} ethPriceValue={ethPriceValue} />
-        <div className='notif'></div>
-        <div className='bg-blur'></div>
-      </WagmiConfig>
+      <Tracker web3={web3} dater={dater} ethPriceValue={ethPriceValue} />
+      <div className='notif'></div>
+      <div className='bg-blur'></div>
     </div>
   );
 };

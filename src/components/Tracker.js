@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 
 import { useAccount } from 'wagmi';
 
@@ -19,88 +19,64 @@ import {
 } from '../systems/balance';
 import { getDeposits } from '../systems/exchanges/exchanges';
 import { TimestampConverter } from '../systems/timestamp';
+import Connect from './Connect';
 
-class Tracker extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      address: '',
-      addresses: [],
-      balance: {
-        eth: {
-          start: 0,
-          end: 0,
-        },
-        weth: {
-          start: 0,
-          end: 0,
-        },
-      },
-      deposits: [],
-      period: { from: '', to: '' },
-      loading: false,
-      loadingProgress: 0,
-      isTransfersIgnored: true,
-    };
-  }
+const Tracker = ({ web3, dater, ethPriceValue }) => {
+  const { data: account } = useAccount();
+  const [address, setAddress] = useState('');
+  const [addresses, setAddresses] = useState([]);
+  const [balance, setBalance] = useState({
+    eth: {
+      start: 0,
+      end: 0,
+    },
+    weth: {
+      start: 0,
+      end: 0,
+    },
+  });
+  const [period, setPeriod] = useState({ from: '', to: '' });
+  const [deposits, setDeposits] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [isTransfersIgnored, setIsTransfersIgnored] = useState(false);
 
   // MANAGING ADDRESSES
 
-  changeAddress = (e) => {
-    this.setState({
-      address: e.target.value,
-    });
+  const changeAddress = (e) => {
+    setAddress(e.target.value);
   };
 
-  addAddress = (e) => {
+  const addAddress = (e) => {
     // Check if address is valid with Web3.js
-    if (!isValidAddress(this.props.web3, this.state.address)) {
+    if (!isValidAddress(web3, address)) {
       displayNotif('error', 'Invalid address', 2000);
       return;
     }
-    this.setState({
-      // Prevent user from adding duplicate addresses
-      addresses: Array.from(
-        new Set([...this.state.addresses, this.state.address]),
-      ),
-      address: '',
-    });
+
+    setAddresses(
+      Array.from(new Set([...this.state.addresses, this.state.address])),
+    );
+    setAddress('');
+
     displayNotif('info', 'Address added!', 2000);
   };
 
-  removeAddress = (e) => {
-    this.setState({
-      addresses: this.state.addresses.filter(
-        (address) => e.target.id !== address,
-      ),
-    });
+  const removeAddress = (e) => {
+    setAddresses(addresses.filter((address) => address !== e.target.id));
+    displayNotif('info', 'Address removed!', 2000);
   };
 
-  updateTokens = (token, status) => {
-    if (status) {
-      this.setState({
-        tokens: [...this.state.tokens, token],
-      });
-    } else {
-      this.setState({
-        tokens: this.state.tokens.filter((t) => t.address !== token.address),
-      });
-    }
+  const ignoreTransfers = (e) => {
+    setIsTransfersIgnored(!isTransfersIgnored);
   };
 
-  ignoreTransfers = (e) => {
-    this.setState({
-      isTransfersIgnored: !this.state.isTransfersIgnored,
-    });
-  };
-
-  getPeriod = (input, from, to) => {
+  const getPeriod = (input, from, to) => {
     let startDate;
     let endDate;
 
     // Check at least one address
-    if (this.state.addresses.length === 0) {
+    if (addresses.length === 0) {
       displayNotif('error', 'No address selected', 2000);
       return;
     }
@@ -157,149 +133,139 @@ class Tracker extends React.Component {
     return { startDate, endDate };
   };
 
-  updateProgress = (progress) => {
-    this.setState({
-      loadingProgress: progress,
-    });
-    console.log('Loading...', progress);
-  };
-
-  trackROI = async (input, from, to) => {
+  const trackROI = async (input, from, to) => {
     let balanceETH = {};
     let balanceWETH = {};
 
-    const { startDate, endDate } = this.getPeriod(input, from, to);
+    const { startDate, endDate } = getPeriod(input, from, to);
 
     // Update Result component to show loading and initiate progress bar
-    this.setState({
-      loading: true,
-      loadingProgress: 0,
-    });
+    setLoading(true);
+    setLoadingProgress(0);
 
     // Get the closest block corresponding to the dates
-    const startBlock = await this.props.dater.getDate(startDate);
+    const startBlock = await dater.getDate(startDate);
     const endBlock =
       to === TimestampConverter().now()
         ? { block: 'latest' }
-        : await this.props.dater.getDate(endDate);
+        : await dater.getDate(endDate);
 
-    this.updateProgress(15);
+    setLoadingProgress(15);
+    console.log('Loading...', loadingProgress);
 
     // Get the balance in ETH at both start and end date
     balanceETH.start = await getEthBalance(
-      this.props.web3,
+      web3,
       startBlock.block,
-      this.state.addresses,
+      addresses,
     ).catch((err) => {
       console.log(err);
       displayNotif('error', err.message, 2000);
     });
 
-    this.updateProgress(30);
+    setLoadingProgress(30);
+    console.log('Loading...', loadingProgress);
 
-    balanceETH.end = await getEthBalance(
-      this.props.web3,
-      endBlock.block,
-      this.state.addresses,
-    ).catch((err) => {
-      console.log(err);
-      displayNotif('error', err.message, 2000);
-    });
+    balanceETH.end = await getEthBalance(web3, endBlock.block, addresses).catch(
+      (err) => {
+        console.log(err);
+        displayNotif('error', err.message, 2000);
+      },
+    );
 
-    this.updateProgress(50);
+    setLoadingProgress(50);
+    console.log('Loading...', loadingProgress);
 
     // Get the balance in WETH at both start and end date
     balanceWETH.start = await getTokenBalance(
-      this.props.web3,
+      web3,
       startBlock.block,
-      this.state.addresses,
+      addresses,
       '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
     );
 
-    this.updateProgress(70);
+    setLoadingProgress(70);
+    console.log('Loading...', loadingProgress);
 
     balanceWETH.end = await getTokenBalance(
-      this.props.web3,
+      web3,
       endBlock.block,
-      this.state.addresses,
+      addresses,
       '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
     );
 
-    this.setState({
-      period: { from: startDate, to: endDate },
-      balance: { eth: balanceETH, weth: balanceWETH },
-    });
+    setPeriod({ from: startDate, to: endDate });
+    setBalance({ eth: balanceETH, weth: balanceWETH });
 
-    this.updateProgress(95);
+    setLoadingProgress(90);
+    console.log('Loading...', loadingProgress);
 
     // Get the balance for other tokens
-    const testToken = getTokenAddress(this.props.web3, 'WETH');
+    const testToken = getTokenAddress(web3, 'WETH');
     console.log(testToken);
 
     // Get the amount deposited from exchange plateforms during this period
-    const deposits = this.state.isTransfersIgnored
-      ? await getDeposits(this.props.web3, this.state.addresses, {
+    const deposits = isTransfersIgnored
+      ? await getDeposits(web3, addresses, {
           start: startBlock.block,
           end: endBlock.block,
         })
       : 0;
 
-    this.updateProgress(100);
+    setLoadingProgress(100);
+    console.log('Loading...', loadingProgress);
 
     // Update deposits & tell Result component it's done loading
-    this.setState({
-      deposits: deposits,
-      loading: false,
-    });
+    setDeposits(deposits);
+    setLoading(false);
   };
 
-  componentDidMount() {
-    this.setState({
-      // Prevent user from adding duplicate addresses
-      addresses: ['0x02c2adbdB7c0C1037B5278626A78B6c71787dFe8'],
-      address: '',
-    });
-  }
+  useEffect(() => {
+    setAddresses(['0x02c2adbdB7c0C1037B5278626A78B6c71787dFe8']);
+    setAddress('');
+  }, []);
 
-  render() {
+  if (account) {
     return (
       <div className='tracker'>
-        <Header ethPriceValue={this.props.ethPriceValue} />
+        <Header ethPriceValue={ethPriceValue} />
 
         <PresetsConfig />
 
         {/* <div className='config-wrapper'> */}
         <AddressesConfig
-          address={this.state.address}
-          addresses={this.state.addresses}
-          changeAddress={this.changeAddress}
-          addAddress={this.addAddress}
-          removeAddress={this.removeAddress}
+          address={address}
+          addresses={addresses}
+          changeAddress={changeAddress}
+          addAddress={addAddress}
+          removeAddress={removeAddress}
         />
 
-        <TokensConfig updateTokens={this.updateTokens} />
+        <TokensConfig />
 
-        <PeriodConfig trackROI={this.trackROI} changeDate={this.changeDate} />
+        <PeriodConfig trackROI={trackROI} />
         {/* <div className='separator'></div>
             <TransfersConfig
-              ignoreTransfers={this.ignoreTransfers}
-              isTransfersIgnored={this.state.isTransfersIgnored}
+              ignoreTransfers={ignoreTransfers}
+              isTransfersIgnored={isTransfersIgnored}
             /> */}
         {/* </div> */}
 
-        <ResultHeader period={this.state.period} />
+        <ResultHeader period={period} />
 
         <ResultData
-          period={this.state.period}
-          balance={this.state.balance}
-          deposits={this.state.deposits}
-          loading={this.state.loading}
-          loadingProgress={this.state.loadingProgress}
-          ethPriceValue={this.props.ethPriceValue}
+          period={period}
+          balance={balance}
+          deposits={deposits}
+          loading={loading}
+          loadingProgress={loadingProgress}
+          ethPriceValue={ethPriceValue}
         />
       </div>
     );
   }
-}
+
+  return <Connect />;
+};
 
 export default Tracker;

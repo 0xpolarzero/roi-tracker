@@ -1,0 +1,16 @@
+.profile {
+  position: relative;
+  /* padding: 1rem; */
+  cursor: pointer;
+
+  transition: color 0.1s ease-in-out;
+}
+
+.profile:hover {
+  color: rgba(255, 186, 8, 0.8);
+}
+
+.account-id {
+  position: absolute;
+  color: #fff;
+}
