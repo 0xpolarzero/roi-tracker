@@ -53,20 +53,26 @@ class ResultData extends React.Component {
           <div className='message'>
             <i className='config-icon-min fa-solid fa-wallet'></i>
             <div>
-              <span className='highlight'>Add/remove wallets</span>, and keep
-              only the one(s) you want to track.
+              <span className='highlight'>
+                Include your hot & burner wallets
+              </span>{' '}
+              to have a proper understanding of your evolution.
             </div>
 
             <i className='config-icon-min fa-solid fa-coins'></i>
             <div>
-              Choose <span className='highlight'>tokens from your wallet</span>{' '}
-              to take them into account (default ETH & wETH).
+              Choose{' '}
+              <span className='highlight'>
+                tokens from your connected wallet
+              </span>{' '}
+              to track them (default ETH & wETH).
             </div>
 
             <i className='config-icon-min fa-solid fa-hourglass'></i>
             <div>
-              Select the <span className='highlight'>time period</span> to see
-              the evolution of your assets.
+              Select a custom or predefined{' '}
+              <span className='highlight'>time period</span> to see the
+              evolution of your assets.
             </div>
 
             <span className='separator-hor'></span>
