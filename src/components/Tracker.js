@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useAccount } from 'wagmi';
+
 import AddressesConfig from './Config/Addresses';
 import PeriodConfig from './Config/Period';
 import TransfersConfig from './Config/Transfers';
@@ -25,7 +27,6 @@ class Tracker extends React.Component {
     this.state = {
       address: '',
       addresses: [],
-      tokensToTrack: [],
       balance: {
         eth: {
           start: 0,

@@ -4,7 +4,7 @@
 @import './components/Tracker.css';
 @import './components/Config.css';
 @import './components/Result.css';
-@import './components/WalletConnect.css';
+@import './components/Connect.css';
 
 @import './utils/onoff-button.css';
 @import './utils/progress-bar.css';
