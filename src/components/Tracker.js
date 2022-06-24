@@ -8,7 +8,7 @@ import PresetsConfig from './Config/Presets';
 import Header from '../components/Header/Header';
 import { ResultHeader, ResultData } from './Data/Result';
 
-import { displayNotif } from '../utils/utils';
+import { displayNotif } from '../systems/utils';
 import {
   getEthBalance,
   getTokenBalance,
@@ -182,7 +182,7 @@ class Tracker extends React.Component {
         ? { block: 'latest' }
         : await this.props.dater.getDate(endDate);
 
-    this.updateProgress(10);
+    this.updateProgress(15);
 
     // Get the balance in ETH at both start and end date
     balanceETH.start = await getEthBalance(
@@ -194,7 +194,7 @@ class Tracker extends React.Component {
       displayNotif('error', err.message, 2000);
     });
 
-    this.updateProgress(20);
+    this.updateProgress(30);
 
     balanceETH.end = await getEthBalance(
       this.props.web3,
@@ -205,7 +205,7 @@ class Tracker extends React.Component {
       displayNotif('error', err.message, 2000);
     });
 
-    this.updateProgress(30);
+    this.updateProgress(50);
 
     // Get the balance in WETH at both start and end date
     balanceWETH.start = await getTokenBalance(
@@ -215,7 +215,7 @@ class Tracker extends React.Component {
       '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
     );
 
-    this.updateProgress(40);
+    this.updateProgress(70);
 
     balanceWETH.end = await getTokenBalance(
       this.props.web3,
@@ -229,7 +229,7 @@ class Tracker extends React.Component {
       balance: { eth: balanceETH, weth: balanceWETH },
     });
 
-    this.updateProgress(50);
+    this.updateProgress(95);
 
     // Get the balance for other tokens
     const testToken = getTokenAddress(this.props.web3, 'WETH');
@@ -264,6 +264,7 @@ class Tracker extends React.Component {
     return (
       <div className='tracker'>
         <Header ethPriceValue={this.props.ethPriceValue} />
+
         <PresetsConfig />
 
         {/* <div className='config-wrapper'> */}
@@ -284,8 +285,9 @@ class Tracker extends React.Component {
               isTransfersIgnored={this.state.isTransfersIgnored}
             /> */}
         {/* </div> */}
-        <div className='separator-ver'></div>
+
         <ResultHeader period={this.state.period} />
+
         <ResultData
           period={this.state.period}
           balance={this.state.balance}

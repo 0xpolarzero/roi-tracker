@@ -8,8 +8,7 @@ import './styles/index.css';
 import Tracker from './components/Tracker';
 
 import { setupClient } from './systems/wagmi-client-setup';
-import { displayNotif } from './utils/utils';
-import { fetchData } from './utils/utils';
+import { displayNotif, fetchData } from './systems/utils';
 
 const web3 = createAlchemyWeb3(
   `https://eth-mainnet.alchemyapi.io/v2/${process.env.REACT_APP_ALCHEMY_API_KEY}`,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchData } from '../../utils/utils';
+import { fetchData } from '../../systems/utils';
 
 let resetLastUpdated;
 

@@ -7,5 +7,6 @@
 @import './components/WalletConnect.css';
 
 @import './utils/onoff-button.css';
+@import './utils/progress-bar.css';
 
 @import './fonts.css';

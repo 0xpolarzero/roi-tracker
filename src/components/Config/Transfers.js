@@ -1,5 +1,5 @@
 import React from 'react';
-import { Popup } from '../../utils/utils';
+import Popup from '../Utils/Popup';
 
 class TransfersConfig extends React.Component {
   constructor() {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TimestampConverter } from '../../systems/timestamp';
-import { expandDecimals } from '../../utils/utils';
+import { expandDecimals } from '../../systems/utils';
 
 const EvolutionTable = ({ balance, date, ethPriceValue }) => {
   // Set the state for showing or not the decimals (on hover)

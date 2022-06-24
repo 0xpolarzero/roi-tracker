@@ -1,6 +1,7 @@
 import React from 'react';
 import EvolutionTable from './EvolutionTable';
 import ExchangesData from './Exchanges';
+import ProgressBar from '../Utils/ProgressBar';
 import { TimestampConverter } from '../../systems/timestamp';
 
 class ResultData extends React.Component {
@@ -44,9 +45,21 @@ class ResultData extends React.Component {
       ethPriceValue,
     } = this.props;
 
-    if (period.from === '' || period.to === '') {
+    if (loading) {
+      document.querySelector('.result-content') &&
+        document.querySelector('.result-content').classList.add('loading');
       return (
-        <div className='card result-content'>
+        <div className='result-content'>
+          <ProgressBar loadingProgress={loadingProgress} />
+        </div>
+      );
+    }
+
+    if (period.from === '' || period.to === '') {
+      document.querySelector('.result-content') &&
+        document.querySelector('.result-content').classList.remove('loading');
+      return (
+        <div className='result-content'>
           <div className='header'>
             <div className='title'>How to run the app?</div>
           </div>
@@ -84,28 +97,22 @@ class ResultData extends React.Component {
       );
     }
 
-    if (loading) {
-      return (
-        <div className='result'>
-          <div className='loading'>Loading... {loadingProgress}</div>
-        </div>
-      );
-    } else {
-      return (
-        <div className='card result-content'>
-          <EvolutionTable
-            balance={balance}
-            totalDepositValue={this.setDeposits(deposits)}
-            date={period}
-            ethPriceValue={ethPriceValue}
-          />
-          {/* <ExchangesData
+    document.querySelector('.result-content') &&
+      document.querySelector('.result-content').classList.remove('loading');
+    return (
+      <div className='result-content'>
+        <EvolutionTable
+          balance={balance}
+          totalDepositValue={this.setDeposits(deposits)}
+          date={period}
+          ethPriceValue={ethPriceValue}
+        />
+        {/* <ExchangesData
             deposits={deposits}
             totalDepositValue={this.setDeposits('ETH')}
           /> */}
-        </div>
-      );
-    }
+      </div>
+    );
   }
 }
 

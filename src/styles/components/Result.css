@@ -11,6 +11,12 @@
   overflow: scroll;
 }
 
+.result-content.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .result-header {
   grid-area: result-header;
   font-size: clamp(1rem, 2vw, 1.3rem);
