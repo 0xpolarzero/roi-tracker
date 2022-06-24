@@ -43,6 +43,10 @@ const Tracker = ({ web3, dater, ethPriceValue }) => {
 
   // MANAGING ADDRESSES
 
+  useEffect(() => {
+    console.log(ethPriceValue);
+  }, [ethPriceValue]);
+
   const changeAddress = (e) => {
     setAddress(e.target.value);
   };
@@ -142,6 +146,7 @@ const Tracker = ({ web3, dater, ethPriceValue }) => {
     // Update Result component to show loading and initiate progress bar
     setLoading(true);
     setLoadingProgress(0);
+    setLoadingProgress(10);
 
     // Get the closest block corresponding to the dates
     const startBlock = await dater.getDate(startDate);
@@ -150,8 +155,7 @@ const Tracker = ({ web3, dater, ethPriceValue }) => {
         ? { block: 'latest' }
         : await dater.getDate(endDate);
 
-    setLoadingProgress(15);
-    console.log('Loading...', loadingProgress);
+    setLoadingProgress(25);
 
     // Get the balance in ETH at both start and end date
     balanceETH.start = await getEthBalance(
@@ -163,8 +167,7 @@ const Tracker = ({ web3, dater, ethPriceValue }) => {
       displayNotif('error', err.message, 2000);
     });
 
-    setLoadingProgress(30);
-    console.log('Loading...', loadingProgress);
+    setLoadingProgress(40);
 
     balanceETH.end = await getEthBalance(web3, endBlock.block, addresses).catch(
       (err) => {
@@ -173,8 +176,7 @@ const Tracker = ({ web3, dater, ethPriceValue }) => {
       },
     );
 
-    setLoadingProgress(50);
-    console.log('Loading...', loadingProgress);
+    setLoadingProgress(55);
 
     // Get the balance in WETH at both start and end date
     balanceWETH.start = await getTokenBalance(
@@ -184,8 +186,7 @@ const Tracker = ({ web3, dater, ethPriceValue }) => {
       '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
     );
 
-    setLoadingProgress(70);
-    console.log('Loading...', loadingProgress);
+    setLoadingProgress(75);
 
     balanceWETH.end = await getTokenBalance(
       web3,
@@ -197,8 +198,7 @@ const Tracker = ({ web3, dater, ethPriceValue }) => {
     setPeriod({ from: startDate, to: endDate });
     setBalance({ eth: balanceETH, weth: balanceWETH });
 
-    setLoadingProgress(90);
-    console.log('Loading...', loadingProgress);
+    setLoadingProgress(95);
 
     // Get the balance for other tokens
     const testToken = getTokenAddress(web3, 'WETH');
@@ -213,11 +213,11 @@ const Tracker = ({ web3, dater, ethPriceValue }) => {
       : 0;
 
     setLoadingProgress(100);
-    console.log('Loading...', loadingProgress);
 
     // Update deposits & tell Result component it's done loading
     setDeposits(deposits);
     setLoading(false);
+    setLoadingProgress(0);
   };
 
   useEffect(() => {

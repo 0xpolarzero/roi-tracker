@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { fetchData } from '../../systems/utils';
 
 let resetLastUpdated;
 
 const EthPrice = ({ ethPriceValue }) => {
+  // Call resetValue every time ethPriceValue changes
+
   useEffect(() => {
     resetLastUpdated();
+    console.log('eth price updated');
   }, [ethPriceValue]);
 
   return (

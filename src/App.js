@@ -20,31 +20,34 @@ const dater = new EthDater(web3);
 const App = () => {
   // Setup ETH Price Hook
   const [ethPriceValue, setEthPriceValue] = useState(0);
-
   // Display ETH Price
   useEffect(() => {
+    let interval;
     const setEthPrice = async () => {
-      const ethPrice = await getEthPrice();
-      setEthPriceValue(ethPrice);
-      // Setup an interval to get eth price each 30 second
-      const interval = setInterval(async () => {
+      interval = setInterval(async () => {
         const ethPrice = await getEthPrice();
         setEthPriceValue(ethPrice);
-      }, 30000);
-      return () => clearInterval(interval);
+      }, 10000);
+      const ethPrice = await getEthPrice();
+      setEthPriceValue(ethPrice);
     };
     setEthPrice();
-  });
+
+    // Setup an interval to get eth price each 30 second
+
+    return () => clearInterval(interval);
+  }, []);
 
   const getEthPrice = async () => {
     const ethPrice = await fetchData(
-      'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd',
+      'https://api.coinbase.com/v2/exchange-rates?currency=dollar',
     ).catch((err) => {
       console.log(err);
       displayNotif('error', 'Failed to fetch Ether price.', 2000);
       return 'Unknown';
     });
-    return ethPrice.ethereum.usd;
+
+    return (ethPrice.data.rates.ETH * 1e8).toFixed(2);
   };
 
   // Gérer la connextion dans Header

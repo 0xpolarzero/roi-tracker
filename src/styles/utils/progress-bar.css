@@ -21,7 +21,7 @@
     rgba(184, 147, 221, 0.8)
   );
   background-size: 300% 100%;
-  transition: 1s ease;
+  transition: 0.3s ease;
   animation: progress-animation 2s linear infinite;
 }
 
