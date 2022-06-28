@@ -23,7 +23,10 @@ Demo not available yet, it's still fuzzy and nonfunctional :)
 | 𐄂      | Get NFTs owned by the addresses (ERC721 & ERC1155)                                           |
 | 𐄂      | Track NFTs difference across wallets between start & end date                                |
 | 𐄂      | Get NFTs floor price difference to calculate the ROI                                         |
+| 𐄂      | Let the user customize the currency                                                          |
+| 𐄂      | Add a regular connection system (Email, Twitter)                                             |
 | 𐄂      | Move Database to Express, MongoDB - refactor with NodeJS                                     |
-| 𐄂      | Refactor App for a better display                                                            |
+| ✔️     | Refactor App for a better display                                                            |
 | 𐄂      | Change font - more nerdish                                                                   |
 | 𐄂      | Create a homepage (Short context, features) - get the app to app.xxx.xyz                     |
+| 𐄂      | Use PropTypes                                                                                |
