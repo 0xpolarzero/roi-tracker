@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 
 import { useAccount, useEnsName, useEnsAvatar } from 'wagmi';
+import { ethers } from 'ethers';
 
-const Profile = () => {
+const Profile = ({ web3 }) => {
+  console.log(ethers.providers.Resolver);
   const { data: account } = useAccount();
   const { data: ensAvatar } = useEnsAvatar({ addressOrName: account?.address });
   const { data: ensName } = useEnsName({ address: account?.address });
@@ -34,7 +36,6 @@ const Profile = () => {
       onMouseEnter={() => setShowAccount(true)}
       onMouseLeave={() => setShowAccount(false)}
     >
-      {avatar}
       <div>{showAccount && getAccount()}</div>
       {/* <div>Connected to {account.connector.name}</div> */}
     </div>

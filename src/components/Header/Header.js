@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import Profile from './Profile';
 import EthPrice from './EthPrice';
 
-const Header = ({ ethPriceValue }) => {
+const Header = ({ web3, ethPriceValue }) => {
   // A comprehensive ROI tracker across your wallets.
 
   return (
@@ -14,7 +14,7 @@ const Header = ({ ethPriceValue }) => {
           <span className='main-char'>Tracer</span>
         </div>
         <EthPrice ethPriceValue={ethPriceValue} />
-        <Profile />
+        <Profile web3={web3} />
       </div>
     </header>
   );

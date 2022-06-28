@@ -43,10 +43,6 @@ const Tracker = ({ web3, dater, ethPriceValue }) => {
 
   // MANAGING ADDRESSES
 
-  useEffect(() => {
-    console.log(ethPriceValue);
-  }, [ethPriceValue]);
-
   const changeAddress = (e) => {
     setAddress(e.target.value);
   };
@@ -58,9 +54,7 @@ const Tracker = ({ web3, dater, ethPriceValue }) => {
       return;
     }
 
-    setAddresses(
-      Array.from(new Set([...this.state.addresses, this.state.address])),
-    );
+    setAddresses(Array.from(new Set([...addresses, address])));
     setAddress('');
 
     displayNotif('info', 'Address added!', 2000);
@@ -228,7 +222,7 @@ const Tracker = ({ web3, dater, ethPriceValue }) => {
   if (account) {
     return (
       <div className='tracker'>
-        <Header ethPriceValue={ethPriceValue} />
+        <Header web3={web3} ethPriceValue={ethPriceValue} />
 
         <PresetsConfig />
 
