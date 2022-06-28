@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import RouteSwitch from './RouteSwitch';
 
 import { WagmiConfig } from 'wagmi';
 import { setupClient } from './systems/wagmi-client-setup';
@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <WagmiConfig client={setupClient()}>
-      <App />
+      <RouteSwitch />
     </WagmiConfig>
   </React.StrictMode>,
 );

@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App component renders the app 1`] = `
+<div>
+  <div
+    class="App"
+  >
+    <div
+      class="connect-wallet"
+    >
+      <div
+        class="header"
+      >
+        Connect your wallet to launch the app
+      </div>
+      <div
+        class="connectors"
+      >
+        <button
+          disabled=""
+        >
+          MetaMask
+           (unsupported)
+        </button>
+        <button>
+          Coinbase Wallet
+        </button>
+        <button>
+          WalletConnect
+        </button>
+        <button
+          disabled=""
+        >
+          Injected
+           (unsupported)
+        </button>
+      </div>
+    </div>
+    <div
+      class="notif"
+    />
+    <div
+      class="bg-blur"
+    />
+  </div>
+</div>
+`;
+
+exports[`Home component renders home 1`] = `
+<div>
+  <div
+    class="home"
+  >
+    <a
+      href="/"
+    >
+      <h1>
+        Go to app
+      </h1>
+    </a>
+  </div>
+</div>
+`;

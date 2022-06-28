@@ -1,5 +1,4 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 import EthDater from 'ethereum-block-by-date';
