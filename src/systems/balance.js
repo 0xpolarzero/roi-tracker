@@ -1,5 +1,6 @@
 import { getExchangeAddresses } from './exchanges/exchanges';
 import { TimestampConverter } from './timestamp';
+import { fetchData } from './utils';
 
 // const tokenSource = 'https://tokens.coingecko.com/uniswap/all.json';
 // https://solveforum.com/forums/threads/solved-get-token-balance-of-address-at-particular-block-number-with-alchemy.609041/
@@ -37,13 +38,19 @@ async function getTokenBalance(provider, block, walletAddresses, tokenAddress) {
   return balancesCombined;
 }
 
-async function getTokenAddress(provider, tokenName) {
-  // Get a list of tokens from CoinGecko
-  // const tokenSource = 'https://api.coingecko.com/api/v3/coins/list';
-  // const tokenData = await fetch(tokenSource);
-  // const tokenList = await tokenData.json();
-  // console.log(tokenList);
-}
+const getCustomTokenBalance = async (provider) => {
+  const tokenList = await getTokenList();
+  console.log(tokenList);
+};
+
+const getTokenList = async () => {
+  const response = await fetchData(
+    'https://tokens.coingecko.com/uniswap/all.json',
+  );
+  const data = await response.tokens;
+
+  return data;
+};
 
 const minABI = [
   // balanceOf
@@ -56,9 +63,25 @@ const minABI = [
   },
 ];
 
+/* const minABI = [
+  // balanceOf
+  {
+    constant: true,
+    inputs: [{ name: '_owner', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: 'balance', type: 'uint256' }],
+    type: 'function',
+  },
+]; */
+
 const isValidAddress = (provider, address) => {
   const isValid = provider.utils.isAddress(address);
   return isValid;
 };
 
-export { getEthBalance, getTokenBalance, getTokenAddress, isValidAddress };
+export {
+  getEthBalance,
+  getTokenBalance,
+  getCustomTokenBalance,
+  isValidAddress,
+};

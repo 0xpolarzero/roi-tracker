@@ -2,16 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import RouteSwitch from './RouteSwitch';
 
-import { WagmiConfig } from 'wagmi';
-import { setupClient } from './systems/wagmi-client-setup';
+import { MoralisProvider } from 'react-moralis';
 
 import '@fortawesome/fontawesome-free/css/all.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <WagmiConfig client={setupClient()}>
+    <MoralisProvider
+      serverUrl={process.env.REACT_APP_MORALIS_SERVER}
+      appId={process.env.REACT_APP_MORALIS_ID}
+    >
       <RouteSwitch />
-    </WagmiConfig>
+    </MoralisProvider>
   </React.StrictMode>,
 );

@@ -2,17 +2,19 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { BrowserRouter } from 'react-router-dom';
-import { WagmiConfig } from 'wagmi';
-import { setupClient } from './systems/wagmi-client-setup';
+import { MoralisProvider } from 'react-moralis';
 
 import App from './App';
 import Home from './Home';
 
 const Wrapper = ({ children }) => {
   return (
-    <WagmiConfig client={setupClient()}>
+    <MoralisProvider
+      serverUrl={process.env.REACT_APP_MORALIS_SERVER}
+      appId={process.env.REACT_APP_MORALIS_ID}
+    >
       <BrowserRouter>{children}</BrowserRouter>
-    </WagmiConfig>
+    </MoralisProvider>
   );
 };
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useAccount } from 'wagmi';
+import { useMoralis } from 'react-moralis';
 
 import AddressesConfig from './Config/Addresses';
 import PeriodConfig from './Config/Period';
@@ -14,15 +14,24 @@ import { displayNotif } from '../systems/utils';
 import {
   getEthBalance,
   getTokenBalance,
-  getTokenAddress,
+  getCustomTokenBalance,
   isValidAddress,
 } from '../systems/balance';
 import { getDeposits } from '../systems/exchanges/exchanges';
 import { TimestampConverter } from '../systems/timestamp';
 import Connect from './Connect';
 
-const Tracker = ({ web3, dater, ethPriceValue }) => {
-  const { data: account } = useAccount();
+const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
+  // const { data: account } = useAccount();
+  const {
+    isWeb3Enabled,
+    isWeb3EnableLoading,
+    enableWeb3,
+    isAuthenticated,
+    user,
+    account,
+  } = useMoralis();
+
   const [address, setAddress] = useState('');
   const [addresses, setAddresses] = useState([]);
   const [balance, setBalance] = useState({
@@ -40,6 +49,9 @@ const Tracker = ({ web3, dater, ethPriceValue }) => {
   const [loading, setLoading] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [isTransfersIgnored, setIsTransfersIgnored] = useState(false);
+
+  const [loggedAddress, setLoggedAddress] = useState('');
+  const [loggedTokens, setLoggedTokens] = useState([]);
 
   // MANAGING ADDRESSES
 
@@ -194,17 +206,13 @@ const Tracker = ({ web3, dater, ethPriceValue }) => {
 
     setLoadingProgress(95);
 
-    // Get the balance for other tokens
-    const testToken = getTokenAddress(web3, 'WETH');
-    console.log(testToken);
-
     // Get the amount deposited from exchange plateforms during this period
-    const deposits = isTransfersIgnored
+    /* const deposits = isTransfersIgnored
       ? await getDeposits(web3, addresses, {
           start: startBlock.block,
           end: endBlock.block,
         })
-      : 0;
+      : 0; */
 
     setLoadingProgress(100);
 
@@ -219,7 +227,34 @@ const Tracker = ({ web3, dater, ethPriceValue }) => {
     setAddress('');
   }, []);
 
-  if (account) {
+  // Get the connected account address if it exists
+  useEffect(() => {
+    const connectorId = window.localStorage.getItem('connectorId');
+
+    if (isAuthenticated) {
+      setAddresses([account]);
+      // setLoggedAddress(account.address);
+      // need to ge tokens from address, but also at the start block...
+      // either get it when account connected, or get it each time an address is added/removed
+      // sort tokens by balance
+      // Fetch all tokens in this account address
+      // getCustomTokenBalance(web3);
+      // Display loading in tokens container
+      // const tokens = getAccountTokens();
+      // displayTokens(tokens); // Include remove loading
+    }
+  }, [isAuthenticated, isLogged, isWeb3Enabled, account]);
+
+  // Remove listener when component unmounts
+  // return () => {
+  //   web3.currentProvider.removeListener('accountsChanged', () => {});
+  // };
+
+  if (!isAuthenticated || !isLogged) {
+    return <Connect isLogged={isLogged} />;
+  }
+
+  if (isAuthenticated && isLogged) {
     return (
       <div className='tracker'>
         <Header web3={web3} ethPriceValue={ethPriceValue} />
@@ -258,8 +293,6 @@ const Tracker = ({ web3, dater, ethPriceValue }) => {
       </div>
     );
   }
-
-  return <Connect />;
 };
 
 export default Tracker;
