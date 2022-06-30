@@ -33,11 +33,11 @@
   right: 0;
   width: 15rem;
   height: 3rem;
-  border-radius: 6px;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   overflow: scroll;
   opacity: 1;
 
