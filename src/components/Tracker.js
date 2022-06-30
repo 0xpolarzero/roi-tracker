@@ -23,14 +23,7 @@ import Connect from './Connect';
 
 const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
   // const { data: account } = useAccount();
-  const {
-    isWeb3Enabled,
-    isWeb3EnableLoading,
-    enableWeb3,
-    isAuthenticated,
-    user,
-    account,
-  } = useMoralis();
+  const { isWeb3Enabled, isAuthenticated, user } = useMoralis();
 
   const [address, setAddress] = useState('');
   const [addresses, setAddresses] = useState([]);
@@ -232,7 +225,7 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
     const connectorId = window.localStorage.getItem('connectorId');
 
     if (isAuthenticated) {
-      setAddresses([account]);
+      setAddresses([user.attributes.ethAddress]);
       // setLoggedAddress(account.address);
       // need to ge tokens from address, but also at the start block...
       // either get it when account connected, or get it each time an address is added/removed
@@ -243,7 +236,7 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
       // const tokens = getAccountTokens();
       // displayTokens(tokens); // Include remove loading
     }
-  }, [isAuthenticated, isLogged, isWeb3Enabled, account]);
+  }, [isAuthenticated, isLogged, isWeb3Enabled]);
 
   // Remove listener when component unmounts
   // return () => {

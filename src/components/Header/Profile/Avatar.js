@@ -7,10 +7,16 @@ import { useEffect } from 'react';
 const Avatar = (user) => {
   const { isAuthenticated } = useMoralis();
 
-  if (!user.ethAddress && !isAuthenticated)
+  if (!user.currentWallet.ethAddress && !isAuthenticated)
     return <Skeleton.Avatar active size={40} />;
 
-  return <Blockies seed={user.ethAddress} className='blockies' {...user} />;
+  return (
+    <Blockies
+      seed={user.currentWallet.ethAddress}
+      className='blockies'
+      {...user}
+    />
+  );
 };
 
 export default Avatar;

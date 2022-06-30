@@ -54,6 +54,10 @@ const App = () => {
   useEffect(() => {
     window.ethereum.on('accountsChanged', updateWalletStatus);
     updateWalletStatus();
+
+    return () => {
+      window.ethereum.removeListener('accountsChanged', updateWalletStatus);
+    };
   }, []);
 
   const updateWalletStatus = async () => {

@@ -59,4 +59,28 @@ const expandDecimals = (number, show) => {
   }
 };
 
-export { displayNotif, fetchData, fetchText, expandDecimals };
+const shrinkAddress = (address) => {
+  const shrinkedAddress =
+    address.substring(0, 5) +
+    '...' +
+    address.substring(address.length - 4, address.length);
+  console.log(shrinkedAddress);
+  return shrinkedAddress;
+};
+
+const isBlurred = (status) => {
+  if (status) {
+    document.querySelector('.bg-blur').classList.add('blurred');
+  } else {
+    document.querySelector('.bg-blur').classList.remove('blurred');
+  }
+};
+
+export {
+  displayNotif,
+  fetchData,
+  fetchText,
+  expandDecimals,
+  shrinkAddress,
+  isBlurred,
+};

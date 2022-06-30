@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 
 import { useMoralis, useMoralisWeb3Api } from 'react-moralis';
 import Avatar from './Avatar';
+import Account from './Account';
 
-const Profile = ({ web3 }) => {
+const Profile = () => {
   const { user } = useMoralis();
   const Web3Api = useMoralisWeb3Api();
 
@@ -11,30 +12,21 @@ const Profile = ({ web3 }) => {
   const [ensName, setEnsName] = useState(null);
 
   const getEnsName = async (address) => {
-    const options = { address: address };
-    const ensName = await Web3Api.resolve.resolveAddress(options);
-    console.log(ensName);
-    const name = ensName ? ensName.name : user.attributes.ethAddress;
-    setEnsName(ensName);
+    try {
+      const ensName = await Web3Api.resolve.resolveAddress({
+        address: address,
+      });
+      setEnsName(ensName);
+      console.log(ensName);
+    } catch (error) {
+      setEnsName(null);
+      console.log('No ENS corresponding to this address', error);
+    }
   };
 
   useEffect(() => {
-    console.log(user.attributes);
     getEnsName(user.attributes.ethAddress);
   }, []);
-
-  const getAccount = async () => {
-    if (ensName) {
-      return (
-        <div className='account-id'>
-          <div className='account-ens'>{ensName}</div>
-          {/* <div className='account-address'>{account.address}</div> */}
-        </div>
-      );
-    }
-
-    // return <div className='account-id'>{account.address}</div>;
-  };
 
   return (
     <div
@@ -42,8 +34,12 @@ const Profile = ({ web3 }) => {
       onMouseEnter={() => setShowAccount(true)}
       onMouseLeave={() => setShowAccount(false)}
     >
-      <Avatar currentWallet={user.attributes} scale={3} />
-      <div>{showAccount && getAccount()}</div>
+      <Avatar
+        className={showAccount ? 'avatar shrink' : 'avatar'}
+        currentWallet={user.attributes}
+        scale={4}
+      />
+      <Account visible={showAccount} ensName={ensName} />
     </div>
   );
 };
