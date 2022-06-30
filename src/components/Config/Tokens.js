@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Popup from '../Utils/Popup';
+
 class TokensConfig extends React.Component {
   constructor() {
     super();
@@ -9,12 +11,30 @@ class TokensConfig extends React.Component {
     this.setState({});
   };
 
+  showInfo() {
+    Popup.display(
+      [
+        `You can include tokens you held in one of your wallets during the last 30 days.`,
+      ],
+      '.fa-circle-info',
+    );
+  }
+
+  hideInfo() {
+    Popup.hide('#popup');
+  }
+
   render() {
     return (
       <div className='card token-config config-item'>
         <div className='header'>
           <div className='title'>
             <i className='config-icon fa-solid fa-coins'></i>Tokens
+            <i
+              className='token-info fa-solid fa-circle-info'
+              onMouseEnter={this.showInfo}
+              onMouseLeave={this.hideInfo}
+            ></i>
           </div>
           <div className='buttons'>
             <button className='select-tokens-all-btn'>All</button>

@@ -19,9 +19,7 @@ class TransfersConfig extends React.Component {
   showInfo() {
     Popup.display(
       [
-        `Ignore or not deposits from recognized trading plateforms in the calculation of the ROI.`,
-        `e.g. With 'Ignore transfers' enabled, if you sent $100 from Coinbase to your wallet, it will just be ignored from the calculation.`,
-        `If disabled, it will be considered as a $100 gain during your trades.`,
+        `You can include tokens you held in one of your wallets during the last 30 days.`,
       ],
       '.fa-circle-info',
     );

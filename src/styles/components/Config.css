@@ -194,6 +194,13 @@
   flex-wrap: wrap;
 }
 
+.token-info {
+  position: relative;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+
 /* PERIOD CONFIG */
 
 .period-config {
