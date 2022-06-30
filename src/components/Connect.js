@@ -3,19 +3,9 @@ import { useMoralis } from 'react-moralis';
 import { displayNotif } from '../systems/utils';
 import metamaskIcon from './icons/metamask-icon.png';
 import walletConnectIcon from './icons/walletconnect-icon.svg';
-import { useEffect } from 'react';
 
 const Connect = ({ isLogged }) => {
-  const {
-    enableWeb3,
-    isWeb3Enabled,
-    isWeb3EnableLoading,
-    authenticate,
-    isAuthenticated,
-    isAuthenticating,
-    user,
-    account,
-  } = useMoralis();
+  const { enableWeb3, authenticate, isAuthenticated } = useMoralis();
 
   const loginWithMoralis = async (connectorId) => {
     if (!isAuthenticated) {

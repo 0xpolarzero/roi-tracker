@@ -1,10 +1,26 @@
 import { useEffect, useState } from 'react';
 
+import { useMoralis, useMoralisWeb3Api } from 'react-moralis';
+
 const Profile = ({ web3 }) => {
-  let ensAvatar;
-  let ensName;
+  const { user } = useMoralis();
+  const Web3Api = useMoralisWeb3Api();
 
   const [showAccount, setShowAccount] = useState(false);
+  const [ensName, setEnsName] = useState(null);
+
+  const getEnsName = async (address) => {
+    const options = { address: address };
+    const ensName = await Web3Api.resolve.resolveAddress(options);
+    console.log(ensName);
+    const name = ensName ? ensName.name : user.attributes.ethAddress;
+    setEnsName(ensName);
+  };
+  let ensAvatar;
+
+  useEffect(() => {
+    getEnsName(user.attributes.ethAddress);
+  });
 
   const avatar = ensAvatar ? (
     <img src={ensAvatar} alt='ENS Avatar' />
@@ -12,7 +28,7 @@ const Profile = ({ web3 }) => {
     <i className='fa-solid fa-user'></i>
   );
 
-  const getAccount = () => {
+  const getAccount = async () => {
     if (ensName) {
       return (
         <div className='account-id'>
