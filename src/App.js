@@ -41,14 +41,14 @@ const App = () => {
 
   const getEthPrice = async () => {
     const ethPrice = await fetchData(
-      'https://api.coinbase.com/v2/exchange-rates?currency=dollar',
+      'https://api.coinbase.com/v2/exchange-rates?currency=ETH',
     ).catch((err) => {
       console.log(err);
       displayNotif('error', 'Failed to fetch Ether price.', 2000);
       return 'Unknown';
     });
 
-    return (ethPrice.data.rates.ETH * 1e8).toFixed(2);
+    return Number(ethPrice.data.rates.USD).toFixed(2);
   };
 
   useEffect(() => {

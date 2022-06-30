@@ -257,7 +257,7 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
   if (isAuthenticated && isLogged) {
     return (
       <div className='tracker'>
-        <Header web3={web3} ethPriceValue={ethPriceValue} />
+        <Header ethPriceValue={ethPriceValue} />
 
         <PresetsConfig />
 

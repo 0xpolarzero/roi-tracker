@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useMoralis, useMoralisWeb3Api } from 'react-moralis';
+import Avatar from './Avatar';
 
 const Profile = ({ web3 }) => {
   const { user } = useMoralis();
@@ -16,17 +17,11 @@ const Profile = ({ web3 }) => {
     const name = ensName ? ensName.name : user.attributes.ethAddress;
     setEnsName(ensName);
   };
-  let ensAvatar;
 
   useEffect(() => {
+    console.log(user.attributes);
     getEnsName(user.attributes.ethAddress);
-  });
-
-  const avatar = ensAvatar ? (
-    <img src={ensAvatar} alt='ENS Avatar' />
-  ) : (
-    <i className='fa-solid fa-user'></i>
-  );
+  }, []);
 
   const getAccount = async () => {
     if (ensName) {
@@ -47,8 +42,8 @@ const Profile = ({ web3 }) => {
       onMouseEnter={() => setShowAccount(true)}
       onMouseLeave={() => setShowAccount(false)}
     >
+      <Avatar currentWallet={user.attributes} scale={3} />
       <div>{showAccount && getAccount()}</div>
-      {/* <div>Connected to {account.connector.name}</div> */}
     </div>
   );
 };

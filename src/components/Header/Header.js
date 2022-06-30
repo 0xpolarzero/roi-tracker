@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import Profile from './Profile';
+import Profile from './Profile/Profile';
 import EthPrice from './EthPrice';
 
 const Header = ({ web3, ethPriceValue }) => {
@@ -14,7 +14,7 @@ const Header = ({ web3, ethPriceValue }) => {
           <span className='main-char'>Tracer</span>
         </div>
         <EthPrice ethPriceValue={ethPriceValue} />
-        <Profile web3={web3} />
+        <Profile />
       </div>
     </header>
   );
