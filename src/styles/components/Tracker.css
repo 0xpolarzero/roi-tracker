@@ -5,7 +5,7 @@
   border-radius: 6px;
   display: grid;
   grid-template:
-    'header header' auto
+    'header header' min-content
     'presets result-header' auto
     'addresses result-content' auto
     'tokens result-content' auto
@@ -48,7 +48,7 @@
 }
 
 .card {
-  background: rgba(36, 36, 36, 0.2);
+  background: #34343433;
   border-radius: 1rem;
 }
 
@@ -59,21 +59,14 @@
 }
 
 .highlight {
-  color: rgb(255, 186, 8);
+  background: var(--sub-gradient);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* color: rgb(var(--blue-main)); */
 }
 
 .glow {
   text-shadow: 0 0 80px rgb(192 219 255 / 75%), 0 0 32px rgb(65 120 255 / 24%);
-}
-
-.gradient {
-  background: linear-gradient(
-    to right,
-    rgba(130, 71, 190, 1),
-    rgba(255, 0, 123, 1)
-  );
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .minify {

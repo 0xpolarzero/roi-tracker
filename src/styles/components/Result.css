@@ -30,6 +30,13 @@
   margin-bottom: 1rem;
 }
 
+.data-dates {
+  /* background: var(--main-gradient);
+  background-clip: text; */
+  /* -webkit-text-fill-color: transparent; */
+  color: rgb(var(--blue-main));
+}
+
 table {
   width: 100%;
 }
@@ -37,10 +44,12 @@ table {
 .show-decimals {
   font-size: 0.8rem;
   cursor: pointer;
+
+  transition: color 0.1s ease-in-out;
 }
 
 .show-decimals:hover {
-  color: rgba(255, 186, 8, 0.8);
+  color: rgba(201, 86, 208, 0.5);
 }
 
 td,
@@ -50,7 +59,7 @@ th {
 }
 
 th[scope='col'] {
-  background-color: rgba(255, 186, 8, 0.1);
+  background-color: rgba(var(--blue-main), 0.1);
 }
 
 th[scope='row'] {
@@ -79,26 +88,26 @@ tr:nth-child(odd) {
   content: ' Ξ';
 }
 
+.value-down {
+  color: rgb(214, 84, 149);
+}
+
 .eth-diff > .value-down::after {
   content: ' Ξ';
-  color: rgb(199, 75, 95);
+  color: rgb(214, 84, 149);
+}
+
+.value-up {
+  color: rgb(var(--blue-main));
 }
 
 .eth-diff > .value-up::after {
   content: ' Ξ';
-  color: rgb(87, 192, 87);
+  color: rgb(var(--blue-main));
 }
 
 .unweight {
   font-weight: normal;
-}
-
-.value-up {
-  color: rgb(87, 192, 87);
-}
-
-.value-down {
-  color: rgb(199, 75, 95);
 }
 
 .weth {

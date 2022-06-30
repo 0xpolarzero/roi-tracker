@@ -43,28 +43,30 @@
   gap: 1rem;
 }
 
-.presets-load-btn {
-  background: rgba(255, 144, 8, 0.2);
-}
-
 .presets-save-btn {
-  background: rgba(87, 192, 87, 0.2);
-}
-
-.presets-load-btn:hover {
-  background: rgba(255, 144, 8, 0.5);
+  background: rgba(var(--blue-main), 0.2);
+  box-shadow: none;
 }
 
 .presets-save-btn:hover {
-  background: rgba(87, 192, 87, 0.5);
-}
-
-.presets-load-btn:active {
-  background: rgba(255, 144, 8, 0.7);
+  background: rgba(var(--blue-main), 0.5);
 }
 
 .presets-save-btn:active {
-  background: rgba(87, 192, 87, 0.7);
+  background: rgba(var(--blue-main), 0.7);
+}
+
+.presets-load-btn {
+  background: rgba(var(--rose-main), 0.2);
+  box-shadow: none;
+}
+
+.presets-load-btn:hover {
+  background: rgba(var(--rose-main), 0.5);
+}
+
+.presets-load-btn:active {
+  background: rgba(var(--rose-main), 0.7);
 }
 
 .presets-list fieldset {
@@ -91,19 +93,24 @@
 }
 
 .presets-list input:hover + label {
-  background: rgba(255, 186, 8, 0.1);
+  background: rgba(var(--rose-main), 0.1);
+}
+
+.presets-list input:active + label {
+  background: rgba(var(--rose-main), 0.3);
 }
 
 .presets-list input:checked + label {
+  background: rgba(var(--rose-main), 0.2);
   font-weight: 600;
 }
 
 .presets-list input:checked + label.pending {
-  background: rgba(255, 186, 8, 0.4);
+  background: rgba(var(--rose-main), 0.4);
 }
 
 .presets-list input:checked + label.saved {
-  background: rgba(87, 192, 87, 0.4);
+  background: rgba(var(--blue-main), 0.4);
 }
 
 /* ADDRESSES CONFIG */
@@ -155,20 +162,20 @@
 }
 
 .address-add {
-  color: rgba(87, 192, 87, 0.8);
+  color: rgba(var(--blue-main), 0.8);
 }
 
 .address-delete {
-  color: rgba(166, 66, 83, 0.8);
+  color: rgba(var(--rose-main), 0.8);
 }
 
 .address-add:hover {
-  color: rgba(87, 192, 87, 1);
+  color: rgba(var(--blue-main), 1);
   background: transparent;
 }
 
 .address-delete:hover {
-  color: rgba(166, 66, 83, 1);
+  color: rgba(var(--rose-main), 1);
   background: transparent;
 }
 

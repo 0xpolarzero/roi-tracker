@@ -6,11 +6,15 @@
 
 .app-title .main-char {
   font-weight: 500;
+  background: var(--main-gradient);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .app-title .alt-char {
   font-weight: 200;
   font-size: 1.8rem;
+  color: rgb(var(--rose-main));
 }
 
 .nav {
@@ -29,17 +33,21 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: rgb(var(--blue-main));
+  /* background: var(--main-gradient);
+  background-clip: text;
+  -webkit-text-fill-color: transparent; */
 }
 
 .eth-price-value {
   font-size: 1.1rem;
   font-weight: 300;
-  color: rgb(255, 186, 8);
 }
 
 .eth-price-last-update {
   font-size: 0.8rem;
   font-weight: 300;
+  color: #fff;
   opacity: 0.8;
 }
 

@@ -1,9 +1,23 @@
 :root {
-  --purple-main: rgb(160, 108, 213);
-  --purple-light: rgb(184, 147, 221);
-  --purple-dark: rgb(130, 71, 190);
+  --purple-dark: #2a1f4d;
+  --purple-light: #5e49a1;
+  --rose-main: 231, 95, 188;
+  --blue-main: 120, 146, 221;
+  --blue-light: 132, 245, 230;
   --black-main: #141414;
-  --black-light: #252526;
+  --yellow-main: #ffba08;
+  --main-gradient: linear-gradient(
+    45deg,
+    hsla(319, 74%, 64%, 1) 0%,
+    hsla(225, 60%, 67%, 1) 58%,
+    rgb(120, 146, 221) 100%
+  );
+  --sub-gradient: linear-gradient(
+    45deg,
+    rgb(231, 95, 188) 0%,
+    rgb(120, 146, 221) 70%,
+    rgb(132, 245, 230) 100%
+  );
   --main-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont,
     'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
     'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -34,14 +48,15 @@ input::placeholder {
 }
 
 button {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--main-gradient);
+  box-shadow: rgb(50 45 71) 2px 1000px 1px inset;
   color: #fff;
   font-family: var(--main-font);
   font-size: 1rem;
   font-weight: 400;
   padding: 0.3rem 2rem;
   border-radius: 6px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  /* box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px; */
   outline: none;
   border: 0;
   cursor: pointer;
@@ -50,8 +65,9 @@ button {
 }
 
 button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+  /* background: rgba(255, 255, 255, 0.1); */
+  background: var(--main-gradient);
+  box-shadow: none;
 }
 
 ul {
@@ -62,11 +78,12 @@ ul {
 
 .App {
   position: relative;
-  background: radial-gradient(
+  /* background: radial-gradient(
     circle,
     hsla(270, 48%, 51%, 1) 0%,
     hsla(0, 0%, 8%, 1) 100%
-  );
+  ); */
+  background: #141414;
   color: white;
   min-height: 100vh;
   display: grid;
@@ -110,11 +127,11 @@ ul {
 }
 
 .notif.error {
-  background: rgba(166, 66, 83, 0.8);
+  background: rgba(201, 86, 208, 0.8);
 }
 
 .notif.info {
-  background: rgba(97, 201, 97, 0.8);
+  background: rgba(130, 158, 235, 0.8);
 }
 
 .notif.hint {

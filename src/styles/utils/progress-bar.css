@@ -10,16 +10,7 @@
 .progress-bar {
   display: block;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 186, 8, 0.8),
-    rgba(234, 74, 170, 0.8) 17%,
-    rgba(184, 147, 221, 0.8) 34%,
-    rgba(1, 254, 255, 0.8) 51%,
-    rgba(255, 186, 8, 0.8) 68%,
-    rgba(234, 74, 170, 0.8) 85%,
-    rgba(184, 147, 221, 0.8)
-  );
+  background: var(--main-gradient);
   background-size: 300% 100%;
   transition: 0.3s ease;
   animation: progress-animation 2s linear infinite;

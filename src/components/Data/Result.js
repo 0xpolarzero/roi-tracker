@@ -132,8 +132,8 @@ class ResultHeader extends React.Component {
     }
     return (
       <span>
-        Showing data from <span className='highlight'>{start}</span> to{' '}
-        <span className='highlight'>{end}</span>.
+        Showing data from <span className='data-dates'>{start}</span> to{' '}
+        <span className='data-dates'>{end}</span>.
       </span>
     );
   };
