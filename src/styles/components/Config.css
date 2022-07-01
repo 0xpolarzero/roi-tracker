@@ -190,6 +190,7 @@
 
 .token-config .wrapper {
   height: 100%;
+  overflow: scroll;
 }
 
 .token-list {
@@ -209,9 +210,23 @@
 }
 
 .token-icon {
+  position: relative;
   padding: 1rem;
   margin: -1rem;
+  opacity: 0.5;
   cursor: pointer;
+}
+
+.token-icon.selected {
+  opacity: 1;
+}
+
+.token-icon.selected::after {
+  position: absolute;
+  content: '✓';
+  color: rgb(var(--blue-main));
+  bottom: 0.5rem;
+  right: 0.5rem;
 }
 
 .token-icon-symbol {

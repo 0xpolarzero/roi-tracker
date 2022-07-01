@@ -226,8 +226,6 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
     if (isAuthenticated) {
       setAddresses([user.attributes.ethAddress]);
       // setLoggedAddress(account.address);
-      // need to ge tokens from address, but also at the start block...
-      // either get it when account connected, or get it each time an address is added/removed
       // sort tokens by balance
       // Fetch all tokens in this account address
       // getCustomTokenBalance(web3);
@@ -236,11 +234,6 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
       // displayTokens(tokens); // Include remove loading
     }
   }, [isAuthenticated, isLogged, isWeb3Enabled]);
-
-  // Remove listener when component unmounts
-  // return () => {
-  //   web3.currentProvider.removeListener('accountsChanged', () => {});
-  // };
 
   if (!isAuthenticated || !isLogged) {
     return <Connect isLogged={isLogged} />;
@@ -265,6 +258,7 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
         <TokensConfig
           dater={dater}
           addresses={addresses}
+          activeTokens={activeTokens}
           setActiveTokens={setActiveTokens}
         />
 

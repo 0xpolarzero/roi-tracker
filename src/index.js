@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import RouteSwitch from './RouteSwitch';
 
 import { MoralisProvider } from 'react-moralis';
+import RouteSwitch from './RouteSwitch';
 
 import '@fortawesome/fontawesome-free/css/all.css';
 

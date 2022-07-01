@@ -6,7 +6,7 @@ import { TimestampConverter } from '../../systems/timestamp';
 import Popup from '../Utils/Popup';
 import TokenList from '../Data/TokenList';
 
-const TokensConfig = ({ dater, addresses, setActiveTokens }) => {
+const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
   const Web3Api = useMoralisWeb3Api();
 
   const [tokens, setTokens] = useState([]);
@@ -26,7 +26,6 @@ const TokensConfig = ({ dater, addresses, setActiveTokens }) => {
 
     setTokens(uniqueTokens);
     setIsTokensLoaded(true);
-    console.log(uniqueTokens);
   };
 
   const getBlocks = async () => {
@@ -126,6 +125,7 @@ const TokensConfig = ({ dater, addresses, setActiveTokens }) => {
         <TokenList
           tokens={tokens}
           isTokensLoaded={isTokensLoaded}
+          activeTokens={activeTokens}
           setActiveTokens={setActiveTokens}
         />
       </div>

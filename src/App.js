@@ -6,7 +6,6 @@ import EthDater from 'ethereum-block-by-date';
 
 import Tracker from './components/Tracker';
 import Connect from './components/Connect';
-
 import { displayNotif, fetchData } from './systems/utils';
 
 import './styles/index.css';

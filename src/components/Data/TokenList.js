@@ -3,17 +3,12 @@ import Popup from '../Utils/Popup';
 
 import ProgressSpinner from '../Utils/ProgressSpinner';
 
-const TokenList = ({ tokens, isTokensLoaded, setActiveTokens }) => {
-  const [selectedTokens, setSelectedTokens] = useState([]);
-
-  const showTokenInfo = (token) => {
-    //
-  };
-
-  const hideTokenInfo = () => {
-    //
-  };
-
+const TokenList = ({
+  tokens,
+  isTokensLoaded,
+  activeTokens,
+  setActiveTokens,
+}) => {
   if (!isTokensLoaded) {
     return (
       <div className='token-list loading'>
@@ -36,7 +31,8 @@ const TokenList = ({ tokens, isTokensLoaded, setActiveTokens }) => {
         return (
           <Token
             token={token}
-            setSelectedTokens={setSelectedTokens}
+            activeTokens={activeTokens}
+            setActiveTokens={setActiveTokens}
             key={token.token_address}
           />
         );
@@ -47,7 +43,7 @@ const TokenList = ({ tokens, isTokensLoaded, setActiveTokens }) => {
 
 export default TokenList;
 
-const Token = ({ token, setSelectedTokens }) => {
+const Token = ({ token, activeTokens, setActiveTokens }) => {
   const [isShownToken, setIsShownToken] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
 
@@ -58,17 +54,35 @@ const Token = ({ token, setSelectedTokens }) => {
     return <div className='token-icon-symbol'>{token.symbol}</div>;
   };
 
+  // Dont let the user unselect the token if it's wETH
+  const isNotWEth = (token) => {
+    return token.token_address !== '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
+  };
+
   useEffect(() => {
-    // if is selected set selected
+    if (isSelected) {
+      setActiveTokens([...activeTokens, token]);
+    } else {
+      setActiveTokens(
+        activeTokens.filter((t) => t.token_address !== token.token_address),
+      );
+    }
   }, [isSelected]);
+
+  // Default select wETH
+  useEffect(() => {
+    if (token.token_address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2') {
+      setIsSelected(true);
+    }
+  }, []);
 
   return (
     <div className='token-item'>
       <div
-        className='token-icon'
+        className={isSelected ? 'token-icon selected' : 'token-icon'}
         onMouseEnter={() => setIsShownToken(true)}
         onMouseLeave={() => setIsShownToken(false)}
-        onClick={() => setIsSelected(!isSelected)}
+        onClick={() => isNotWEth(token) && setIsSelected(!isSelected)}
       >
         {getTokenIcon(token)}
       </div>
