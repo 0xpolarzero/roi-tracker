@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useMoralis } from 'react-moralis';
+import { useMoralisWeb3Api } from 'react-moralis';
 
 import AddressesConfig from './Config/Addresses';
 import PeriodConfig from './Config/Period';
@@ -24,6 +25,7 @@ import Connect from './Connect';
 const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
   // const { data: account } = useAccount();
   const { isWeb3Enabled, isAuthenticated, user } = useMoralis();
+  const Web3Api = useMoralisWeb3Api();
 
   const [address, setAddress] = useState('');
   const [addresses, setAddresses] = useState([]);
@@ -135,9 +137,52 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
     return { startDate, endDate };
   };
 
+  const gatherTokenBalance = async (
+    startBlock,
+    endBlock,
+    walletAddresses,
+    tokens,
+  ) => {
+    let tokenDataArray = [];
+
+    if (!tokens) return null;
+
+    for (const token of tokens) {
+      let tokenData = {
+        name: token.name,
+        symbol: token.symbol,
+        address: token.token_address,
+      };
+
+      const startBalance = await getTokenBalance(
+        web3,
+        Web3Api,
+        startBlock,
+        walletAddresses,
+        token,
+      );
+      const endBalance = await getTokenBalance(
+        web3,
+        Web3Api,
+        endBlock,
+        walletAddresses,
+        token,
+      );
+
+      tokenData.balance = {
+        start: startBalance,
+        end: endBalance,
+      };
+
+      tokenDataArray.push(tokenData);
+      // TODO INCREMENT PROGRESS BASED ON NUMBER OF TOKENS
+    }
+
+    return tokenDataArray;
+  };
+
   const trackROI = async (input, from, to) => {
     let balanceETH = {};
-    let balanceWETH = {};
 
     const { startDate, endDate } = getPeriod(input, from, to);
 
@@ -177,24 +222,19 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
     setLoadingProgress(55);
 
     // Get the balance in WETH at both start and end date
-    balanceWETH.start = await getTokenBalance(
-      web3,
+    const balanceToken = await gatherTokenBalance(
       startBlock.block,
-      addresses,
-      '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-    );
-
-    setLoadingProgress(75);
-
-    balanceWETH.end = await getTokenBalance(
-      web3,
       endBlock.block,
       addresses,
-      '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+      activeTokens,
     );
+    console.log(balanceToken);
+
+    // ! If returns null handle this
+    // ! If balance anywhere is not number handle this don't display
 
     setPeriod({ from: startDate, to: endDate });
-    setBalance({ eth: balanceETH, weth: balanceWETH });
+    setBalance({ eth: balanceETH, token: balanceToken });
 
     setLoadingProgress(95);
 

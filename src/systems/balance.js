@@ -1,6 +1,6 @@
 import { getExchangeAddresses } from './exchanges/exchanges';
 import { TimestampConverter } from './timestamp';
-import { fetchData } from './utils';
+import { displayNotif, fetchData } from './utils';
 
 // const tokenSource = 'https://tokens.coingecko.com/uniswap/all.json';
 // https://solveforum.com/forums/threads/solved-get-token-balance-of-address-at-particular-block-number-with-alchemy.609041/
@@ -21,36 +21,76 @@ async function getEthBalance(provider, block, addresses) {
   return balancesCombined;
 }
 
-async function getTokenBalance(provider, block, walletAddresses, tokenAddress) {
-  let balancesCombined = 0;
+async function getTokenBalance(
+  provider,
+  Web3Api,
+  block,
+  walletAddresses,
+  token,
+) {
+  let tokenBalance = { native: 0, eth: 0 };
 
-  const contract = new provider.eth.Contract(minABI, tokenAddress);
+  const contract = new provider.eth.Contract(minABI, token.token_address);
 
   for (const address of walletAddresses) {
+    let localBalance = {};
+
     const tokenBalanceFromAddress = await contract.methods
       .balanceOf(address)
       .call(null, block);
-    // Format balance in ether
-    const formatted = provider.utils.fromWei(tokenBalanceFromAddress, 'ether');
-    balancesCombined += Number(formatted);
+
+    localBalance.native = tokenBalanceFromAddress;
+
+    // If it's wETH address
+    if (
+      token.token_address.toLowerCase() ===
+      '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'.toLowerCase()
+    ) {
+      localBalance.eth = tokenBalanceFromAddress;
+    } else {
+      localBalance.eth = await getTokenBalanceInEth(
+        Web3Api,
+        token.token_address,
+        tokenBalanceFromAddress,
+        token.name,
+      );
+    }
+
+    tokenBalance.native += Number(localBalance.native);
+    tokenBalance.eth += Number(localBalance.eth);
   }
 
-  return balancesCombined;
+  // // Format balance in ether
+  // const formatted = provider.utils.fromWei(tokenBalanceFromAddress, 'ether');
+  // balancesCombined += Number(formatted);
+  return tokenBalance;
 }
 
-const getCustomTokenBalance = async (provider) => {
-  const tokenList = await getTokenList();
-  console.log(tokenList);
-};
+async function getTokenBalanceInEth(
+  Web3Api,
+  tokenAddress,
+  tokenBalance,
+  tokenName,
+) {
+  const price = await Web3Api.token
+    .getTokenPrice({
+      address: tokenAddress,
+      chain: 'eth',
+      exchange: 'uniswap-v3',
+    })
+    .catch((err) => {
+      console.log(err);
+      displayNotif(
+        'error',
+        `Could not get requested data for ${tokenName}. Please check the console for the full error message.`,
+        6000,
+      );
+    });
 
-const getTokenList = async () => {
-  const response = await fetchData(
-    'https://tokens.coingecko.com/uniswap/all.json',
-  );
-  const data = await response.tokens;
+  const tokenBalanceInEth = tokenBalance * price;
 
-  return data;
-};
+  return tokenBalanceInEth;
+}
 
 const minABI = [
   // balanceOf
@@ -79,9 +119,4 @@ const isValidAddress = (provider, address) => {
   return isValid;
 };
 
-export {
-  getEthBalance,
-  getTokenBalance,
-  getCustomTokenBalance,
-  isValidAddress,
-};
+export { getEthBalance, getTokenBalance, isValidAddress };

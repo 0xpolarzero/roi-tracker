@@ -61,7 +61,14 @@ const Token = ({ token, activeTokens, setActiveTokens }) => {
 
   useEffect(() => {
     if (isSelected) {
-      setActiveTokens([...activeTokens, token]);
+      // Just make sure the token is not present in the array already
+      if (
+        activeTokens.findIndex(
+          (b) => b.token_address === token.token_address,
+        ) === -1
+      ) {
+        setActiveTokens([...activeTokens, token]);
+      }
     } else {
       setActiveTokens(
         activeTokens.filter((t) => t.token_address !== token.token_address),
