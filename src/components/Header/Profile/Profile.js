@@ -17,7 +17,6 @@ const Profile = () => {
         address: address,
       });
       setEnsName(ensName);
-      console.log(ensName);
     } catch (error) {
       setEnsName(null);
       console.log('No ENS corresponding to this address', error);

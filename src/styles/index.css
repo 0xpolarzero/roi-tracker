@@ -8,5 +8,5 @@
 
 @import './utils/onoff-button.css';
 @import './utils/progress-bar.css';
-
+@import './utils/progress-spinner.css';
 @import './fonts.css';

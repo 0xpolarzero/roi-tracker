@@ -188,13 +188,58 @@
   gap: 1rem;
 }
 
+.token-config .wrapper {
+  height: 100%;
+}
+
 .token-list {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.token-list.loading {
+  height: 100%;
+  justify-content: center;
+}
+
+.token-item {
+  position: relative;
+}
+
+.token-icon {
+  padding: 1rem;
+  margin: -1rem;
+  cursor: pointer;
+}
+
+.token-icon-symbol {
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0.3rem;
+  max-width: 6rem;
 }
 
 .token-info {
+  position: absolute;
+  top: 4rem;
+  left: 0;
+  font-size: 0.8rem;
+  font-weight: 300;
+  line-height: 1.2rem;
+  color: #fff;
+  background: rgb(36, 36, 36);
+  border-radius: 12px;
+  width: 200px;
+  padding: 0.5rem 1rem;
+  overflow: scroll;
+
+  z-index: 1;
+}
+
+.token-help {
   position: relative;
   font-size: 1rem;
   margin-left: 0.5rem;

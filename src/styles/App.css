@@ -83,11 +83,11 @@ ul {
     hsla(270, 48%, 51%, 1) 0%,
     hsla(0, 0%, 8%, 1) 100%
   ); */
-  background: #141414;
+  background: #05050e;
   color: white;
   min-height: 100vh;
   display: grid;
-  padding: 1rem 2rem;
+  /* padding: 1rem 2rem; */
 }
 
 .bg-blur {

@@ -43,8 +43,7 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [isTransfersIgnored, setIsTransfersIgnored] = useState(false);
 
-  const [loggedAddress, setLoggedAddress] = useState('');
-  const [loggedTokens, setLoggedTokens] = useState([]);
+  const [activeTokens, setActiveTokens] = useState([]);
 
   // MANAGING ADDRESSES
 
@@ -263,7 +262,11 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
           removeAddress={removeAddress}
         />
 
-        <TokensConfig />
+        <TokensConfig
+          dater={dater}
+          addresses={addresses}
+          setActiveTokens={setActiveTokens}
+        />
 
         <PeriodConfig trackROI={trackROI} />
         {/* <div className='separator'></div>

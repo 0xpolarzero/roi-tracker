@@ -12,7 +12,7 @@
     'period result-content' auto;
   grid-template-columns: 40% 1fr;
   gap: 1rem;
-  height: 100%;
+  padding: 1rem 2rem;
 }
 
 .header {
@@ -48,7 +48,7 @@
 }
 
 .card {
-  background: #34343433;
+  background: #19151d;
   border-radius: 1rem;
 }
 
