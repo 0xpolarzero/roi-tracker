@@ -5,12 +5,15 @@ import EthDater from 'ethereum-block-by-date';
 import { TimestampConverter } from '../../systems/timestamp';
 import Popup from '../Utils/Popup';
 import TokenList from '../Data/TokenList';
+import { displayNotif } from '../../systems/utils';
 
 const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
   const Web3Api = useMoralisWeb3Api();
 
   const [tokens, setTokens] = useState([]);
+  const [rawTokens, setRawTokens] = useState([]);
   const [isTokensLoaded, setIsTokensLoaded] = useState(false);
+  const [isTokensFetched, setIsTokensFetched] = useState(false);
 
   const displayTokens = async () => {
     const blocks = await getBlocks();
@@ -39,19 +42,28 @@ const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
     let tokens = [];
 
     for (const address of addresses) {
-      const tokensAtStart = await Web3Api.account.getTokenBalances({
-        address: address,
-        to_block: blocks.start,
-      });
-      const tokensAtEnd = await Web3Api.account.getTokenBalances({
-        address: address,
-        to_block: blocks.end,
-      });
-
-      for (const token of tokensAtStart) {
-        tokens.push(token);
+      try {
+        const tokensAtStart = await Web3Api.account.getTokenBalances({
+          address: address,
+          to_block: blocks.start,
+        });
+        const tokensAtEnd = await Web3Api.account.getTokenBalances({
+          address: address,
+          to_block: blocks.end,
+        });
+        setRawTokens([...rawTokens, ...tokensAtStart, ...tokensAtEnd]);
+        setIsTokensFetched(true);
+      } catch (error) {
+        console.log(error);
+        displayNotif(
+          'error',
+          'Error while fetching tokens. Please try to refresh with the button.',
+          5000,
+        );
+        setIsTokensFetched(false);
       }
-      for (const token of tokensAtEnd) {
+
+      for (const token of rawTokens) {
         tokens.push(token);
       }
     }
@@ -124,7 +136,9 @@ const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
       <div className='wrapper'>
         <TokenList
           tokens={tokens}
+          displayTokens={displayTokens}
           isTokensLoaded={isTokensLoaded}
+          isTokensFetched={isTokensFetched}
           activeTokens={activeTokens}
           setActiveTokens={setActiveTokens}
         />

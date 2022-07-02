@@ -5,7 +5,9 @@ import ProgressSpinner from '../Utils/ProgressSpinner';
 
 const TokenList = ({
   tokens,
+  displayTokens,
   isTokensLoaded,
+  isTokensFetched,
   activeTokens,
   setActiveTokens,
 }) => {
@@ -17,10 +19,20 @@ const TokenList = ({
     );
   }
 
+  if (!isTokensFetched) {
+    return (
+      <div className='token-list'>
+        <p>Maybe there was an issue loading your tokens.</p>
+        <button onClick={displayTokens}>Refresh</button>
+      </div>
+    );
+  }
+
   if (tokens.length === 0) {
     return (
       <div className='token-list'>
         <p>No tokens found</p>
+        <button onClick={displayTokens}>Refresh</button>
       </div>
     );
   }

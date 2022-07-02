@@ -60,7 +60,14 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
       return;
     }
 
-    setAddresses(Array.from(new Set([...addresses, address])));
+    // Add the new address, only if it's not already in the array, considering lowercases
+    if (
+      addresses.findIndex((a) => a.toLowerCase() === address.toLowerCase()) ===
+      -1
+    ) {
+      setAddresses([...addresses, address]);
+    }
+
     setAddress('');
 
     displayNotif('info', 'Address added!', 2000);

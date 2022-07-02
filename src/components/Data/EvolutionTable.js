@@ -9,6 +9,7 @@ const EvolutionTable = ({ balance, date, ethPriceValue }) => {
   const [totalBalance, setTotalBalance] = useState(0);
 
   useEffect(() => {
+    console.log(balance);
     setShowDecimals(false);
 
     // Calculate the total balance
