@@ -225,6 +225,7 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
 
     setLoadingProgress(55);
 
+    console.log(activeTokens);
     // Get the balance in WETH at both start and end date
     const balanceToken = await gatherTokenBalance(
       startBlock.block,

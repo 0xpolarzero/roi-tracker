@@ -190,43 +190,44 @@
 
 .token-config .wrapper {
   height: 100%;
-  overflow: scroll;
+  min-height: 150px;
+  /* overflow: scroll; */
 }
 
 .token-list {
   display: flex;
-  gap: 1.5rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
-  align-items: center;
 }
 
 .token-list.loading {
   height: 100%;
   justify-content: center;
+  align-items: center;
+}
+
+.token-list.config {
+  flex-direction: column;
+  align-items: center;
 }
 
 .token-item {
   position: relative;
+  display: flex;
 }
 
 .token-icon {
-  position: relative;
-  padding: 1rem;
-  margin: -1rem;
+  background: rgba(var(--rose-main), 0.1);
   opacity: 0.5;
+  border-radius: 12px;
+  padding: 0.5rem;
   cursor: pointer;
 }
 
 .token-icon.selected {
+  background: rgba(var(--blue-main), 0.2);
   opacity: 1;
-}
-
-.token-icon.selected::after {
-  position: absolute;
-  content: '✓';
-  color: rgb(var(--blue-main));
-  bottom: 0.5rem;
-  right: 0.5rem;
+  border-radius: 12px;
 }
 
 .token-icon-symbol {
@@ -247,11 +248,9 @@
   color: #fff;
   background: rgb(36, 36, 36);
   border-radius: 12px;
-  width: 200px;
+  max-width: 300px;
   padding: 0.5rem 1rem;
   overflow: scroll;
-
-  z-index: 1;
 }
 
 .token-help {

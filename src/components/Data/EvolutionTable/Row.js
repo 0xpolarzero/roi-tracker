@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import Error from './Error';
 import Difference from './Difference';
 import { expandDecimals } from '../../../systems/utils';
 
@@ -16,7 +17,6 @@ const Row = ({ category, balance, showDecimals, ethPriceValue, ...token }) => {
   };
 
   const displayBalance = (amount) => {
-    console.log(token.symbol);
     if (category === 'eth') {
       return `${expandDecimals(amount, showDecimals)} Ξ`;
     } else if (category === 'total') {
@@ -72,7 +72,9 @@ const Row = ({ category, balance, showDecimals, ethPriceValue, ...token }) => {
 
   return (
     <tr>
-      <th scope='row'>{displayName(category)}</th>
+      <th scope='row'>
+        {displayName(category)} <Error balance={balance} />
+      </th>
       <td>
         <div className='row-balance'>
           <div>{displayBalance(balance.start)}</div>

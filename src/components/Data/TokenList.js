@@ -11,6 +11,16 @@ const TokenList = ({
   activeTokens,
   setActiveTokens,
 }) => {
+  if (!isTokensFetched && isTokensLoaded) {
+    return (
+      <div className='token-list config'>
+        <p>Please refresh to see your tokens.</p>
+        <p>
+          <button onClick={displayTokens}>Refresh</button>
+        </p>
+      </div>
+    );
+  }
   if (!isTokensLoaded) {
     return (
       <div className='token-list loading'>
@@ -19,19 +29,10 @@ const TokenList = ({
     );
   }
 
-  if (!isTokensFetched) {
-    return (
-      <div className='token-list'>
-        <p>Maybe there was an issue loading your tokens.</p>
-        <button onClick={displayTokens}>Refresh</button>
-      </div>
-    );
-  }
-
   if (tokens.length === 0) {
     return (
-      <div className='token-list'>
-        <p>No tokens found</p>
+      <div className='token-list config'>
+        <p>No tokens found.</p>
         <button onClick={displayTokens}>Refresh</button>
       </div>
     );
@@ -112,8 +113,10 @@ const Token = ({ token, activeTokens, setActiveTokens }) => {
           onMouseEnter={() => setIsShownToken(true)}
           onMouseLeave={() => setIsShownToken(false)}
         >
-          <div className='token-name'>{token.name}</div>
-          <div className='token-address'>{token.token_address}</div>
+          <div className='token-name'>
+            {token.name} ({token.symbol})
+          </div>
+          {/* <div className='token-address'>{token.token_address}</div> */}
         </div>
       )}
     </div>
