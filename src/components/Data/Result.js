@@ -1,5 +1,5 @@
 import React from 'react';
-import EvolutionTable from './EvolutionTable';
+import Table from './EvolutionTable/Table';
 import ExchangesData from './Exchanges';
 import ProgressBar from '../Utils/ProgressBar';
 import { TimestampConverter } from '../../systems/timestamp';
@@ -101,7 +101,7 @@ class ResultData extends React.Component {
       document.querySelector('.result-content').classList.remove('loading');
     return (
       <div className='result-content'>
-        <EvolutionTable
+        <Table
           balance={balance}
           totalDepositValue={this.setDeposits(deposits)}
           date={period}

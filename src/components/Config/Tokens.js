@@ -16,6 +16,8 @@ const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
   const [isTokensFetched, setIsTokensFetched] = useState(false);
 
   const displayTokens = async () => {
+    setIsTokensLoaded(false);
+
     const blocks = await getBlocks();
 
     const tokens = await getTokens(blocks);

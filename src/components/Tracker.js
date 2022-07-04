@@ -34,10 +34,7 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
       start: 0,
       end: 0,
     },
-    weth: {
-      start: 0,
-      end: 0,
-    },
+    token: [],
   });
   const [period, setPeriod] = useState({ from: '', to: '' });
   const [deposits, setDeposits] = useState([]);
@@ -235,7 +232,6 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
       addresses,
       activeTokens,
     );
-    console.log(balanceToken);
 
     // ! If returns null handle this
     // ! If balance anywhere is not number handle this don't display
@@ -256,15 +252,10 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
     setLoadingProgress(100);
 
     // Update deposits & tell Result component it's done loading
-    setDeposits(deposits);
+    // setDeposits(deposits);
     setLoading(false);
     setLoadingProgress(0);
   };
-
-  useEffect(() => {
-    setAddresses(['0x02c2adbdB7c0C1037B5278626A78B6c71787dFe8']);
-    setAddress('');
-  }, []);
 
   // Get the connected account address if it exists
   useEffect(() => {

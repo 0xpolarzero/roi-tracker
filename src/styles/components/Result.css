@@ -78,31 +78,17 @@ tr:nth-child(odd) {
   background-color: rgba(245, 245, 245, 0.1);
 }
 
-.eth-balance {
+.row-balance {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-}
-
-.eth-balance > div:nth-child(1)::after {
-  content: ' Ξ';
 }
 
 .value-down {
   color: rgb(214, 84, 149);
 }
 
-.eth-diff > .value-down::after {
-  content: ' Ξ';
-  color: rgb(214, 84, 149);
-}
-
 .value-up {
-  color: rgb(var(--blue-main));
-}
-
-.eth-diff > .value-up::after {
-  content: ' Ξ';
   color: rgb(var(--blue-main));
 }
 
