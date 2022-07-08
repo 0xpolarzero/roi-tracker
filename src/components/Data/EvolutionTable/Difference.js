@@ -25,7 +25,7 @@ const Difference = ({
       result = (
         <span>
           <div className='highlight'>
-            $ {sign + ((amount.end - amount.start) * ethPriceValue).toFixed(2)}
+            {sign + ((amount.end - amount.start) * ethPriceValue).toFixed(2)} $
           </div>
           <div className='minify'>
             {sign + expandDecimals(amount.end - amount.start, showDecimals)} Ξ

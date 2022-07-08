@@ -109,8 +109,7 @@ const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
   };
 
   useEffect(() => {
-    setIsTokensLoaded(false);
-    setIsTokensFetched(false);
+    displayTokens();
   }, [addresses]);
 
   return (
