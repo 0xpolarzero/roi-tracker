@@ -1,20 +1,14 @@
-.progress-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  width: 100%;
-  max-width: 260px;
-}
-
 .progress {
   height: 6px;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 3px;
+  width: 100%;
+  max-width: 260px;
   overflow: hidden;
 }
 
 .progress-bar {
+  position: relative;
   display: block;
   height: 100%;
   background: var(--main-gradient);
@@ -24,9 +18,12 @@
 }
 
 .progress-message {
+  position: absolute;
+  color: var(rgb(--main-gradient));
+  left: 0;
+  right: 0;
+  margin: 1rem auto 0 auto;
   text-align: center;
-  align-self: center;
-  opacity: 0.7;
 }
 
 @keyframes progress-animation {

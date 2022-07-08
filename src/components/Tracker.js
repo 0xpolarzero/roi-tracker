@@ -217,6 +217,8 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
       progress: 25,
       message: 'Loading ETH balance for each address at the beginning block.',
     });
+    // Wait for 10 seconds
+    await new Promise((resolve) => setTimeout(resolve, 30000));
 
     // Get the balance in ETH at both start and end date
     balanceETH.start = await getEthBalance(

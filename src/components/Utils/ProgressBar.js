@@ -8,12 +8,14 @@ const ProgressBar = ({ loadingProgress }) => {
   }, [loadingProgress]);
 
   return (
-    <div className='progress-container'>
-      <div className='progress'>
-        <span className='progress-bar' style={{ width: `${value}%` }}></span>
-      </div>
-      <span className='progress-message'>{loadingProgress.message}</span>
+    // <div className='progress-container'>
+    <div className='progress'>
+      <span className='progress-bar' style={{ width: `${value}%` }}></span>
+      <span className='progress-message highlight'>
+        {loadingProgress.message}
+      </span>
     </div>
+    /* </div> */
   );
 };
 
