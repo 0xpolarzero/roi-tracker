@@ -36,10 +36,17 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
     },
     token: [],
   });
+  const [nft, setNft] = useState({
+    in: [],
+    out: [],
+  });
   const [period, setPeriod] = useState({ from: '', to: '' });
   const [deposits, setDeposits] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [loadingProgress, setLoadingProgress] = useState({
+    progress: 0,
+    message: '',
+  });
   const [isTransfersIgnored, setIsTransfersIgnored] = useState(false);
 
   const [activeTokens, setActiveTokens] = useState([]);
@@ -179,7 +186,8 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
       };
 
       tokenDataArray.push(tokenData);
-      // TODO INCREMENT PROGRESS BASED ON NUMBER OF TOKENS
+
+      setLoadingProgress({ progress: 55 + 20 / tokens.length });
     }
 
     return tokenDataArray;
@@ -192,8 +200,11 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
 
     // Update Result component to show loading and initiate progress bar
     setLoading(true);
-    setLoadingProgress(0);
-    setLoadingProgress(10);
+    setLoadingProgress({ progress: 0, message: 'Loading...' });
+    setLoadingProgress({
+      progress: 10,
+      message: 'Loading blocks corresponding to timestamp.',
+    });
 
     // Get the closest block corresponding to the dates
     const startBlock = await dater.getDate(startDate);
@@ -202,7 +213,10 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
         ? { block: 'latest' }
         : await dater.getDate(endDate);
 
-    setLoadingProgress(25);
+    setLoadingProgress({
+      progress: 25,
+      message: 'Loading ETH balance for each address at the beginning block.',
+    });
 
     // Get the balance in ETH at both start and end date
     balanceETH.start = await getEthBalance(
@@ -214,7 +228,10 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
       displayNotif('error', err.message, 2000);
     });
 
-    setLoadingProgress(40);
+    setLoadingProgress({
+      progress: 40,
+      message: 'Loading ETH balance for each address at the end block.',
+    });
 
     balanceETH.end = await getEthBalance(web3, endBlock.block, addresses).catch(
       (err) => {
@@ -223,24 +240,29 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
       },
     );
 
-    setLoadingProgress(55);
+    setLoadingProgress({
+      progress: 55,
+      message: 'Loading ERC20 tokens balance for each address.',
+    });
 
-    console.log(activeTokens);
     // Get the balance in WETH at both start and end date
     const balanceToken = await gatherTokenBalance(
       startBlock.block,
       endBlock.block,
       addresses,
       activeTokens,
+      loadingProgress,
     );
 
-    // ! If returns null handle this
-    // ! If balance anywhere is not number handle this don't display
+    setLoadingProgress({
+      progress: 75,
+      message: 'Loading NFT tokens exchanges for each address.',
+    });
+
+    // const exchangesNft = await
 
     setPeriod({ from: startDate, to: endDate });
     setBalance({ eth: balanceETH, token: balanceToken });
-
-    setLoadingProgress(95);
 
     // Get the amount deposited from exchange plateforms during this period
     /* const deposits = isTransfersIgnored
@@ -250,12 +272,12 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
         })
       : 0; */
 
-    setLoadingProgress(100);
+    setLoadingProgress({ progress: 100 });
 
     // Update deposits & tell Result component it's done loading
     // setDeposits(deposits);
     setLoading(false);
-    setLoadingProgress(0);
+    setLoadingProgress({ progress: 0 });
   };
 
   // Get the connected account address if it exists

@@ -4,12 +4,15 @@ const ProgressBar = ({ loadingProgress }) => {
   const [value, setValue] = React.useState(0);
 
   useEffect(() => {
-    setValue(loadingProgress);
+    setValue(loadingProgress.progress);
   }, [loadingProgress]);
 
   return (
-    <div className='progress'>
-      <span className='progress-bar' style={{ width: `${value}%` }}></span>
+    <div className='progress-container'>
+      <div className='progress'>
+        <span className='progress-bar' style={{ width: `${value}%` }}></span>
+      </div>
+      <span className='progress-message'>{loadingProgress.message}</span>
     </div>
   );
 };
