@@ -2,25 +2,39 @@
 
 .app-title {
   font-size: 2rem;
+  position: relative;
+}
+
+.app-title .content {
+  background: var(--sub-gradient);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.1ch;
 }
 
 .app-title .main-char {
   font-weight: 500;
-  background: var(--main-gradient);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .app-title .alt-char {
-  font-weight: 200;
-  font-size: 1.8rem;
-  color: rgb(var(--rose-main));
+  font-weight: 300;
+}
+
+.app-title i {
+  position: absolute;
+  background: var(--sub-gradient-invert);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  top: 0;
+  right: -2rem;
+  font-size: 1.3rem;
 }
 
 .nav {
   padding: 1rem 2rem;
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: auto 1fr auto;
+  justify-items: end;
   align-items: center;
   gap: 3rem;
 }
