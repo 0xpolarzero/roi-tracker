@@ -18,6 +18,7 @@ import {
   getCustomTokenBalance,
   isValidAddress,
 } from '../systems/balance';
+import { getNftExchanges } from '../systems/nfts';
 import { getDeposits } from '../systems/exchanges/exchanges';
 import { TimestampConverter } from '../systems/timestamp';
 import Connect from './Connect';
@@ -217,8 +218,6 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
       progress: 25,
       message: 'Loading ETH balance for each address at the beginning block.',
     });
-    // Wait for 10 seconds
-    await new Promise((resolve) => setTimeout(resolve, 30000));
 
     // Get the balance in ETH at both start and end date
     balanceETH.start = await getEthBalance(
@@ -261,7 +260,12 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
       message: 'Loading NFT tokens exchanges for each address.',
     });
 
-    // const exchangesNft = await
+    const exchangesNft = await getNftExchanges(
+      Web3Api,
+      startBlock,
+      endBlock,
+      addresses,
+    );
 
     setPeriod({ from: startDate, to: endDate });
     setBalance({ eth: balanceETH, token: balanceToken });

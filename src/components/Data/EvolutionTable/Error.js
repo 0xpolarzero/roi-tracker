@@ -6,7 +6,6 @@ const Error = ({ balance }) => {
   const [isShownError, setIsShownError] = useState(false);
 
   useEffect(() => {
-    console.log(balance);
     // Display an error if a token price could not be converted to ETH because NaN
     if (
       (balance.start.eth !== undefined && isNaN(balance.start.eth)) ||
