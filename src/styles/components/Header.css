@@ -21,13 +21,7 @@
 }
 
 .app-title i {
-  position: absolute;
-  background: var(--sub-gradient-invert);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  top: 0;
-  right: -2rem;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 }
 
 .nav {
