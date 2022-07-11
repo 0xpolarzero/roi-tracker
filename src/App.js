@@ -17,7 +17,7 @@ const web3 = createAlchemyWeb3(
 const dater = new EthDater(web3);
 
 const App = () => {
-  const [ethPriceValue, setEthPriceValue] = useState(0);
+  const [ethPriceValue, setEthPriceValue] = useState('Fetching...');
   const [isLogged, setIsLogged] = useState(false);
 
   const { isWeb3Enabled } = useMoralis();
