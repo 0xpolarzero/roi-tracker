@@ -163,6 +163,8 @@ ul {
   border-radius: 12px;
   width: 200px;
   padding: 0.5rem 1rem;
+
+  z-index: 3;
 }
 
 .separator-hor {
