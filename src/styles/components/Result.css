@@ -64,6 +64,7 @@ th[scope='col'] {
 
 th[scope='row'] {
   position: relative;
+  width: 20%;
 }
 
 td {

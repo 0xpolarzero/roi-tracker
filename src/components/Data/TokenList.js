@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import Popup from '../Utils/Popup';
 
 import ProgressSpinner from '../Utils/ProgressSpinner';
@@ -24,13 +25,6 @@ const TokenList = ({
       </div>
     );
   }
-  if (!isTokensLoaded) {
-    return (
-      <div className='token-list loading'>
-        <ProgressSpinner />
-      </div>
-    );
-  }
 
   if (tokens.length === 0) {
     return (
@@ -44,17 +38,32 @@ const TokenList = ({
   return (
     <div className='token-list'>
       {tokens.map((token) => {
-        return (
-          <Token
-            token={token}
-            searchInput={searchInput}
-            activeTokens={activeTokens}
-            setActiveTokens={setActiveTokens}
-            isQuickSelected={isQuickSelected}
-            setIsQuickSelected={setIsQuickSelected}
-            key={token.token_address}
-          />
-        );
+        if (!isTokensLoaded) {
+          return (
+            <div className='token-skeleton'>
+              <Skeleton
+                key={token.token_address}
+                baseColor={'rgba(36, 36, 36, 0.6)'}
+                highlightColor={'rgba(36, 36, 36, 0.8)'}
+                width={60}
+                height={60}
+                borderRadius={12}
+              />
+            </div>
+          );
+        } else {
+          return (
+            <Token
+              token={token}
+              searchInput={searchInput}
+              activeTokens={activeTokens}
+              setActiveTokens={setActiveTokens}
+              isQuickSelected={isQuickSelected}
+              setIsQuickSelected={setIsQuickSelected}
+              key={token.token_address}
+            />
+          );
+        }
       })}
     </div>
   );

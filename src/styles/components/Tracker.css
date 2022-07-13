@@ -10,7 +10,7 @@
     'addresses result-content' auto
     'tokens result-content' auto
     'period result-content' auto;
-  grid-template-columns: 40% 1fr;
+  grid-template-columns: 35% 1fr;
   gap: 1rem;
   padding: 1rem 2rem;
 }

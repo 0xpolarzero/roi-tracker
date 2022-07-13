@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 
 import Row from './Row';
+import RowSkeleton from './RowSkeleton';
 
 import { TimestampConverter } from '../../../systems/timestamp';
 
-const Table = ({ balance, date, ethPriceValue }) => {
+const Table = ({ balance, date, ethPriceValue, loading }) => {
   // Set the state for showing or not the decimals (on hover)
   const [showDecimals, setShowDecimals] = useState(false);
   // Set the state of total balance
@@ -72,30 +74,43 @@ const Table = ({ balance, date, ethPriceValue }) => {
             <th scope='col'>ROI</th>
             <th scope='col'>Evolution</th>
           </tr>
-          <Row
-            category='eth'
-            balance={balance.eth}
-            showDecimals={showDecimals}
-            ethPriceValue={ethPriceValue}
-          />
+          {loading ? (
+            <RowSkeleton />
+          ) : (
+            <Row
+              category='eth'
+              balance={balance.eth}
+              showDecimals={showDecimals}
+              ethPriceValue={ethPriceValue}
+            />
+          )}
+
           {balance.token &&
-            balance.token.map((x) => (
-              <Row
-                category='token'
-                balance={x.balance}
-                showDecimals={showDecimals}
-                ethPriceValue={ethPriceValue}
-                name={x.name}
-                symbol={x.symbol}
-                key={x.address}
-              />
-            ))}
-          <Row
-            category='total'
-            balance={totalBalance}
-            showDecimals={showDecimals}
-            ethPriceValue={ethPriceValue}
-          />
+            balance.token.map((x) =>
+              loading ? (
+                <RowSkeleton key={x.address} />
+              ) : (
+                <Row
+                  category='token'
+                  balance={x.balance}
+                  showDecimals={showDecimals}
+                  ethPriceValue={ethPriceValue}
+                  name={x.name}
+                  symbol={x.symbol}
+                  key={x.address}
+                />
+              ),
+            )}
+          {loading ? (
+            <RowSkeleton />
+          ) : (
+            <Row
+              category='total'
+              balance={totalBalance}
+              showDecimals={showDecimals}
+              ethPriceValue={ethPriceValue}
+            />
+          )}
           {/* <tr>
             <th scope='row'>
               <span className='highlight'>Total ($)</span>

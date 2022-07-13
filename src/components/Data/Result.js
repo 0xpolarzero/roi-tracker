@@ -108,6 +108,7 @@ class ResultData extends React.Component {
           totalDepositValue={this.setDeposits(deposits)}
           date={period}
           ethPriceValue={ethPriceValue}
+          loading={loading}
         />
         {/* <ExchangesData
             deposits={deposits}
