@@ -159,37 +159,23 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
 
     if (!tokens) return null;
 
-    for (const token of tokens) {
-      let tokenData = {
-        name: token.name,
-        symbol: token.symbol,
-        address: token.token_address,
-      };
+    const startBalance = await getTokenBalance(
+      Web3Api,
+      startBlock,
+      walletAddresses,
+      tokens,
+    );
+    const endBalance = await getTokenBalance(
+      Web3Api,
+      endBlock,
+      walletAddresses,
+      tokens,
+    );
 
-      const startBalance = await getTokenBalance(
-        web3,
-        Web3Api,
-        startBlock,
-        walletAddresses,
-        token,
-      );
-      const endBalance = await getTokenBalance(
-        web3,
-        Web3Api,
-        endBlock,
-        walletAddresses,
-        token,
-      );
+    console.log(startBalance, endBalance);
+    // tokenDataArray.push(tokenData);
 
-      tokenData.balance = {
-        start: startBalance,
-        end: endBalance,
-      };
-
-      tokenDataArray.push(tokenData);
-
-      setLoadingProgress({ progress: 55 + 20 / tokens.length });
-    }
+    setLoadingProgress({ progress: 55 + 20 / tokens.length });
 
     return tokenDataArray;
   };

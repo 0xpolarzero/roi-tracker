@@ -11,7 +11,6 @@ const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
   const Web3Api = useMoralisWeb3Api();
 
   const [tokens, setTokens] = useState([]);
-  const [rawTokens, setRawTokens] = useState([]);
   const [isTokensLoaded, setIsTokensLoaded] = useState(false);
   const [isTokensFetched, setIsTokensFetched] = useState(false);
 
@@ -20,14 +19,15 @@ const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
 
     const blocks = await getBlocks();
 
-    const tokens = await getTokens(blocks);
+    const rawTokens = await getTokens(blocks);
 
-    const uniqueTokens = tokens.filter((token, index) => {
-      const isDuplicate =
-        tokens.findIndex((t) => t.token_address === token.token_address) !==
-        index;
-      return !isDuplicate;
-    });
+    // If there are multiple tokens with the same address, only keep one
+    const uniqueTokens = rawTokens.reduce((acc, token) => {
+      if (!acc.find((t) => t.token_address === token.token_address)) {
+        acc.push(token);
+      }
+      return acc;
+    }, []);
 
     setTokens(uniqueTokens);
     setIsTokensLoaded(true);
@@ -41,7 +41,7 @@ const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
   };
 
   const getTokens = async (blocks) => {
-    let tokens = [];
+    let localTokens = [];
 
     for (const address of addresses) {
       try {
@@ -53,7 +53,7 @@ const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
           address: address,
           to_block: blocks.end,
         });
-        setRawTokens([...rawTokens, ...tokensAtStart, ...tokensAtEnd]);
+        localTokens = [...localTokens, ...tokensAtStart, ...tokensAtEnd];
         setIsTokensFetched(true);
       } catch (error) {
         console.log(error);
@@ -64,14 +64,10 @@ const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
         );
         setIsTokensFetched(false);
       }
-
-      for (const token of rawTokens) {
-        tokens.push(token);
-      }
     }
 
     // Keep wETH first
-    const sortedTokens = sortTokens(tokens);
+    const sortedTokens = sortTokens(localTokens);
 
     return sortedTokens;
   };
@@ -88,10 +84,6 @@ const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
     });
 
     return tokens;
-  };
-
-  const toggleChange = () => {
-    //
   };
 
   const showHelp = () => {

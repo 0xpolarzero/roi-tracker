@@ -22,6 +22,59 @@ async function getEthBalance(provider, block, addresses) {
 }
 
 async function getTokenBalance(
+  Web3Api,
+  block,
+  walletAddresses,
+  selectedTokens,
+) {
+  let tokenBalancesInWallets = {};
+  let tokenBalancesToTrack = [];
+
+  for (const address of walletAddresses) {
+    const tokenBalance = await Web3Api.account.getTokenBalances({
+      address: address,
+      to_block: block,
+    });
+
+    tokenBalancesInWallets[address] = tokenBalance;
+  }
+
+  for (const token of selectedTokens) {
+    const tokenData = {
+      address: token.token_address,
+      name: token.name,
+      symbol: token.symbol,
+      balance: { native: 0, eth: 0 },
+    };
+
+    for (const wallet in tokenBalancesInWallets) {
+      if (token.token_address === wallet.token_address) {
+        tokenData.balance.native += token.balance;
+
+        // If it's wETH address
+        if (
+          token.token_address.toLowerCase() ===
+          '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'.toLowerCase()
+        ) {
+          tokenData.balance.eth = token.balance;
+        } else {
+          tokenData.balance.eth = await getTokenBalanceInEth(
+            Web3Api,
+            token.token_address,
+            token.balance,
+            token.name,
+          );
+        }
+      }
+    }
+
+    tokenBalancesToTrack.push(tokenData);
+  }
+
+  return tokenBalancesToTrack;
+}
+
+async function _getTokenBalance(
   provider,
   Web3Api,
   block,
@@ -102,17 +155,6 @@ const minABI = [
     type: 'function',
   },
 ];
-
-/* const minABI = [
-  // balanceOf
-  {
-    constant: true,
-    inputs: [{ name: '_owner', type: 'address' }],
-    name: 'balanceOf',
-    outputs: [{ name: 'balance', type: 'uint256' }],
-    type: 'function',
-  },
-]; */
 
 const isValidAddress = (provider, address) => {
   const isValid = provider.utils.isAddress(address);
