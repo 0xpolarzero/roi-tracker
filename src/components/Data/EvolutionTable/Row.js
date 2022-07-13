@@ -29,10 +29,16 @@ const Row = ({ category, balance, showDecimals, ethPriceValue, ...token }) => {
         </div>
       );
     } else {
+      let resultInEth;
+      if (typeof amount === 'object' && amount.eth.hasOwnProperty('error')) {
+        resultInEth = '??';
+      } else {
+        resultInEth = amount.eth;
+      }
       return (
         <div>
           {amount.native} {token.symbol}
-          <div className='minify'>({amount.eth} ETH)</div>
+          <div className='minify'>({resultInEth} ETH)</div>
         </div>
       );
     }
@@ -42,11 +48,11 @@ const Row = ({ category, balance, showDecimals, ethPriceValue, ...token }) => {
     let factor;
 
     // Prevent from dividing by 0
-    if (
-      (category !== 'token' && amount.start === 0 && amount.end !== 0) ||
-      (amount.start.native === 0 && amount.end.native !== 0)
-    )
-      return '💀';
+    // if (
+    //   (category !== 'token' && amount.start === 0 && amount.end !== 0) ||
+    //   (amount.start.native === 0 && amount.end.native !== 0)
+    // )
+    //   return '💀';
 
     // If the balance is 0, the evolution is 0
     if (

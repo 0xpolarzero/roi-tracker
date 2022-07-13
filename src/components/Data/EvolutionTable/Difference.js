@@ -9,15 +9,17 @@ const Difference = ({
   ethPriceValue,
   tokenSymbol,
 }) => {
-  //   const [isDiffUp, setIsDiffUp] = useState(false);
-
   const showDifference = (amount) => {
     let isDiffUp;
-    amount.end > amount.start ? (isDiffUp = true) : (isDiffUp = false);
+    if (category === 'eth' || category === 'total') {
+      amount.end >= amount.start ? (isDiffUp = true) : (isDiffUp = false);
+    } else {
+      amount.end.native >= amount.start.native
+        ? (isDiffUp = true)
+        : (isDiffUp = false);
+    }
     let result;
     const sign = isDiffUp ? '+' : '';
-
-    // amount.end > amount.start ? setIsDiffUp(true) : setIsDiffUp(true);
 
     if (category === 'eth') {
       result = sign + expandDecimals(amount.end - amount.start, showDecimals);
@@ -33,14 +35,20 @@ const Difference = ({
         </span>
       );
     } else {
+      let resultInEth;
+
+      if (
+        amount.end.eth.hasOwnProperty('error') ||
+        amount.start.eth.hasOwnProperty('error')
+      ) {
+        resultInEth = '??';
+      } else {
+        resultInEth = amount.end.eth - amount.start.eth;
+      }
       result = (
         <span>
           {sign + amount.end.native - amount.start.native} {tokenSymbol}
-          {
-            <div className='minify'>
-              ({sign + amount.end.eth - amount.start.eth} ETH)
-            </div>
-          }
+          {<div className='minify'>({sign + resultInEth} ETH)</div>}
         </span>
       );
     }

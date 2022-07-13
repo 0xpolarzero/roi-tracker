@@ -14,8 +14,7 @@ import { ResultHeader, ResultData } from './Data/Result';
 import { displayNotif } from '../systems/utils';
 import {
   getEthBalance,
-  getTokenBalance,
-  getCustomTokenBalance,
+  gatherTokenBalance,
   isValidAddress,
 } from '../systems/balance';
 import { getNftExchanges } from '../systems/nfts';
@@ -149,37 +148,6 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
     return { startDate, endDate };
   };
 
-  const gatherTokenBalance = async (
-    startBlock,
-    endBlock,
-    walletAddresses,
-    tokens,
-  ) => {
-    let tokenDataArray = [];
-
-    if (!tokens) return null;
-
-    const startBalance = await getTokenBalance(
-      Web3Api,
-      startBlock,
-      walletAddresses,
-      tokens,
-    );
-    const endBalance = await getTokenBalance(
-      Web3Api,
-      endBlock,
-      walletAddresses,
-      tokens,
-    );
-
-    console.log(startBalance, endBalance);
-    // tokenDataArray.push(tokenData);
-
-    setLoadingProgress({ progress: 55 + 20 / tokens.length });
-
-    return tokenDataArray;
-  };
-
   const trackROI = async (input, from, to) => {
     let balanceETH = {};
 
@@ -234,11 +202,12 @@ const Tracker = ({ web3, dater, ethPriceValue, isLogged }) => {
 
     // Get the balance in WETH at both start and end date
     const balanceToken = await gatherTokenBalance(
+      Web3Api,
       startBlock.block,
       endBlock.block,
       addresses,
       activeTokens,
-      loadingProgress,
+      setLoadingProgress,
     );
 
     setLoadingProgress({
