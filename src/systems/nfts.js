@@ -11,6 +11,7 @@ async function getNftExchanges(provider, startBlock, endBlock, addresses) {
   });
 
   const transactions = await getNftTransactions(
+    provider,
     startBlock,
     endBlock,
     addresses,
@@ -22,7 +23,13 @@ async function getNftExchanges(provider, startBlock, endBlock, addresses) {
       4000,
     );
   });
-  console.log(transactions);
+
+  // Exclude local transactions corresponding to a transfer between addresses
+  if (transactions) {
+    transactions.filter((txn) => {
+      return !(addresses?.includes(txn.from) && addresses?.includes(txn.to));
+    });
+  }
 }
 
 async function getCurrentNfts(provider, addresses) {
@@ -38,7 +45,7 @@ async function getCurrentNfts(provider, addresses) {
   return currentNfts;
 }
 
-async function getNftTransactions(startBlock, endBlock, addresses) {
+async function getNftTransactions(provider, startBlock, endBlock, addresses) {
   let exchanges = [];
 
   for (const address of addresses) {
@@ -64,9 +71,9 @@ async function getNftTransactions(startBlock, endBlock, addresses) {
       ...exchangesInForAddress.transfers,
       ...exchangesOutForAddress.transfers,
     );
-
-    return exchanges;
   }
+
+  return exchanges;
 }
 
 export { getNftExchanges };
