@@ -5,11 +5,14 @@ import ProgressSpinner from '../Utils/ProgressSpinner';
 
 const TokenList = ({
   tokens,
+  searchInput,
   displayTokens,
   isTokensLoaded,
   isTokensFetched,
   activeTokens,
   setActiveTokens,
+  isQuickSelected,
+  setIsQuickSelected,
 }) => {
   if (!isTokensFetched && isTokensLoaded) {
     return (
@@ -44,8 +47,11 @@ const TokenList = ({
         return (
           <Token
             token={token}
+            searchInput={searchInput}
             activeTokens={activeTokens}
             setActiveTokens={setActiveTokens}
+            isQuickSelected={isQuickSelected}
+            setIsQuickSelected={setIsQuickSelected}
             key={token.token_address}
           />
         );
@@ -54,11 +60,17 @@ const TokenList = ({
   );
 };
 
-export default TokenList;
-
-const Token = ({ token, activeTokens, setActiveTokens }) => {
+const Token = ({
+  token,
+  searchInput,
+  activeTokens,
+  setActiveTokens,
+  isQuickSelected,
+  setIsQuickSelected,
+}) => {
   const [isShownToken, setIsShownToken] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
+  const [isMatch, setIsMatch] = useState(true);
 
   const getTokenIcon = (token) => {
     if (token.thumbnail) {
@@ -89,6 +101,26 @@ const Token = ({ token, activeTokens, setActiveTokens }) => {
     }
   }, [isSelected]);
 
+  useEffect(() => {
+    if (isQuickSelected === 'all') {
+      setIsSelected(true);
+    } else if (isQuickSelected === 'min') {
+      isNotWEth(token) && setIsSelected(false);
+    }
+  }, [isQuickSelected]);
+
+  useEffect(() => {
+    // Does this token name match the search input?
+    if (searchInput) {
+      const isSearched =
+        token.name.toLowerCase().includes(searchInput.toLowerCase()) ||
+        token.symbol.toLowerCase().includes(searchInput.toLowerCase());
+      setIsMatch(isSearched);
+    } else {
+      setIsMatch(true);
+    }
+  }, [searchInput]);
+
   // Default select wETH
   useEffect(() => {
     if (token.token_address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2') {
@@ -97,16 +129,21 @@ const Token = ({ token, activeTokens, setActiveTokens }) => {
   }, []);
 
   return (
-    <div className='token-item'>
+    <div className={isMatch ? 'token-item' : 'token-item hide'}>
       <div
         className={isSelected ? 'token-icon selected' : 'token-icon'}
         onMouseEnter={() => setIsShownToken(true)}
         onMouseLeave={() => setIsShownToken(false)}
-        onClick={() => isNotWEth(token) && setIsSelected(!isSelected)}
+        onClick={() => {
+          if (isNotWEth(token)) {
+            setIsSelected(!isSelected);
+            setIsQuickSelected('custom');
+          }
+        }}
       >
         {getTokenIcon(token)}
       </div>
-      {/* show only this token if it's hovered */}
+      {/* show only this token info if it's hovered */}
       {isShownToken && (
         <div
           className='token-info'
@@ -122,3 +159,5 @@ const Token = ({ token, activeTokens, setActiveTokens }) => {
     </div>
   );
 };
+
+export default TokenList;

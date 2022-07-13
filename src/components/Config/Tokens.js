@@ -11,8 +11,10 @@ const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
   const Web3Api = useMoralisWeb3Api();
 
   const [tokens, setTokens] = useState([]);
+  const [isQuickSelected, setisQuickSelected] = useState('');
   const [isTokensLoaded, setIsTokensLoaded] = useState(false);
   const [isTokensFetched, setIsTokensFetched] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
 
   const displayTokens = async () => {
     setIsTokensLoaded(false);
@@ -86,6 +88,15 @@ const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
     return tokens;
   };
 
+  const selectAllTokens = () => {
+    setisQuickSelected('all');
+  };
+
+  const selectMinTokens = () => {
+    // Only select token with wEth address
+    setisQuickSelected('min');
+  };
+
   const showHelp = () => {
     Popup.display(
       [
@@ -98,6 +109,10 @@ const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
 
   const hideHelp = () => {
     Popup.hide('#popup');
+  };
+
+  const handleChange = (e) => {
+    setSearchInput(e.target.value);
   };
 
   useEffect(() => {
@@ -116,8 +131,12 @@ const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
           ></i>
         </div>
         <div className='buttons'>
-          <button className='select-tokens-all-btn'>All</button>
-          <button className='select-tokens-min-btn'>Minimum</button>
+          <button className='select-tokens-all-btn' onClick={selectAllTokens}>
+            All
+          </button>
+          <button className='select-tokens-min-btn' onClick={selectMinTokens}>
+            Minimum
+          </button>
         </div>
       </div>
       <input
@@ -125,15 +144,19 @@ const TokensConfig = ({ dater, addresses, activeTokens, setActiveTokens }) => {
         name='add-token-manual'
         id='add-token-manual'
         placeholder='Search a token in your wallet'
+        onChange={handleChange}
       />
       <div className='wrapper'>
         <TokenList
           tokens={tokens}
+          searchInput={searchInput}
           displayTokens={displayTokens}
           isTokensLoaded={isTokensLoaded}
           isTokensFetched={isTokensFetched}
           activeTokens={activeTokens}
           setActiveTokens={setActiveTokens}
+          isQuickSelected={isQuickSelected}
+          setIsQuickSelected={setisQuickSelected}
         />
       </div>
     </div>
