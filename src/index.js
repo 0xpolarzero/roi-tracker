@@ -5,6 +5,7 @@ import { MoralisProvider } from 'react-moralis';
 import RouteSwitch from './RouteSwitch';
 
 import '@fortawesome/fontawesome-free/css/all.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -1,4 +1,6 @@
 import React from 'react';
+import Skeleton from 'react-loading-skeleton';
+
 import Table from './EvolutionTable/Table';
 import ExchangesData from './Exchanges';
 import ProgressBar from '../Utils/ProgressBar';
@@ -45,15 +47,15 @@ class ResultData extends React.Component {
       ethPriceValue,
     } = this.props;
 
-    if (loading) {
-      document.querySelector('.result-content') &&
-        document.querySelector('.result-content').classList.add('loading');
-      return (
-        <div className='result-content'>
-          <ProgressBar loadingProgress={loadingProgress} />
-        </div>
-      );
-    }
+    // if (loading) {
+    //   document.querySelector('.result-content') &&
+    //     document.querySelector('.result-content').classList.add('loading');
+    //   return (
+    //     <div className='result-content'>
+    //       <ProgressBar loadingProgress={loadingProgress} />
+    //     </div>
+    //   );
+    // }
 
     if (period.from === '' || period.to === '') {
       document.querySelector('.result-content') &&

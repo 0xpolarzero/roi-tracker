@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 import Error from './Error';
 import Difference from './Difference';
