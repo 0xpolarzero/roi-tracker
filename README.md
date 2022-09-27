@@ -6,6 +6,8 @@ It would consider transfers between wallets, gas spent, ETH/WETH swaps, buying/s
 
 Demo not available yet, it's still fuzzy and nonfunctional :)
 
+[Screenshot of the app](https://user-images.githubusercontent.com/99199454/192502655-339e6ea1-7d11-4bd4-af08-fa7997f54111.png)
+
 ## Progress
 
 | Status | Task                                                                                         |
